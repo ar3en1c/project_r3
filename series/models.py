@@ -6,29 +6,30 @@ from django.db import models
 
 class Series(models.Model):
     # Core fields
-    tvdb_id = models.IntegerField(unique=True, db_index=True)
-    schema_version = models.IntegerField(default=1)
+    tvdb_id = models.IntegerField(unique=True, db_index=True, verbose_name="آیدی تی وی دی بی", editable=False)
+    schema_version = models.IntegerField(default=1, verbose_name="ورژن", editable=False)
     
-    name = models.CharField(max_length=500)
-    slug = models.SlugField(max_length=500, unique=True)
-    image = models.URLField(max_length=1000, blank=True)
-    year = models.CharField(max_length=10, blank=True)
-    overview = models.TextField(blank=True)
+    name = models.CharField(max_length=500, verbose_name="نام سریال")
+    slug = models.SlugField(max_length=500, unique=True, verbose_name="اسلاگ")
+    image = models.URLField(max_length=1000, blank=True, verbose_name="تصویر")
+    year = models.CharField(max_length=10, blank=True, verbose_name="سال ساخت")
+    overview = models.TextField(blank=True, verbose_name="خلاصه داستان")
     
     # Metadata
-    original_country = models.CharField(max_length=100, blank=True)
-    original_language = models.CharField(max_length=50, blank=True)
-    status = models.CharField(max_length=50, blank=True)
-    episode_count = models.IntegerField(default=0)
-    season_count = models.IntegerField(default=0)
+    original_country = models.CharField(max_length=100, blank=True, verbose_name="کشور سازنده")
+    original_language = models.CharField(max_length=50, blank=True, verbose_name="زبان اصلی")
+    status = models.CharField(max_length=50, blank=True, verbose_name="وضعیت")
+    episode_count = models.IntegerField(default=0, verbose_name="تعداد قسمت‌ها")
+    season_count = models.IntegerField(default=0, verbose_name="تعداد فصل‌ها")
+    rate = models.FloatField(blank=True, null=True, verbose_name="امتیاز")
     
     # English translations
-    name_en = models.CharField(max_length=500, blank=True)
-    overview_en = models.TextField(blank=True)
+    name_en = models.CharField(max_length=500, blank=True, verbose_name="نام انگلیسی")
+    overview_en = models.TextField(blank=True, verbose_name="خلاصه داستان انگلیسی")
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")
     
     class Meta:
         db_table = 'series'
@@ -40,9 +41,9 @@ class Series(models.Model):
 
 
 class Genre(models.Model):
-    tvdb_id = models.IntegerField(unique=True)
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
+    tvdb_id = models.IntegerField(unique=True, verbose_name="آیدی تی وی دی بی")
+    name = models.CharField(max_length=100, verbose_name="نام ژانر")
+    slug = models.SlugField(max_length=100, unique=True, verbose_name="اسلاگ")
     
     class Meta:
         db_table = 'genres'
@@ -54,8 +55,8 @@ class Genre(models.Model):
 
 
 class SeriesGenre(models.Model):
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='series_genres')
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='series_genres', verbose_name="سریال")
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, verbose_name="ژانر")
     
     class Meta:
         db_table = 'series_genres'
@@ -65,10 +66,10 @@ class SeriesGenre(models.Model):
 
 
 class RemoteId(models.Model):
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='remote_ids')
-    remote_id = models.CharField(max_length=200)
-    id_type = models.IntegerField()
-    source_name = models.CharField(max_length=100)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='remote_ids', verbose_name="سریال")
+    remote_id = models.CharField(max_length=200, verbose_name="ریموت آیدی")
+    id_type = models.IntegerField(verbose_name="نوع آیدی")
+    source_name = models.CharField(max_length=100, verbose_name="نام منبع")
     
     class Meta:
         db_table = 'remote_ids'
@@ -84,9 +85,9 @@ class RemoteId(models.Model):
 
 
 class Person(models.Model):
-    tvdb_id = models.IntegerField(unique=True, db_index=True)
-    name = models.CharField(max_length=300)
-    image = models.URLField(max_length=1000, blank=True, null=True)
+    tvdb_id = models.IntegerField(unique=True, db_index=True, verbose_name="آیدی تی وی دی بی")
+    name = models.CharField(max_length=300, verbose_name="نام شخص")
+    image = models.URLField(max_length=1000, blank=True, null=True, verbose_name="تصویر")
     
     class Meta:
         db_table = 'people'
@@ -97,13 +98,13 @@ class Person(models.Model):
 
 
 class Character(models.Model):
-    tvdb_id = models.IntegerField(unique=True, db_index=True)
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='characters')
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='characters')
+    tvdb_id = models.IntegerField(unique=True, db_index=True, verbose_name="آیدی تی وی دی بی")
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='characters', verbose_name="سریال")
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='characters', verbose_name="شخص")
     
-    character_name = models.CharField(max_length=300)
-    character_image = models.URLField(max_length=1000, blank=True)
-    people_type = models.CharField(max_length=50, default='Actor')
+    character_name = models.CharField(max_length=300, verbose_name="نام کاراکتر")
+    character_image = models.URLField(max_length=1000, blank=True, verbose_name="تصویر کاراکتر")
+    people_type = models.CharField(max_length=50, default='Actor', verbose_name="نوع شخص")
     
     class Meta:
         db_table = 'characters'
@@ -116,11 +117,11 @@ class Character(models.Model):
 
 
 class TagOption(models.Model):
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='tag_options')
-    tvdb_id = models.IntegerField()
-    tag = models.IntegerField()
-    tag_name = models.CharField(max_length=200)
-    name = models.CharField(max_length=200)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name='tag_options', verbose_name="سریال")
+    tvdb_id = models.IntegerField(verbose_name="آیدی تی وی دی بی")
+    tag = models.IntegerField(verbose_name="تگ")
+    tag_name = models.CharField(max_length=200, verbose_name="نام تگ")
+    name = models.CharField(max_length=200, verbose_name="نام")
     
     class Meta:
         db_table = 'tag_options'
