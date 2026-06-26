@@ -30,6 +30,10 @@ class Series(models.Model):
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")
+
+    # Persian Names
+    
+    name_fa = models.CharField(max_length=500, blank=True, null=True, verbose_name="نام فارسی")
     
     class Meta:
         db_table = 'series'
