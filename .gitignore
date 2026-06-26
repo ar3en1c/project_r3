@@ -3,3 +3,5 @@ __pycache__/
 *.pyo
 .env
 *.sqlite3
+venv/
+l_venv/
