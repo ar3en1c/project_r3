@@ -1,5 +1,238 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Series{% endblock title %}
+{% block title %}Breaking Bad (2008) - Series Detail{% endblock title %}
 
-{% block body %}hello{% endblock body %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/series.css' %}">
+{% endblock head %}
+
+{% block body %}
+<!-- Header -->
+<header class="header">
+  <div class="logo">
+    <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="Logo">
+  </div>
+  <nav class="nav-links">
+    <a href="#">ARCHIVE</a>
+    <a href="#">NEW_RELEASES</a>
+    <a href="#">TRENDING</a>
+    <a href="#" class="active">OBSIDIAN_CMD</a>
+  </nav>
+  <div class="search-bar">
+    <input type="text" placeholder="COMMAND">
+    <span class="search-icon">&#128269;</span>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-container">
+  <div class="content-area">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="Breaking Bad" class="hero-image">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="tech-specs">
+          <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
+          <span class="live-signal">LIVE_SIGNAL</span>
+        </div>
+        <h1 class="series-title">Breaking Bad (2008)</h1>
+        <div class="genre-tags">
+          <span class="genre-tag"><span class="dot"></span>Western</span>
+          <span class="genre-tag"><span class="dot"></span>Thriller</span>
+          <span class="genre-tag"><span class="dot"></span>Crime</span>
+          <span class="genre-tag"><span class="dot"></span>Drama</span>
+        </div>
+        <div class="tracking-section">
+          <div class="tracking-label">TRACKING_CONTROL</div>
+          <div class="status-buttons">
+            <button class="status-btn">COMPLETED</button>
+            <button class="status-btn active">WATCHING</button>
+            <button class="status-btn">DROPPED</button>
+            <button class="status-btn">PLAN_TO_WATCH</button>
+          </div>
+          <div class="progress-section">
+            <span class="episode-count">80 / 45</span>
+            <span class="progress-label">PROGRESS_TRACKER // EPISODE_SYNC</span>
+          </div>
+          <button class="log-btn">LOG_INCREMENT +</button>
+        </div>
+        <div class="bottom-stats">
+          BITRATE: 48.2 MBPS<br>
+          LATENCY: 14MS<br>
+          REGION: US-WEST-2
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+      <!-- Left Column -->
+      <div class="left-column">
+        <!-- Rating Card -->
+        <div class="info-card rating-card">
+          <div class="card-header">USER_RATING</div>
+          <div class="rating-display">
+            <div class="stars">
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star filled">★</span>
+              <span class="star">★</span>
+            </div>
+            <span class="rating-value">9.5</span>
+          </div>
+          <div class="rating-label">[ EDIT_SCORE ] CURRENT_SCORE</div>
+        </div>
+
+        <!-- Status Card -->
+        <div class="info-card status-card">
+          <div class="card-header">NODE_STATUS</div>
+          <div class="status-value">ENDED <span class="status-dot"></span></div>
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-value">00</div>
+              <div class="stat-label">CYCLES</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">00</div>
+              <div class="stat-label">UNITS</div>
+            </div>
+          </div>
+          <div class="year-section">
+            <div class="year-label">RELEASE_YEAR</div>
+            <div class="year-value">2008</div>
+          </div>
+        </div>
+
+        <!-- Metadata Card -->
+        <div class="info-card metadata-card">
+          <div class="card-header">SYSTEM_METADATA</div>
+          <div class="metadata-list">
+            <div class="metadata-item">
+              <span class="meta-value">tt0903747</span>
+              <span class="meta-label">:IMDB_REF</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-value">ENGLISH (EN-US)</span>
+              <span class="meta-label">:ORIG_LANG</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-value">USA</span>
+              <span class="meta-label">:ORIG_REGION</span>
+            </div>
+            <div class="metadata-item">
+              <span class="meta-value">JAN_20_2008</span>
+              <span class="meta-label">:UPLINK_DATE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Supporting Nodes Card -->
+        <div class="info-card supporting-card">
+          <div class="card-header">SUPPORTING_NODES</div>
+          <div class="supporting-list">
+            <div class="supporting-item">
+              <div class="supporting-info">
+                <div class="name">Gustavo Fring</div>
+                <div class="actor">Giancarlo Esposito</div>
+              </div>
+              <img src="https://artworks.thetvdb.com/banners/v4/actor/272968/photo/6696465832f3c.jpg" alt="Gustavo Fring" class="supporting-img">
+            </div>
+            <div class="supporting-item">
+              <div class="supporting-info">
+                <div class="name">Mike Ehrmantraut</div>
+                <div class="actor">Jonathan Banks</div>
+              </div>
+              <img src="https://artworks.thetvdb.com/banners/v4/actor/293588/photo/651bd47df1599.jpg" alt="Mike Ehrmantraut" class="supporting-img">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Overview Card -->
+        <div class="overview-card">
+          <div class="card-header">
+            <span class="info-icon">i</span>
+            MISSION_PARAMETERS // OVERVIEW
+          </div>
+          <p class="overview-text">
+            When Walter White, a chemistry teacher, is diagnosed with Stage III cancer, he turns to a life of crime, partnering with a former student, Jesse Pinkman, to produce and sell crystal methamphetamine to secure his family's financial .future
+          </p>
+        </div>
+
+        <!-- Characters Section -->
+        <div class="characters-section">
+          <div class="section-header">PERSONNEL_FILES // KEY_ENTITIES</div>
+          <div class="characters-grid">
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/289551.jpg" alt="Saul Goodman" class="character-img">
+              <div class="character-info">
+                <div class="character-name">Saul Goodman</div>
+                <div class="actor-name">Bob Odenkirk</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/75477.jpg" alt="Jesse Pinkman" class="character-img">
+              <div class="character-info">
+                <div class="character-name">Jesse Pinkman</div>
+                <div class="actor-name">Aaron Paul</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/80112.jpg" alt="Walter White" class="character-img">
+              <div class="character-info">
+                <div class="character-name">Walter White</div>
+                <div class="actor-name">Bryan Cranston</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title">OBSIDIAN<br>COMMAND</div>
+    <div class="sidebar-subtitle">SYSTEM_ACTIVE_01</div>
+    <nav class="nav-items">
+      <div class="nav-item">
+        <span>Dashboard</span>
+        <span class="nav-icon">&#8862;</span>
+      </div>
+      <div class="nav-item">
+        <span>Library</span>
+        <span class="nav-icon">&#9654;</span>
+      </div>
+      <div class="nav-item">
+        <span>Discovery</span>
+        <span class="nav-icon">&#8857;</span>
+      </div>
+      <div class="nav-item">
+        <span>Settings</span>
+        <span class="nav-icon">&#9881;</span>
+      </div>
+    </nav>
+  </aside>
+</main>
+
+<!-- Footer Status Bar -->
+<footer class="footer-bar">
+  <div class="footer-left">
+    <span class="footer-item">LATENCY_12ms <span class="status-dot"></span></span>
+    <span class="footer-item">API_DOCS</span>
+    <span class="footer-item">LOGS</span>
+  </div>
+  <div class="footer-right">
+    <span class="version">V-2.8.4_READY</span>
+    <span class="divider">|</span>
+    <span>SYS_REF: 0x221B</span>
+    <span class="divider">|</span>
+    <span>STABLE</span>
+  </div>
+</footer>
+{% endblock body %}
