@@ -6,3 +6,5 @@ __pycache__/
 venv/
 l_venv/
 screen.png
+data.json
+movies.py
