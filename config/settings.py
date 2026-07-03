@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "series",
+    "django_render_partial",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

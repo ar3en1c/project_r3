@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load render_partial %}
 
 {% block title %}Breaking Bad (2008) - Series Detail{% endblock title %}
 
@@ -8,22 +9,7 @@
 {% endblock head %}
 
 {% block body %}
-<!-- Header -->
-<header class="header">
-  <div class="logo">
-    <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="Logo">
-  </div>
-  <nav class="nav-links">
-    <a href="#">ARCHIVE</a>
-    <a href="#">NEW_RELEASES</a>
-    <a href="#">TRENDING</a>
-    <a href="#" class="active">OBSIDIAN_CMD</a>
-  </nav>
-  <div class="search-bar">
-    <input type="text" placeholder="COMMAND">
-    <span class="search-icon">&#128269;</span>
-  </div>
-</header>
+{% render_partial "series:header" %}
 
 <!-- Main Content -->
 <main class="main-container">
@@ -220,19 +206,5 @@
   </aside>
 </main>
 
-<!-- Footer Status Bar -->
-<footer class="footer-bar">
-  <div class="footer-left">
-    <span class="footer-item">LATENCY_12ms <span class="status-dot"></span></span>
-    <span class="footer-item">API_DOCS</span>
-    <span class="footer-item">LOGS</span>
-  </div>
-  <div class="footer-right">
-    <span class="version">V-2.8.4_READY</span>
-    <span class="divider">|</span>
-    <span>SYS_REF: 0x221B</span>
-    <span class="divider">|</span>
-    <span>STABLE</span>
-  </div>
-</footer>
+{% render_partial "series:footer" %}
 {% endblock body %}
