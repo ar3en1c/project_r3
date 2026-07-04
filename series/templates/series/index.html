@@ -2,7 +2,7 @@
 {% load static %}
 {% load render_partial %}
 
-{% block title %}Breaking Bad (2008) - Series Detail{% endblock title %}
+{% block title %}بریکینگ بد (2008) - جزئیات سریال{% endblock title %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/series.css' %}">
@@ -16,49 +16,50 @@
   <div class="content-area">
     <!-- Hero Section -->
     <section class="hero-section">
-      <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="Breaking Bad" class="hero-image">
-      <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="tech-specs">
           <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
-          <span class="live-signal">LIVE_SIGNAL</span>
+          <span class="live-signal">سیگنال_زنده</span>
         </div>
-        <h1 class="series-title">Breaking Bad (2008)</h1>
+        <h1 class="series-title">بریکینگ بد (2008)</h1>
         <div class="genre-tags">
-          <span class="genre-tag"><span class="dot"></span>Western</span>
-          <span class="genre-tag"><span class="dot"></span>Thriller</span>
-          <span class="genre-tag"><span class="dot"></span>Crime</span>
-          <span class="genre-tag"><span class="dot"></span>Drama</span>
+          <span class="genre-tag"><span class="dot"></span>وسترن</span>
+          <span class="genre-tag"><span class="dot"></span>هیجان انگیز</span>
+          <span class="genre-tag"><span class="dot"></span>جنایی</span>
+          <span class="genre-tag"><span class="dot"></span>درام</span>
         </div>
         <div class="tracking-section">
-          <div class="tracking-label">TRACKING_CONTROL</div>
+          <div class="tracking-label">کنترل_ردیابی</div>
           <div class="status-buttons">
-            <button class="status-btn">COMPLETED</button>
-            <button class="status-btn active">WATCHING</button>
-            <button class="status-btn">DROPPED</button>
-            <button class="status-btn">PLAN_TO_WATCH</button>
+            <button class="status-btn">تکمیل شده</button>
+            <button class="status-btn active">در حال تماشا</button>
+            <button class="status-btn">رها شده</button>
+            <button class="status-btn">برنامه_تماشا</button>
           </div>
           <div class="progress-section">
             <span class="episode-count">80 / 45</span>
-            <span class="progress-label">PROGRESS_TRACKER // EPISODE_SYNC</span>
+            <span class="progress-label">ردیاب_پیشرفت // همگام‌سازی_قسمت</span>
           </div>
-          <button class="log-btn">LOG_INCREMENT +</button>
+          <button class="log-btn">افزودن_ثبت +</button>
         </div>
         <div class="bottom-stats">
-          BITRATE: 48.2 MBPS<br>
-          LATENCY: 14MS<br>
-          REGION: US-WEST-2
+          نرخ بیت: 48.2 مگابیت بر ثانیه<br>
+          تاخیر: 14 میلی ثانیه<br>
+          منطقه: US-WEST-2
         </div>
+      </div>
+      <div class="hero-media">
+        <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="بریکینگ بد" class="hero-image">
       </div>
     </section>
 
     <!-- Info Section -->
     <section class="info-section">
-      <!-- Left Column -->
-      <div class="left-column">
+      <!-- Right Column (RTL: first column is right) -->
+      <div class="right-column">
         <!-- Rating Card -->
         <div class="info-card rating-card">
-          <div class="card-header">USER_RATING</div>
+          <div class="card-header">امتیاز_کاربر</div>
           <div class="rating-display">
             <div class="stars">
               <span class="star filled">★</span>
@@ -69,110 +70,132 @@
             </div>
             <span class="rating-value">9.5</span>
           </div>
-          <div class="rating-label">[ EDIT_SCORE ] CURRENT_SCORE</div>
+          <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
         </div>
 
         <!-- Status Card -->
         <div class="info-card status-card">
-          <div class="card-header">NODE_STATUS</div>
-          <div class="status-value">ENDED <span class="status-dot"></span></div>
+          <div class="card-header">وضعیت_گره</div>
+          <div class="status-value">پایان یافته <span class="status-dot"></span></div>
           <div class="stats-row">
             <div class="stat-item">
               <div class="stat-value">00</div>
-              <div class="stat-label">CYCLES</div>
+              <div class="stat-label">چرخه‌ها</div>
             </div>
             <div class="stat-item">
               <div class="stat-value">00</div>
-              <div class="stat-label">UNITS</div>
+              <div class="stat-label">واحدها</div>
             </div>
           </div>
           <div class="year-section">
-            <div class="year-label">RELEASE_YEAR</div>
+            <div class="year-label">سال_انتشار</div>
             <div class="year-value">2008</div>
           </div>
         </div>
 
         <!-- Metadata Card -->
         <div class="info-card metadata-card">
-          <div class="card-header">SYSTEM_METADATA</div>
+          <div class="card-header">متادیتای_سیستم</div>
           <div class="metadata-list">
             <div class="metadata-item">
               <span class="meta-value">tt0903747</span>
-              <span class="meta-label">:IMDB_REF</span>
+              <span class="meta-label">:مرجع_IMDB</span>
             </div>
             <div class="metadata-item">
-              <span class="meta-value">ENGLISH (EN-US)</span>
-              <span class="meta-label">:ORIG_LANG</span>
+              <span class="meta-value">انگلیسی (EN-US)</span>
+              <span class="meta-label">:زبان_اصلی</span>
             </div>
             <div class="metadata-item">
-              <span class="meta-value">USA</span>
-              <span class="meta-label">:ORIG_REGION</span>
+              <span class="meta-value">آمریکا</span>
+              <span class="meta-label">:منطقه_اصلی</span>
             </div>
             <div class="metadata-item">
-              <span class="meta-value">JAN_20_2008</span>
-              <span class="meta-label">:UPLINK_DATE</span>
+              <span class="meta-value">ژانویه_20_2008</span>
+              <span class="meta-label">:تاریخ_انتشار</span>
             </div>
           </div>
         </div>
 
-        <!-- Supporting Nodes Card -->
-        <div class="info-card supporting-card">
-          <div class="card-header">SUPPORTING_NODES</div>
-          <div class="supporting-list">
-            <div class="supporting-item">
-              <div class="supporting-info">
-                <div class="name">Gustavo Fring</div>
-                <div class="actor">Giancarlo Esposito</div>
-              </div>
-              <img src="https://artworks.thetvdb.com/banners/v4/actor/272968/photo/6696465832f3c.jpg" alt="Gustavo Fring" class="supporting-img">
-            </div>
-            <div class="supporting-item">
-              <div class="supporting-info">
-                <div class="name">Mike Ehrmantraut</div>
-                <div class="actor">Jonathan Banks</div>
-              </div>
-              <img src="https://artworks.thetvdb.com/banners/v4/actor/293588/photo/651bd47df1599.jpg" alt="Mike Ehrmantraut" class="supporting-img">
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- Right Column -->
-      <div class="right-column">
+      <!-- Left Column (RTL: second column is left) -->
+      <div class="left-column">
         <!-- Overview Card -->
         <div class="overview-card">
           <div class="card-header">
             <span class="info-icon">i</span>
-            MISSION_PARAMETERS // OVERVIEW
+            پارامترهای_مأموریت // خلاصه
           </div>
           <p class="overview-text">
-            When Walter White, a chemistry teacher, is diagnosed with Stage III cancer, he turns to a life of crime, partnering with a former student, Jesse Pinkman, to produce and sell crystal methamphetamine to secure his family's financial .future
+            وقتی والتر وایت، یک معلم شیمی، مبتلا به سرطان مرحله III تشخیص داده می‌شود و پیش‌آگاهی دو سال زندگی برایش داده می‌شود، او انتخاب می‌کند که وارد دنیای خطرناک مواد مخدر و جنایت شود با هدف تأمین امنیت مالی خانواده‌اش.
           </p>
         </div>
 
         <!-- Characters Section -->
         <div class="characters-section">
-          <div class="section-header">PERSONNEL_FILES // KEY_ENTITIES</div>
+          <div class="section-header">بازیگران</div>
           <div class="characters-grid">
             <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/289551.jpg" alt="Saul Goodman" class="character-img">
+              <img src="https://artworks.thetvdb.com/banners/actors/75476.jpg" alt="اسکایلر وایت" class="character-img">
               <div class="character-info">
-                <div class="character-name">Saul Goodman</div>
-                <div class="actor-name">Bob Odenkirk</div>
+                <div class="character-name">اسکایلر وایت</div>
+                <div class="actor-name">آنا گان</div>
               </div>
             </div>
             <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75477.jpg" alt="Jesse Pinkman" class="character-img">
+              <img src="https://artworks.thetvdb.com/banners/actors/75477.jpg" alt="جسی پینکمن" class="character-img">
               <div class="character-info">
-                <div class="character-name">Jesse Pinkman</div>
-                <div class="actor-name">Aaron Paul</div>
+                <div class="character-name">جسی پینکمن</div>
+                <div class="actor-name">آرون پل</div>
               </div>
             </div>
             <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/80112.jpg" alt="Walter White" class="character-img">
+              <img src="https://artworks.thetvdb.com/banners/actors/75478.jpg" alt="هنک شریدر" class="character-img">
               <div class="character-info">
-                <div class="character-name">Walter White</div>
-                <div class="actor-name">Bryan Cranston</div>
+                <div class="character-name">هنک شریدر</div>
+                <div class="actor-name">دین نوریس</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/75479.jpg" alt="ماری شریدر" class="character-img">
+              <div class="character-info">
+                <div class="character-name">ماری شریدر</div>
+                <div class="actor-name">بتسی برانت</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/75480.jpg" alt="والتر وایت جونیور" class="character-img">
+              <div class="character-info">
+                <div class="character-name">والتر وایت جونیور</div>
+                <div class="actor-name">آر جی میته</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/80112.jpg" alt="والتر وایت" class="character-img">
+              <div class="character-info">
+                <div class="character-name">والتر وایت</div>
+                <div class="actor-name">برایان کرانستون</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/289551.jpg" alt="سائول گودمن" class="character-img">
+              <div class="character-info">
+                <div class="character-name">سائول گودمن</div>
+                <div class="actor-name">باب اودنکرک</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/289552.jpg" alt="گوستاوو فرینگ" class="character-img">
+              <div class="character-info">
+                <div class="character-name">گوستاوو فرینگ</div>
+                <div class="actor-name">جیانکارلو اسپوزیتو</div>
+              </div>
+            </div>
+            <div class="character-card">
+              <img src="https://artworks.thetvdb.com/banners/actors/289553.jpg" alt="مایک ارمانتراوت" class="character-img">
+              <div class="character-info">
+                <div class="character-name">مایک ارمانتراوت</div>
+                <div class="actor-name">جاناتان بنکس</div>
               </div>
             </div>
           </div>
@@ -183,23 +206,23 @@
 
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-title">OBSIDIAN<br>COMMAND</div>
-    <div class="sidebar-subtitle">SYSTEM_ACTIVE_01</div>
+    <div class="sidebar-title">دستور_obsidian<br>فرمان</div>
+    <div class="sidebar-subtitle">سیستم_فعال_01</div>
     <nav class="nav-items">
       <div class="nav-item">
-        <span>Dashboard</span>
+        <span>داشبورد</span>
         <span class="nav-icon">&#8862;</span>
       </div>
       <div class="nav-item">
-        <span>Library</span>
+        <span>کتابخانه</span>
         <span class="nav-icon">&#9654;</span>
       </div>
       <div class="nav-item">
-        <span>Discovery</span>
+        <span>کشف</span>
         <span class="nav-icon">&#8857;</span>
       </div>
       <div class="nav-item">
-        <span>Settings</span>
+        <span>تنظیمات</span>
         <span class="nav-icon">&#9881;</span>
       </div>
     </nav>

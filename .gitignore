@@ -7,4 +7,5 @@ venv/
 l_venv/
 screen.png
 data.json
+data_fa.json
 movies_crawler.py
