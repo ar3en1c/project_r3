@@ -339,9 +339,125 @@ body {
   color: #3DD68C;
 }
 .info-card.rating-card .rating-display .rating-value {
+  background: transparent;
+  border: 0;
+  font-family: inherit;
   font-size: 36px;
   font-weight: bold;
   color: #3DD68C;
+  cursor: pointer;
+}
+.info-card.rating-card .rating-display .rating-control {
+  position: static;
+}
+.info-card.rating-card .rating-display .rating-popover {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+}
+.info-card.rating-card .rating-display .rating-popover[hidden] {
+  display: none;
+}
+.info-card.rating-card .rating-display .rating-panel {
+  width: min(420px, 100%);
+  background: linear-gradient(180deg, rgba(32, 45, 38, 0.98), rgba(18, 30, 24, 0.98));
+  border: 1px solid rgba(61, 214, 140, 0.35);
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+.info-card.rating-card .rating-display .rating-popover-title {
+  color: #869488;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.info-card.rating-card .rating-display .rating-popover-value {
+  color: #3DD68C;
+  font-size: 52px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 22px;
+  text-shadow: 0 0 22px rgba(61, 214, 140, 0.25);
+}
+.info-card.rating-card .rating-display .rating-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.info-card.rating-card .rating-display .rating-slider-limits {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 58px 0;
+  color: #869488;
+  direction: ltr;
+  font-size: 11px;
+}
+.info-card.rating-card .rating-display .rating-step-btn {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  background: #121E18;
+  border: 1px solid rgba(61, 214, 140, 0.35);
+  color: #D8E6DC;
+  font: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.info-card.rating-card .rating-display .rating-step-btn:hover {
+  background: rgba(61, 214, 140, 0.12);
+  border-color: #3DD68C;
+  color: #3DD68C;
+}
+.info-card.rating-card .rating-display .rating-slider {
+  --rating-progress: 0%;
+  flex: 1;
+  height: 34px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  direction: ltr;
+  background: linear-gradient(90deg, #3DD68C 0%, #53DBCA var(--rating-progress), #2B3831 var(--rating-progress), #2B3831 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(61, 214, 140, 0.16), 0 0 0 1px rgba(61, 214, 140, 0.1) inset;
+  cursor: pointer;
+}
+.info-card.rating-card .rating-display .rating-slider::-webkit-slider-runnable-track {
+  height: 10px;
+  background: transparent;
+  border-radius: 999px;
+}
+.info-card.rating-card .rating-display .rating-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  margin-top: -10px;
+  background: #D8E6DC;
+  border: 4px solid #3DD68C;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(61, 214, 140, 0.14), 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+.info-card.rating-card .rating-display .rating-slider::-moz-range-track {
+  height: 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+}
+.info-card.rating-card .rating-display .rating-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #D8E6DC;
+  border: 4px solid #3DD68C;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(61, 214, 140, 0.14), 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 .info-card.rating-card .rating-label {
   text-align: center;

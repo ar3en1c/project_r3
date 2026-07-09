@@ -74,7 +74,85 @@
 
 ---
 
-## بخش دوم: بررسی فایل استایل SCSS (`series.scss`)
+## بخش دوم: بررسی فایل جاوااسکریپت (بلاک `script`)
+
+در انتهای فایل `index.html` یک بلاک `<script>` وجود دارد که مسئول مدیریت **سیستم امتیازدهی تعاملی** است.
+
+### ۱. دریافت المان‌های DOM (`get_rating_elements`)
+```javascript
+function get_rating_elements() {
+  return {
+    scoreButton: document.querySelector(".rating-value"),
+    popover: document.getElementById("rating-popover"),
+    slider: document.getElementById("rating-slider"),
+    popoverValue: document.getElementById("rating-popover-value"),
+  };
+}
+```
+این تابع کمکی، چهار المان اصلی سیستم امتیازدهی را از DOM استخراج می‌کند و به صورت یک آبجکت برمی‌گرداند.
+
+### ۲. تنظیم امتیاز (`set_rating`)
+```javascript
+function set_rating(rate = null) {
+  const { scoreButton, slider, popoverValue } = get_rating_elements();
+  const min = Number(slider.min);   // حداقل: 0
+  const max = Number(slider.max);   // حداکثر: 10
+  const nextRate = Math.min(max, Math.max(min, Number(rate)));
+  // ...
+}
+```
+این تابع مقدار امتیاز را دریافت و:
+- مقدار اسلایدر را به‌روز می‌کند
+- نوار پیشرفت CSS را تنظیم می‌کند (`--rating-progress`)
+- متن دکمه امتیاز و مقدار نمایشی در پاپ‌آپ را تغییر می‌دهد
+- از `Math.min` و `Math.max` برای محدود کردن مقدار بین 0 و 10 استفاده می‌کند
+
+### ۳. تغییر امتیاز با دکمه‌ها (`change_rating`)
+```javascript
+function change_rating(step) {
+  const { slider } = get_rating_elements();
+  set_rating(Number(slider.value) + step);
+}
+```
+با کلیک روی دکمه‌های `+` و `-` مقدار اسلایدر به اندازه `step` (مثبت یا منفی) تغییر می‌کند.
+
+### ۴. نمایش/مخفی کردن پاپ‌آپ (`toggle_rating_popover`)
+```javascript
+function toggle_rating_popover() {
+  const { popover, slider } = get_rating_elements();
+  popover.hidden = !popover.hidden;
+  if (!popover.hidden) {
+    set_rating(slider.value);
+    slider.focus();
+  }
+}
+```
+با کلیک روی دکمه امتیاز:
+- پاپ‌آپ نمایش/مخفی می‌شود
+- در صورت نمایش، اسلایدر فوکوس می‌گیرد
+
+### ۵. بستن پاپ‌آپ (`close_rating_popover`)
+```javascript
+function close_rating_popover() {
+  const { popover } = get_rating_elements();
+  popover.hidden = true;
+}
+```
+پاپ‌آپ را مخفی می‌کند. این تابع هم با کلیک روی پس‌زمینه و هم با کلید Escape فراخوانی می‌شود.
+
+### ۶. رویداد کیبورد (Escape)
+```javascript
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    close_rating_popover();
+  }
+});
+```
+با فشردن کلید Escape از هر نقطه‌ای در صفحه، پاپ‌آپ امتیازدهی بسته می‌شود.
+
+---
+
+## بخش سوم: بررسی فایل استایل SCSS (`series.scss`)
 
 این فایل استایل‌های مورد نیاز برای رندر صفحات با ساختار بالا را مدیریت می‌کند و از قابلیت‌های پیش‌پردازنده Sass (مانند Nesting و Variables) استفاده می‌برد.
 

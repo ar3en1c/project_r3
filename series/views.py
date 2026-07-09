@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def series(request):
-    return render(request, "series/index.html")
+    return render(request, "series/index.html", {"score": 10})
 
 
 def header(request):

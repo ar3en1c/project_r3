@@ -68,7 +68,34 @@
               <span class="star filled">★</span>
               <span class="star">★</span>
             </div>
-            <span class="rating-value">9.5</span>
+            <div class="rating-control">
+              <button class="rating-value" type="button" onclick="toggle_rating_popover()">{{ score }}</button>
+              <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
+                <div class="rating-panel" onclick="event.stopPropagation()">
+                  <div class="rating-popover-title">امتیاز شما</div>
+                  <div class="rating-popover-value" id="rating-popover-value">{{ score }}</div>
+                  <div class="rating-slider-row">
+                    <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
+                    <input
+                      class="rating-slider"
+                      id="rating-slider"
+                      type="range"
+                      min="0"
+                      max="10"
+                      step="1"
+                      value="{{ score }}"
+                      style="--rating-progress: {{ score }}0%;"
+                      oninput="set_rating(this.value)"
+                    >
+                    <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
+                  </div>
+                  <div class="rating-slider-limits">
+                    <span>0</span>
+                    <span>10</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
         </div>
@@ -231,3 +258,54 @@
 
 {% render_partial "series:footer" %}
 {% endblock body %}
+
+{% block script %}
+<script>
+  function get_rating_elements() {
+    return {
+      scoreButton: document.querySelector(".rating-value"),
+      popover: document.getElementById("rating-popover"),
+      slider: document.getElementById("rating-slider"),
+      popoverValue: document.getElementById("rating-popover-value"),
+    };
+  }
+
+  function set_rating(rate = null) {
+    const { scoreButton, slider, popoverValue } = get_rating_elements();
+    const min = Number(slider.min);
+    const max = Number(slider.max);
+    const nextRate = Math.min(max, Math.max(min, Number(rate)));
+
+    slider.value = nextRate;
+    slider.style.setProperty("--rating-progress", `${((nextRate - min) / (max - min)) * 100}%`);
+    scoreButton.textContent = nextRate;
+    popoverValue.textContent = nextRate;
+  }
+
+  function change_rating(step) {
+    const { slider } = get_rating_elements();
+    set_rating(Number(slider.value) + step);
+  }
+
+  function toggle_rating_popover() {
+    const { popover, slider } = get_rating_elements();
+    popover.hidden = !popover.hidden;
+
+    if (!popover.hidden) {
+      set_rating(slider.value);
+      slider.focus();
+    }
+  }
+
+  function close_rating_popover() {
+    const { popover } = get_rating_elements();
+    popover.hidden = true;
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      close_rating_popover();
+    }
+  });
+</script>
+{% endblock %}
