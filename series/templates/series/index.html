@@ -1,311 +1,269 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 {% load render_partial %}
 
-{% block title %}بریکینگ بد (2008) - جزئیات سریال{% endblock title %}
+{% block title %}
+  بریکینگ بد (2008) - جزئیات سریال
+{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/series.css' %}">
-{% endblock head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+{% endblock %}
 
 {% block body %}
-{% render_partial "series:header" %}
+  {% render_partial 'series:header' %}
 
-<!-- Main Content -->
-<main class="main-container">
-  <div class="content-area">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <div class="tech-specs">
-          <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
-          <span class="live-signal">سیگنال_زنده</span>
-        </div>
-        <h1 class="series-title">بریکینگ بد (2008)</h1>
-        <div class="genre-tags">
-          <span class="genre-tag"><span class="dot"></span>وسترن</span>
-          <span class="genre-tag"><span class="dot"></span>هیجان انگیز</span>
-          <span class="genre-tag"><span class="dot"></span>جنایی</span>
-          <span class="genre-tag"><span class="dot"></span>درام</span>
-        </div>
-        <div class="tracking-section">
-          <div class="tracking-label">کنترل_ردیابی</div>
-          <div class="status-buttons">
-            <button class="status-btn">تکمیل شده</button>
-            <button class="status-btn active">در حال تماشا</button>
-            <button class="status-btn">رها شده</button>
-            <button class="status-btn">برنامه_تماشا</button>
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="content-area">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <div class="tech-specs">
+            <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
+            <span class="live-signal">سیگنال_زنده</span>
           </div>
-          <div class="progress-section">
-            <span class="episode-count">80 / 45</span>
-            <span class="progress-label">ردیاب_پیشرفت // همگام‌سازی_قسمت</span>
+          <h1 class="series-title">{{ name }} ({{ year }})</h1>
+          <div class="genre-tags">
+            {% for genre in genres %}
+              <span class="genre-tag"><span class="dot"></span>{{ genre }}</span> 
+            {% endfor %}
           </div>
-          <button class="log-btn">افزودن_ثبت +</button>
-        </div>
-        <div class="bottom-stats">
-          نرخ بیت: 48.2 مگابیت بر ثانیه<br>
-          تاخیر: 14 میلی ثانیه<br>
-          منطقه: US-WEST-2
-        </div>
-      </div>
-      <div class="hero-media">
-        <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="بریکینگ بد" class="hero-image">
-      </div>
-    </section>
-
-    <!-- Info Section -->
-    <section class="info-section">
-      <!-- Right Column (RTL: first column is right) -->
-      <div class="right-column">
-        <!-- Rating Card -->
-        <div class="info-card rating-card">
-          <div class="card-header">امتیاز_کاربر</div>
-          <div class="rating-display">
-            <div class="stars">
-              <span class="star filled">★</span>
-              <span class="star filled">★</span>
-              <span class="star filled">★</span>
-              <span class="star filled">★</span>
-              <span class="star">★</span>
+          <div class="tracking-section">
+            <div class="tracking-label">کنترل_ردیابی</div>
+            <div class="status-buttons">
+              <button class="status-btn {% if status == 'completed' %}active{% endif %}" onclick="active_status(this, this.parentElement)">تکمیل شده</button>
+              <button class="status-btn {% if status == 'watching' %}active{% endif %}" onclick="active_status(this, this.parentElement)">در حال تماشا</button>
+              <button class="status-btn {% if status == 'dropped' %}active{% endif %}" onclick="active_status(this, this.parentElement)">رها شده</button>
+              <button class="status-btn {% if status == 'plan to watch' %}active{% endif %}" onclick="active_status(this, this.parentElement)">برنامه_تماشا</button>
             </div>
-            <div class="rating-control">
-              <button class="rating-value" type="button" onclick="toggle_rating_popover()">{{ score }}</button>
-              <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
-                <div class="rating-panel" onclick="event.stopPropagation()">
-                  <div class="rating-popover-title">امتیاز شما</div>
-                  <div class="rating-popover-value" id="rating-popover-value">{{ score }}</div>
-                  <div class="rating-slider-row">
-                    <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
-                    <input
-                      class="rating-slider"
-                      id="rating-slider"
-                      type="range"
-                      min="0"
-                      max="10"
-                      step="1"
-                      value="{{ score }}"
-                      style="--rating-progress: {{ score }}0%;"
-                      oninput="set_rating(this.value)"
-                    >
-                    <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
-                  </div>
-                  <div class="rating-slider-limits">
-                    <span>0</span>
-                    <span>10</span>
+            <div class="progress-section">
+              <span class="episode-count">{{ allEpisodes }} / {{ episodeWatched }}</span>
+              <span class="progress-label">کل قسمت ها / قسمت های تماشا شده</span>
+            </div>
+            <button class="log-btn" id="log_btn" onclick="showLog(true)">افزودن_ثبت +</button>
+            <!-- raiting popup -->
+            <div class="bg-log-editor" onclick="showLog(false)">
+              <div class="progress-panel" onclick="event.stopPropagation()">
+                <div class="progress-popover-title">وضعیت تماشا</div>
+                <div class="progress-popover">
+                  <input class="progress-popover-watched" id="progress-popover-watched" onfocus="this.select()" value="{{ episodeWatched }}"></input>
+                  <span> / </span>
+                   <div class="progress-popover-all" id="progress-popover-all"> {{ allEpisodes }}</div>
+                </div>
+                <button type="submit" class="progress-submit">ثبت</button>
+              </div>
+            </div>
+            <!-- end of raiting popup -->
+          </div>
+          <div class="bottom-stats">
+            نرخ بیت: 48.2 مگابیت بر ثانیه<br />
+            تاخیر: 14 میلی ثانیه<br />
+            منطقه: US-WEST-2
+          </div>
+        </div>
+        <div class="hero-media">
+          <img src="https://artworks.thetvdb.com/banners/posters/81189-10.jpg" alt="بریکینگ بد" class="hero-image" />
+        </div>
+      </section>
+
+      <!-- Info Section -->
+      <section class="info-section">
+        <!-- Right Column (RTL: first column is right) -->
+        <div class="right-column">
+          <!-- Rating Card -->
+          <div class="info-card rating-card">
+            <div class="card-header">امتیاز_کاربر</div>
+            <div class="rating-display">
+              <div class="stars">
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star">★</span>
+              </div>
+              <div class="rating-control">
+                <button class="rating-value" type="button" onclick="toggle_rating_popover()">{{ score }}</button>
+                <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
+                  <div class="rating-panel" onclick="event.stopPropagation()">
+                    <div class="rating-popover-title">امتیاز شما</div>
+                    <div class="rating-popover-value" id="rating-popover-value">{{ score }}</div>
+                    <div class="rating-slider-row">
+                      <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
+                      <input class="rating-slider" id="rating-slider" type="range" min="0" max="10" step="1" value="{{ score }}" style="--rating-progress: {{ score }}0%;" oninput="set_rating(this.value)" />
+                      <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
+                    </div>
+                    <div class="rating-slider-limits">
+                      <span>0</span>
+                      <span>10</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
           </div>
-          <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
-        </div>
 
-        <!-- Status Card -->
-        <div class="info-card status-card">
-          <div class="card-header">وضعیت_گره</div>
-          <div class="status-value">پایان یافته <span class="status-dot"></span></div>
-          <div class="stats-row">
-            <div class="stat-item">
-              <div class="stat-value">00</div>
-              <div class="stat-label">چرخه‌ها</div>
+          <!-- Status Card -->
+          <div class="info-card status-card">
+            <div class="card-header">وضعیت_گره</div>
+            <div class="status-value">
+              پایان یافته <span class="status-dot"></span>
             </div>
-            <div class="stat-item">
-              <div class="stat-value">00</div>
-              <div class="stat-label">واحدها</div>
+            <div class="stats-row">
+              <div class="stat-item">
+                <div class="stat-value">00</div>
+                <div class="stat-label">چرخه‌ها</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">00</div>
+                <div class="stat-label">واحدها</div>
+              </div>
             </div>
-          </div>
-          <div class="year-section">
-            <div class="year-label">سال_انتشار</div>
-            <div class="year-value">2008</div>
-          </div>
-        </div>
-
-        <!-- Metadata Card -->
-        <div class="info-card metadata-card">
-          <div class="card-header">متادیتای_سیستم</div>
-          <div class="metadata-list">
-            <div class="metadata-item">
-              <span class="meta-value">tt0903747</span>
-              <span class="meta-label">:مرجع_IMDB</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-value">انگلیسی (EN-US)</span>
-              <span class="meta-label">:زبان_اصلی</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-value">آمریکا</span>
-              <span class="meta-label">:منطقه_اصلی</span>
-            </div>
-            <div class="metadata-item">
-              <span class="meta-value">ژانویه_20_2008</span>
-              <span class="meta-label">:تاریخ_انتشار</span>
+            <div class="year-section">
+              <div class="year-label">سال_انتشار</div>
+              <div class="year-value">2008</div>
             </div>
           </div>
-        </div>
 
-      </div>
-
-      <!-- Left Column (RTL: second column is left) -->
-      <div class="left-column">
-        <!-- Overview Card -->
-        <div class="overview-card">
-          <div class="card-header">
-            <span class="info-icon">i</span>
-            پارامترهای_مأموریت // خلاصه
-          </div>
-          <p class="overview-text">
-            وقتی والتر وایت، یک معلم شیمی، مبتلا به سرطان مرحله III تشخیص داده می‌شود و پیش‌آگاهی دو سال زندگی برایش داده می‌شود، او انتخاب می‌کند که وارد دنیای خطرناک مواد مخدر و جنایت شود با هدف تأمین امنیت مالی خانواده‌اش.
-          </p>
-        </div>
-
-        <!-- Characters Section -->
-        <div class="characters-section">
-          <div class="section-header">بازیگران</div>
-          <div class="characters-grid">
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75476.jpg" alt="اسکایلر وایت" class="character-img">
-              <div class="character-info">
-                <div class="character-name">اسکایلر وایت</div>
-                <div class="actor-name">آنا گان</div>
+          <!-- Metadata Card -->
+          <div class="info-card metadata-card">
+            <div class="card-header">متادیتای_سیستم</div>
+            <div class="metadata-list">
+              <div class="metadata-item">
+                <span class="meta-value">tt0903747</span>
+                <span class="meta-label">:مرجع_IMDB</span>
               </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75477.jpg" alt="جسی پینکمن" class="character-img">
-              <div class="character-info">
-                <div class="character-name">جسی پینکمن</div>
-                <div class="actor-name">آرون پل</div>
+              <div class="metadata-item">
+                <span class="meta-value">انگلیسی (EN-US)</span>
+                <span class="meta-label">:زبان_اصلی</span>
               </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75478.jpg" alt="هنک شریدر" class="character-img">
-              <div class="character-info">
-                <div class="character-name">هنک شریدر</div>
-                <div class="actor-name">دین نوریس</div>
+              <div class="metadata-item">
+                <span class="meta-value">آمریکا</span>
+                <span class="meta-label">:منطقه_اصلی</span>
               </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75479.jpg" alt="ماری شریدر" class="character-img">
-              <div class="character-info">
-                <div class="character-name">ماری شریدر</div>
-                <div class="actor-name">بتسی برانت</div>
-              </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/75480.jpg" alt="والتر وایت جونیور" class="character-img">
-              <div class="character-info">
-                <div class="character-name">والتر وایت جونیور</div>
-                <div class="actor-name">آر جی میته</div>
-              </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/80112.jpg" alt="والتر وایت" class="character-img">
-              <div class="character-info">
-                <div class="character-name">والتر وایت</div>
-                <div class="actor-name">برایان کرانستون</div>
-              </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/289551.jpg" alt="سائول گودمن" class="character-img">
-              <div class="character-info">
-                <div class="character-name">سائول گودمن</div>
-                <div class="actor-name">باب اودنکرک</div>
-              </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/289552.jpg" alt="گوستاوو فرینگ" class="character-img">
-              <div class="character-info">
-                <div class="character-name">گوستاوو فرینگ</div>
-                <div class="actor-name">جیانکارلو اسپوزیتو</div>
-              </div>
-            </div>
-            <div class="character-card">
-              <img src="https://artworks.thetvdb.com/banners/actors/289553.jpg" alt="مایک ارمانتراوت" class="character-img">
-              <div class="character-info">
-                <div class="character-name">مایک ارمانتراوت</div>
-                <div class="actor-name">جاناتان بنکس</div>
+              <div class="metadata-item">
+                <span class="meta-value">ژانویه_20_2008</span>
+                <span class="meta-label">:تاریخ_انتشار</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-title">دستور_obsidian<br>فرمان</div>
-    <div class="sidebar-subtitle">سیستم_فعال_01</div>
-    <nav class="nav-items">
-      <div class="nav-item">
-        <span>داشبورد</span>
-        <span class="nav-icon">&#8862;</span>
-      </div>
-      <div class="nav-item">
-        <span>کتابخانه</span>
-        <span class="nav-icon">&#9654;</span>
-      </div>
-      <div class="nav-item">
-        <span>کشف</span>
-        <span class="nav-icon">&#8857;</span>
-      </div>
-      <div class="nav-item">
-        <span>تنظیمات</span>
-        <span class="nav-icon">&#9881;</span>
-      </div>
-    </nav>
-  </aside>
-</main>
+        <!-- Left Column (RTL: second column is left) -->
+        <div class="left-column">
+          <!-- Overview Card -->
+          <div class="overview-card">
+            <div class="card-header">
+              <span class="info-icon">i</span>
+              پارامترهای_مأموریت // خلاصه
+            </div>
+            <p class="overview-text">وقتی والتر وایت، یک معلم شیمی، مبتلا به سرطان مرحله III تشخیص داده می‌شود و پیش‌آگاهی دو سال زندگی برایش داده می‌شود، او انتخاب می‌کند که وارد دنیای خطرناک مواد مخدر و جنایت شود با هدف تأمین امنیت مالی خانواده‌اش.</p>
+          </div>
 
-{% render_partial "series:footer" %}
-{% endblock body %}
+          <!-- Characters Section -->
+          <div class="characters-section">
+            <div class="section-header">بازیگران</div>
+            <div class="characters-grid">
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/75476.jpg" alt="اسکایلر وایت" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">اسکایلر وایت</div>
+                  <div class="actor-name">آنا گان</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/75477.jpg" alt="جسی پینکمن" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">جسی پینکمن</div>
+                  <div class="actor-name">آرون پل</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/75478.jpg" alt="هنک شریدر" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">هنک شریدر</div>
+                  <div class="actor-name">دین نوریس</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/75479.jpg" alt="ماری شریدر" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">ماری شریدر</div>
+                  <div class="actor-name">بتسی برانت</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/75480.jpg" alt="والتر وایت جونیور" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">والتر وایت جونیور</div>
+                  <div class="actor-name">آر جی میته</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/80112.jpg" alt="والتر وایت" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">والتر وایت</div>
+                  <div class="actor-name">برایان کرانستون</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/289551.jpg" alt="سائول گودمن" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">سائول گودمن</div>
+                  <div class="actor-name">باب اودنکرک</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/289552.jpg" alt="گوستاوو فرینگ" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">گوستاوو فرینگ</div>
+                  <div class="actor-name">جیانکارلو اسپوزیتو</div>
+                </div>
+              </div>
+              <div class="character-card">
+                <img src="https://artworks.thetvdb.com/banners/actors/289553.jpg" alt="مایک ارمانتراوت" class="character-img" />
+                <div class="character-info">
+                  <div class="character-name">مایک ارمانتراوت</div>
+                  <div class="actor-name">جاناتان بنکس</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">
+        دستور_obsidian<br />فرمان
+      </div>
+      <div class="sidebar-subtitle">سیستم_فعال_01</div>
+      <nav class="nav-items">
+        <div class="nav-item">
+          <span>داشبورد</span>
+          <span class="nav-icon">&#8862;</span>
+        </div>
+        <div class="nav-item">
+          <span>کتابخانه</span>
+          <span class="nav-icon">&#9654;</span>
+        </div>
+        <div class="nav-item">
+          <span>کشف</span>
+          <span class="nav-icon">&#8857;</span>
+        </div>
+        <div class="nav-item">
+          <span>تنظیمات</span>
+          <span class="nav-icon">&#9881;</span>
+        </div>
+      </nav>
+    </aside>
+  </main>
+
+  {% render_partial 'series:footer' %}
+{% endblock %}
 
 {% block script %}
-<script>
-  function get_rating_elements() {
-    return {
-      scoreButton: document.querySelector(".rating-value"),
-      popover: document.getElementById("rating-popover"),
-      slider: document.getElementById("rating-slider"),
-      popoverValue: document.getElementById("rating-popover-value"),
-    };
-  }
-
-  function set_rating(rate = null) {
-    const { scoreButton, slider, popoverValue } = get_rating_elements();
-    const min = Number(slider.min);
-    const max = Number(slider.max);
-    const nextRate = Math.min(max, Math.max(min, Number(rate)));
-
-    slider.value = nextRate;
-    slider.style.setProperty("--rating-progress", `${((nextRate - min) / (max - min)) * 100}%`);
-    scoreButton.textContent = nextRate;
-    popoverValue.textContent = nextRate;
-  }
-
-  function change_rating(step) {
-    const { slider } = get_rating_elements();
-    set_rating(Number(slider.value) + step);
-  }
-
-  function toggle_rating_popover() {
-    const { popover, slider } = get_rating_elements();
-    popover.hidden = !popover.hidden;
-
-    if (!popover.hidden) {
-      set_rating(slider.value);
-      slider.focus();
-    }
-  }
-
-  function close_rating_popover() {
-    const { popover } = get_rating_elements();
-    popover.hidden = true;
-  }
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-      close_rating_popover();
-    }
-  });
-</script>
+  <script src="{% static 'javascript/series.js' %}"></script>
 {% endblock %}

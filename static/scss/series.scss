@@ -52,7 +52,8 @@ body {
       letter-spacing: 1px;
       text-transform: uppercase;
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         color: $primary;
       }
     }
@@ -398,6 +399,11 @@ body {
         font-weight: bold;
         color: $primary;
         cursor: pointer;
+        transition: color 1s ease;
+
+        &:hover{
+          color: $on-tertiary;
+        }
       }
 
       .rating-control {
@@ -493,13 +499,11 @@ body {
         appearance: none;
         direction: ltr;
         background:
-          linear-gradient(
-            90deg,
+          linear-gradient(90deg,
             $primary 0%,
             $secondary var(--rating-progress),
             $surface-variant var(--rating-progress),
-            $surface-variant 100%
-          );
+            $surface-variant 100%);
         border-radius: 999px;
         box-shadow:
           0 0 18px rgba($primary, 0.16),
@@ -899,5 +903,95 @@ body {
 
   .characters-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.bg-log-editor {
+  width: 100vw;
+  inset: 0;
+  height: 100vh;
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.progress-panel {
+  width: min(420px, 100%);
+  background:
+    linear-gradient(180deg, rgba($surface-container-high, 0.98), rgba($surface, 0.98));
+  border: 1px solid rgba($primary, 0.35);
+  padding: 28px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.progress-popover-title {
+  color: $outline;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.progress-popover-value {
+  color: $primary;
+  font-size: 52px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 22px;
+  text-shadow: 0 0 22px rgba($primary, 0.25);
+}
+
+.progress-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.progress-popover{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 8px;
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-popover-watched{
+  background-color: $on-tertiary;
+  color: $primary;
+  padding: 12px;
+  outline: none;
+  border: none;
+  border-radius: 0.75rem;
+  field-sizing: content;
+  font-size: 1.5rem;
+  
+}
+
+.progress-submit{
+  field-sizing: content;
+  background-color: $on-tertiary;
+  color: $primary;
+  padding: 12px;
+  border-radius: .75rem;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 1px solid $on-tertiary;
+  transition: all 1s ease;
+  cursor: pointer;
+
+  &:hover{
+    border: 1px solid $secondary;
   }
 }
