@@ -323,7 +323,6 @@ body {
       letter-spacing: 1px;
       cursor: pointer;
       width: 100%;
-      max-width: 400px;
 
       &:hover {
         border-color: $primary;
@@ -381,13 +380,28 @@ body {
       .stars {
         display: flex;
         gap: 4px;
+        direction: ltr;
 
         .star {
           font-size: 18px;
-          color: $outline;
+          background: linear-gradient(
+            to right,
+            $primary 0%,
+            $primary var(--fill, 0%),
+            $outline var(--fill, 0%),
+            $outline 100%
+          );
+          -webkit-background-clip: text;
+                  background-clip: text;
+          -webkit-text-fill-color: transparent;
 
-          &.filled {
-            color: $primary;
+          // Fallback for browsers without background-clip:text support
+          @supports not (background-clip: text) {
+            color: $outline;
+
+            &.filled {
+              color: $primary;
+            }
           }
         }
       }
@@ -435,6 +449,9 @@ body {
         box-shadow:
           0 24px 70px rgba(0, 0, 0, 0.55),
           0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
       }
 
       .rating-popover-title {
@@ -467,6 +484,25 @@ body {
         color: $outline;
         direction: ltr;
         font-size: 11px;
+      }
+
+      .rating-submit {
+        field-sizing: content;
+        background-color: $on-tertiary;
+        color: $primary;
+        padding: 12px;
+        border-radius: 0.75rem;
+        border: 1px solid $on-tertiary;
+        font-family: inherit;
+        font-size: 1.25rem;
+        font-weight: 700;
+        transition: all 1s ease;
+        cursor: pointer;
+        margin-top: 14px;
+
+        &:hover {
+          border-color: $secondary;
+        }
       }
 
       .rating-step-btn {

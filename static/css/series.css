@@ -281,7 +281,6 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
   width: 100%;
-  max-width: 400px;
 }
 .hero-section .tracking-section .log-btn:hover {
   border-color: #3DD68C;
@@ -331,13 +330,22 @@ body {
 .info-card.rating-card .rating-display .stars {
   display: flex;
   gap: 4px;
+  direction: ltr;
 }
 .info-card.rating-card .rating-display .stars .star {
   font-size: 18px;
-  color: #869488;
+  background: linear-gradient(to right, #3DD68C 0%, #3DD68C var(--fill, 0%), #869488 var(--fill, 0%), #869488 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.info-card.rating-card .rating-display .stars .star.filled {
-  color: #3DD68C;
+@supports not (background-clip: text) {
+  .info-card.rating-card .rating-display .stars .star {
+    color: #869488;
+  }
+  .info-card.rating-card .rating-display .stars .star.filled {
+    color: #3DD68C;
+  }
 }
 .info-card.rating-card .rating-display .rating-value {
   background: transparent;
@@ -374,6 +382,9 @@ body {
   border: 1px solid rgba(61, 214, 140, 0.35);
   padding: 28px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 .info-card.rating-card .rating-display .rating-popover-title {
   color: #869488;
@@ -402,6 +413,23 @@ body {
   color: #869488;
   direction: ltr;
   font-size: 11px;
+}
+.info-card.rating-card .rating-display .rating-submit {
+  field-sizing: content;
+  background-color: #003732;
+  color: #3DD68C;
+  padding: 12px;
+  border-radius: 0.75rem;
+  border: 1px solid #003732;
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: all 1s ease;
+  cursor: pointer;
+  margin-top: 14px;
+}
+.info-card.rating-card .rating-display .rating-submit:hover {
+  border-color: #53DBCA;
 }
 .info-card.rating-card .rating-display .rating-step-btn {
   width: 44px;
