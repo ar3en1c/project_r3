@@ -28,6 +28,11 @@ body {
   padding: 12px 24px;
   border-bottom: 1px solid $border;
   background: $surface;
+  // Header lives inside .top-section, which is the LEFT side of the
+  // layout. The fixed sidebar (200px wide) sits on the right, so the
+  // header must leave that 200px gap — otherwise it extends behind the
+  // sidebar and appears "under" it.
+  margin-right: $sidebar-width;
 
   .logo {
     display: flex;
@@ -90,20 +95,27 @@ body {
 
 // Main Layout
 .main-container {
-  display: flex;
-  min-height: calc(100vh - 53px);
+  // No display: flex here. The sidebar is position: fixed (out of flow),
+  // so .top-section is the only in-flow child and naturally takes 100%
+  // width. Inside .top-section, the header and .content-area stack
+  // vertically as normal blocks.
+  min-height: 100vh;
 }
 
 // Sidebar
 .sidebar {
-  width: 200px;
+  width: $sidebar-width;
   background: $surface;
   border-left: 1px solid $border;
   padding: 24px 16px;
   position: fixed;
   right: 0;
+  // Sidebar spans the full viewport height on the right.
+  // The header is contained in the left column (.top-section), so it
+  // doesn't extend over the sidebar.
   top: 0;
   bottom: 0;
+  overflow-y: auto;
 
   .sidebar-title {
     color: $primary;
@@ -150,7 +162,7 @@ body {
 // Content Area
 .content-area {
   flex: 1;
-  margin-right: 200px;
+  margin-right: $sidebar-width;
   padding-right: 24px;
 }
 
@@ -826,7 +838,7 @@ body {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 200px;
+  right: $sidebar-width;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -887,21 +899,29 @@ body {
 // Responsive
 @media (max-width: 1200px) {
   .sidebar {
-    width: 160px;
+    width: $sidebar-width-sm;
+  }
+
+  .header {
+    margin-right: $sidebar-width-sm;
   }
 
   .content-area {
-    margin-right: 160px;
+    margin-right: $sidebar-width-sm;
   }
 
   .footer-bar {
-    right: 160px;
+    right: $sidebar-width-sm;
   }
 }
 
 @media (max-width: 992px) {
   .sidebar {
     display: none;
+  }
+
+  .header {
+    margin-right: 0;
   }
 
   .content-area {

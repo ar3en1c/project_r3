@@ -24,6 +24,7 @@ body {
   padding: 12px 24px;
   border-bottom: 1px solid #243129;
   background: #121E18;
+  margin-right: 200px;
 }
 .header .logo {
   display: flex;
@@ -75,8 +76,7 @@ body {
 }
 
 .main-container {
-  display: flex;
-  min-height: calc(100vh - 53px);
+  min-height: 100vh;
 }
 
 .sidebar {
@@ -88,6 +88,7 @@ body {
   right: 0;
   top: 0;
   bottom: 0;
+  overflow-y: auto;
 }
 .sidebar .sidebar-title {
   color: #3DD68C;
@@ -744,6 +745,9 @@ body {
   .sidebar {
     width: 160px;
   }
+  .header {
+    margin-right: 160px;
+  }
   .content-area {
     margin-right: 160px;
   }
@@ -754,6 +758,9 @@ body {
 @media (max-width: 992px) {
   .sidebar {
     display: none;
+  }
+  .header {
+    margin-right: 0;
   }
   .content-area {
     margin-right: 0;
@@ -870,5 +877,3 @@ body {
 .progress-submit:hover {
   border: 1px solid #53DBCA;
 }
-
-/*# sourceMappingURL=series.css.map */
