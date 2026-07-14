@@ -1,5 +1,14 @@
 from django.shortcuts import render
+import jdatetime
+
 # Create your views here.
+
+
+def _jalali_year():
+    """Current Jalali year as Persian digits (e.g. ۱۴۰۵)."""
+    year = jdatetime.datetime.now().year
+    return str(year).translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))
+
 
 
 def series(request):
@@ -60,4 +69,7 @@ def header(request):
 
 
 def footer(request):
-    return render(request, "footer.html")
+    return render(request, "footer.html", {
+        "current_year": _jalali_year(),
+    })
+

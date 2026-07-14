@@ -1,15 +1,88 @@
-<!-- Footer Status Bar -->
-<footer class="footer-bar">
-  <div class="footer-left">
-    <span class="footer-item">تاخیر: ۱۲ میلی ثانیه <span class="status-dot"></span></span>
-    <span class="footer-item">مستندات_API</span>
-    <span class="footer-item">لاگ‌ها</span>
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div class="footer-glow" aria-hidden="true"></div>
+
+  <div class="footer-main">
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="footer-brand-mark">
+        <span class="footer-prompt">$</span>
+        <span class="footer-brand-name">obsidian<span class="footer-brand-accent">_track</span></span>
+      </div>
+      <p class="footer-tagline">
+        ردیاب سریال و فیلم — ثبت پیشرفت، امتیازدهی و کشف آثار جدید در یک رابط ترمینالی.
+      </p>
+      <div class="footer-status-chip">
+        <span class="status-dot pulse"></span>
+        <span>سیستم_آنلاین</span>
+        <span class="footer-latency" title="تاخیر تقریبی">~۱۲ms</span>
+      </div>
+    </div>
+
+    <!-- Link columns -->
+    <nav class="footer-nav" aria-label="لینک‌های فوتر">
+      <div class="footer-col">
+        <h3 class="footer-col-title">ناوبری</h3>
+        <ul class="footer-links">
+          <li><a href="#">خانه</a></li>
+          <li><a href="{% url 'series:mainSeries' %}">سریال‌ها</a></li>
+          <li><a href="#">فیلم‌ها</a></li>
+          <li><a href="#">لیست‌های من</a></li>
+          <li><a href="#">جستجو</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-col-title">کشف</h3>
+        <ul class="footer-links">
+          <li><a href="#">در_حال_پخش</a></li>
+          <li><a href="#">محبوب‌ترین‌ها</a></li>
+          <li><a href="#">تازه‌ها</a></li>
+          <li><a href="#">ژانرها</a></li>
+          <li><a href="#">تقویم پخش</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-col-title">حساب_کاربری</h3>
+        <ul class="footer-links">
+          <li><a href="#">داشبورد</a></li>
+          <li><a href="#">کتابخانه</a></li>
+          <li><a href="#">آمار تماشا</a></li>
+          <li><a href="#">تنظیمات</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-col-title">پشتیبانی</h3>
+        <ul class="footer-links">
+          <li><a href="#">راهنما</a></li>
+          <li><a href="#">مستندات_API</a></li>
+          <li><a href="#">گزارش باگ</a></li>
+          <li><a href="#">درباره ما</a></li>
+        </ul>
+      </div>
+    </nav>
   </div>
-  <div class="footer-right">
-    <span class="version">نسخه-2.8.4_آماده</span>
-    <span class="divider">|</span>
-    <span>مرجع_سیستم: 0x221B</span>
-    <span class="divider">|</span>
-    <span>پایدار</span>
+
+  <!-- Terminal status strip -->
+  <div class="footer-bar">
+    <div class="footer-bar-left">
+      <span class="footer-item">
+        <span class="status-dot"></span>
+        وضعیت: پایدار
+      </span>
+      <span class="footer-item muted">مرجع: 0x221B</span>
+    </div>
+    <div class="footer-bar-center">
+      <span class="footer-copy">© {{ current_year }} obsidian_track — همه حقوق محفوظ است</span>
+    </div>
+    <div class="footer-bar-right">
+      <a href="#" class="footer-mini-link">قوانین</a>
+      <span class="divider">|</span>
+      <a href="#" class="footer-mini-link">حریم_خصوصی</a>
+      <span class="divider">|</span>
+      <span class="version">v2.8.4</span>
+    </div>
   </div>
 </footer>
