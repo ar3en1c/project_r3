@@ -11,3 +11,10 @@ data_fa.json
 movies_crawler.py
 .claude/
 AGENTS.md
+tvdb_data.jsonl.gz
+
+# Graphify: keep graphify-out/ in git for the team map; skip local cost only
+graphify-out/cost.json
+graphify-out/
+.agents/
+.graphifyignore
