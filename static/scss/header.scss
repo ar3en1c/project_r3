@@ -1,0 +1,87 @@
+@use 'var' as *;
+
+// Header
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid $border;
+  background: $surface;
+  // Header lives inside .top-section, which is the LEFT side of the
+  // layout. The fixed sidebar (200px wide) sits on the right, so the
+  // header must leave that 200px gap — otherwise it extends behind the
+  // sidebar and appears "under" it.
+  margin-right: $sidebar-width;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+
+    a {
+      color: $outline;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      &:hover,
+      &.active {
+        color: $primary;
+      }
+    }
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $surface-container-high;
+    padding: 8px 16px;
+    border: 1px solid $border;
+    border-radius: 4px;
+
+    input {
+      background: transparent;
+      border: none;
+      color: $text-primary;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      width: 200px;
+
+      &::placeholder {
+        color: $outline;
+      }
+    }
+
+    .search-icon {
+      color: $outline;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1200px) {
+  .header {
+    margin-right: $sidebar-width-sm;
+  }
+}
+
+@media (max-width: 992px) {
+  .header {
+    margin-right: 0;
+  }
+}
