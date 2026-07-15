@@ -7,13 +7,13 @@ class SeriesAdmin(admin.ModelAdmin):
     list_display = ('tvdb_id', 'name', 'year', 'status', 'episode_count', 'season_count', 'rate', 'created_at')
     list_filter = ('status', 'original_country', 'original_language', 'created_at')
     search_fields = ('name', 'slug', 'name_en', 'overview', 'tvdb_id')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('tvdb_id', 'schema_version', 'created_at', 'updated_at')
     list_per_page = 50
     ordering = ('-created_at',)
 
     fieldsets = (
         ('Core', {
-            'fields': ('tvdb_id', 'schema_version', 'name', 'slug', 'image', 'year', 'overview')
+            'fields': ('name', 'slug', 'image', 'year', 'overview')
         }),
         ('Metadata', {
             'fields': ('original_country', 'original_language', 'status', 'episode_count', 'season_count', 'rate')
