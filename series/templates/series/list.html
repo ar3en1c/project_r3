@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}سریال ها{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <main class="main-container">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+      <div class="content-area">
+        <div class="series-list-grid">
+          {% for s in series_list %}
+            <a class="series-card" href="{% url 'series:series_detail' s.slug %}">
+              <img src="{{ s.image }}" alt="{{ s.name_fa|default:s.name }}" class="series-card-img" />
+              <div class="series-card-name">{{ s.name_fa|default:s.name }}</div>
+              <div class="series-card-year">{{ s.year }}</div>
+            </a>
+          {% empty %}
+            <div class="series-empty">هیچ سریالی یافت نشد</div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+  {% render_partial 'series:footer' %}
+{% endblock %}

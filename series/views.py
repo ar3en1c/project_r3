@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import jdatetime
+
+from .models import Series
 
 # Create your views here.
 
@@ -10,56 +12,70 @@ def _jalali_year():
     return str(year).translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))
 
 
+# Map TVDB status strings to the tracking buttons' (value, label) tuples
+STATUS_OPTIONS = [
+    ("completed", "تکمیل شده"),
+    ("watching", "در حال تماشا"),
+    ("dropped", "رها شده"),
+    ("plan to watch", "برنامه_تماشا"),
+]
 
-def series(request):
+
+def series_list(request):
+    series_list = Series.objects.all().order_by("-created_at")
+    return render(request, "series/list.html", {"series_list": series_list})
+
+
+def series(request, slug):
+    obj = get_object_or_404(Series, slug=slug)
+
+    characters = [
+        {
+            "name": c.character_name,
+            "actor": c.person.name if c.person_id else "",
+            "image": c.character_image or (c.person.image if c.person_id else ""),
+        }
+        for c in obj.characters.select_related("person").all()
+    ]
+
+    imdb_id = next(
+        (r.remote_id for r in obj.remote_ids.all() if r.source_name.lower() == "imdb"),
+        "",
+    )
+
     contex = {
         # Hero
-        "name": "بریکینگ بد",
-        "year": "2008",
+        "name": obj.name_fa or obj.name,
+        "year": obj.year,
         "page_title_suffix": "جزئیات سریال",
-        "genres": ["درام", "جنایی", "هیجان انگیز", "وسترن"],
-        "poster_url": "https://artworks.thetvdb.com/banners/posters/81189-10.jpg",
-        "poster_alt": "بریکینگ بد",
+        "genres": [g.genre.name for g in obj.series_genres.select_related("genre").all()],
+        "poster_url": obj.image,
+        "poster_alt": obj.name_fa or obj.name,
 
         # Status / progress
-        "status": "dropped",
-        "allEpisodes": 80,
-        "episodeWatched": 70,
-        "score": 9,
+        "status": obj.status or "",
+        "allEpisodes": obj.episode_count,
+        "episodeWatched": 0,
+        "score": obj.rate or 0,
 
         # Status card (right column)
-        "status_label": "پایان یافته",
-        "total_seasons": 5,
-        "total_units": 80,           # "واحدها" mirrors total episodes conceptually
+        "status_label": obj.status or "نامشخص",
+        "total_seasons": obj.season_count,
+        "total_units": obj.episode_count,
 
         # Metadata card
-        "imdb_id": "tt0903747",
-        "language": "انگلیسی (EN-US)",
-        "country": "آمریکا",
+        "imdb_id": imdb_id,
+        "language": obj.original_language,
+        "country": obj.original_country,
 
         # Overview
-        "overview": "وقتی والتر وایت، یک معلم شیمی، مبتلا به سرطان مرحله III تشخیص داده می‌شود و پیش‌آگاهی دو سال زندگی برایش داده می‌شود، او انتخاب می‌کند که وارد دنیای خطرناک مواد مخدر و جنایت شود با هدف تأمین امنیت مالی خانواده‌اش.",
+        "overview": obj.overview or obj.overview_en,
 
-        # Characters: list of dicts so the template can loop
-        "characters": [
-            {"name": "اسکایلر وایت",        "actor": "آنا گان",          "image": "https://artworks.thetvdb.com/banners/actors/75476.jpg"},
-            {"name": "جسی پینکمن",          "actor": "آرون پل",          "image": "https://artworks.thetvdb.com/banners/actors/75477.jpg"},
-            {"name": "هنک شریدر",            "actor": "دین نوریس",        "image": "https://artworks.thetvdb.com/banners/actors/75478.jpg"},
-            {"name": "ماری شریدر",            "actor": "بتسی برانت",       "image": "https://artworks.thetvdb.com/banners/actors/75479.jpg"},
-            {"name": "والتر وایت جونیور",    "actor": "آر جی میته",      "image": "https://artworks.thetvdb.com/banners/actors/75480.jpg"},
-            {"name": "والتر وایت",           "actor": "برایان کرانستون",  "image": "https://artworks.thetvdb.com/banners/actors/80112.jpg"},
-            {"name": "سائول گودمن",          "actor": "باب اودنکرک",     "image": "https://artworks.thetvdb.com/banners/actors/289551.jpg"},
-            {"name": "گوستاوو فرینگ",        "actor": "جیانکارلو اسپوزیتو", "image": "https://artworks.thetvdb.com/banners/actors/289552.jpg"},
-            {"name": "مایک ارمانتراوت",      "actor": "جاناتان بنکس",    "image": "https://artworks.thetvdb.com/banners/actors/289553.jpg"},
-        ],
+        # Characters
+        "characters": characters,
 
-        # Status buttons: (value, label) tuples so the list/order/labels stay in Python
-        "status_options": [
-            ("completed", "تکمیل شده"),
-            ("watching", "در حال تماشا"),
-            ("dropped", "رها شده"),
-            ("plan to watch", "برنامه_تماشا"),
-        ],
+        # Status buttons
+        "status_options": STATUS_OPTIONS,
     }
     return render(request, "series/index.html", contex)
 

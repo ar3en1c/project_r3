@@ -24,7 +24,7 @@
             <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
             <span class="live-signal">سیگنال_زنده</span>
           </div> {% endcomment %}
-          <h1 class="series-title">{{ name }} ({{ year }})</h1>
+          <h1 class="series-title">{{ name }}{% if year %} ({{ year }}){% endif %}</h1>
           <div class="genre-tags">
             {% for genre in genres %}
               <span class="genre-tag"><span class="dot"></span>{{ genre }}</span>
@@ -88,10 +88,10 @@
                 <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
                   <div class="rating-panel" onclick="event.stopPropagation()">
                     <div class="rating-popover-title">امتیاز شما</div>
-                    <div class="rating-popover-value" id="rating-popover-value">{{ score }}</div>
-                    <div class="rating-slider-row">
-                      <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
-                      <input class="rating-slider" id="rating-slider" type="range" min="1" max="10" step="1" value="{{ score }}" style="--rating-progress: {{ score }}0%;" oninput="set_rating(this.value)" />
+                 <div class="rating-popover-value" id="rating-popover-value">{{ score|default:0 }}</div>
+                 <div class="rating-slider-row">
+                   <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
+                   <input class="rating-slider" id="rating-slider" type="range" min="1" max="10" step="1" value="{{ score|default:0 }}" style="--rating-progress: {{ score|default:0 }}0%;" oninput="set_rating(this.value)" />
                       <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
                     </div>
                     <div class="rating-slider-limits">

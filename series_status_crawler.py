@@ -65,7 +65,7 @@ def mark_failed(series_id):
         f.write(f"{series_id}\n")
 
 
-def extract_status(d):
+def extract_status(d, episode_count=0):
     status = d.get("status")
     if isinstance(status, dict):
         status = status.get("name") or status.get("id")
@@ -73,7 +73,7 @@ def extract_status(d):
         "id": d.get("id"),
         "status": status,
         "season_count": len(d.get("seasons") or []),
-        "episode_count": len(d.get("episodes") or []),
+        "episode_count": episode_count,
     }
 
 
@@ -83,12 +83,26 @@ def get_series(session, series_id):
     return res.json()["data"]
 
 
+def get_episode_count(session, series_id):
+    try:
+        res = session.get(f"{BASE_URL}/series/{series_id}/episodes/default/1")
+        res.raise_for_status()
+        return res.json().get("links", {}).get("total_items", 0)
+    except Exception:
+        return 0
+
+
 def save(data):
     with gzip.open(OUTPUT_FILE, "at", encoding="utf-8") as f:
         f.write(json.dumps(data, ensure_ascii=False) + "\n")
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-episodes", action="store_true", help="Skip episode counting")
+    args = parser.parse_args()
+
     token = get_token()
     session = make_session(token)
     last_token_time = time.time()
@@ -104,10 +118,11 @@ if __name__ == "__main__":
 
         try:
             raw = get_series(session, series_id)
-            filtered = extract_status(raw)
+            ep_count = 0 if args.no_episodes else get_episode_count(session, series_id)
+            filtered = extract_status(raw, ep_count)
             save(filtered)
             mark_done(series_id)
-            log.info(f"OK  {series_id} - {filtered.get('status', 'N/A')}")
+            log.info(f"OK  {series_id} - {filtered.get('status', 'N/A')} - eps: {ep_count}")
 
         except requests.HTTPError as e:
             status = e.response.status_code
