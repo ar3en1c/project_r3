@@ -58,6 +58,9 @@ def series(request, slug):
         "episodeWatched": 0,
         "score": obj.rate or 0,
 
+        # IMDb rating (from TVDB/IMDb import)
+        "imdb_rate": obj.rate,
+
         # Status card (right column)
         "status_label": obj.status or "نامشخص",
         "total_seasons": obj.season_count,

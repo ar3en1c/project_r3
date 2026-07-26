@@ -442,6 +442,34 @@ body {
   margin-top: 8px;
   letter-spacing: 1px;
 }
+.info-card.rating-card .imdb-rate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #243129;
+  direction: ltr;
+}
+.info-card.rating-card .imdb-rate .imdb-badge {
+  background: #F5C518;
+  color: #000;
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+.info-card.rating-card .imdb-rate .imdb-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #D8E6DC;
+}
+.info-card.rating-card .imdb-rate .imdb-max {
+  font-size: 11px;
+  color: #869488;
+}
 .info-card.status-card .status-value {
   font-size: 24px;
   font-weight: bold;
@@ -754,3 +782,5 @@ body {
 .progress-submit:hover {
   border: 1px solid #53DBCA;
 }
+
+/*# sourceMappingURL=series.css.map */

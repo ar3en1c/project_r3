@@ -532,6 +532,38 @@ body {
       margin-top: 8px;
       letter-spacing: 1px;
     }
+
+    .imdb-rate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid $border;
+      direction: ltr;
+
+      .imdb-badge {
+        background: #F5C518;
+        color: #000;
+        font-weight: bold;
+        font-size: 10px;
+        letter-spacing: 1px;
+        padding: 2px 5px;
+        border-radius: 2px;
+      }
+
+      .imdb-value {
+        font-size: 16px;
+        font-weight: bold;
+        color: $text-primary;
+      }
+
+      .imdb-max {
+        font-size: 11px;
+        color: $outline;
+      }
+    }
   }
 
   &.status-card {

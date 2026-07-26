@@ -14,6 +14,7 @@ AGENTS.md
 tvdb_data.jsonl.gz
 title.ratings(1).tsv.gz
 tvdb_movies.jsonl.gz
+.mimocode/
 
 
 # Graphify: keep graphify-out/ in git for the team map; skip local cost only

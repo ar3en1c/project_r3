@@ -104,6 +104,13 @@
               </div>
             </div>
             <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
+            {% if imdb_rate %}
+              <div class="imdb-rate">
+                <span class="imdb-badge">IMDb</span>
+                <span class="imdb-value">{{ imdb_rate|stringformat:".1f" }}</span>
+                <span class="imdb-max">/ 10</span>
+              </div>
+            {% endif %}
           </div>
 
           <!-- Status Card -->
