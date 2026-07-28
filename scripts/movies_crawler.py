@@ -8,9 +8,10 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from decouple import config
 
 # Config
-API_KEY = "01db609d-dd84-45a8-b56c-31c260394bd9"
+API_KEY = config("TVDB_API_KEY")
 BASE_URL = "https://api4.thetvdb.com/v4"
 
 OUTPUT_FILE = "tvdb_movies.jsonl.gz"

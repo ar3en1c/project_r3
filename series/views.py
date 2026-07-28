@@ -56,13 +56,13 @@ def series(request, slug):
         "status": obj.status or "",
         "allEpisodes": obj.episode_count,
         "episodeWatched": 0,
-        "score": obj.rate or 0,
+        "score": 0,  # User rating (to be implemented)
 
         # IMDb rating (from TVDB/IMDb import)
         "imdb_rate": obj.rate,
 
         # Status card (right column)
-        "status_label": obj.status or "نامشخص",
+        "status_label": "تمام شده" if obj.status == "Ended" else "در حال پخش" if obj.status else "نامشخص",
         "total_seasons": obj.season_count,
         "total_units": obj.episode_count,
 

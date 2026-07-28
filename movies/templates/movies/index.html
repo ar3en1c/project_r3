@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}
+  {{ name }} ({{ year }}) - {{ page_title_suffix }}
+{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section class="top-section">
+{% render_partial 'series:header' %}
+    <div class="content-area">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="series-title">{{ name }}{% if year %} ({{ year }}){% endif %}</h1>
+          <div class="genre-tags">
+            {% for genre in genres %}
+              <span class="genre-tag"><span class="dot"></span>{{ genre }}</span>
+            {% endfor %}
+          </div>
+          <div class="tracking-section">
+            <div class="tracking-label">کنترل_ردیابی</div>
+            <div class="status-buttons">
+              {% for value, label in status_options %}
+                <button class="status-btn {% if status == value %}active{% endif %}" onclick="active_status(this, this.parentElement)">{{ label }}</button>
+              {% endfor %}
+            </div>
+            <div class="progress-section">
+              <span class="episode-count">1 / {{ episodeWatched }}</span>
+              <span class="progress-label">فیلم / وضعیت تماشا</span>
+            </div>
+            <button class="log-btn" id="log_btn" onclick="showLog(true)">افزودن_ثبت +</button>
+            <!-- raiting popup -->
+            <div class="bg-log-editor" onclick="showLog(false)">
+              <div class="progress-panel" onclick="event.stopPropagation()">
+                <div class="progress-popover-title">وضعیت تماشا</div>
+                <div class="progress-popover">
+                  <input class="progress-popover-watched" id="progress-popover-watched" onfocus="this.select()" value="{{ episodeWatched }}"></input>
+                  <span> / </span>
+                   <div class="progress-popover-all" id="progress-popover-all"> 1</div>
+                </div>
+                <button type="submit" class="progress-submit">ثبت</button>
+              </div>
+            </div>
+            <!-- end of raiting popup -->
+          </div>
+        </div>
+        <div class="hero-media">
+          <img src="{% if poster_url %}{{ poster_url }}{% else %}{% static 'images/movie-placeholder.jpg' %}{% endif %}" alt="{{ poster_alt }}" class="hero-image" />
+        </div>
+      </section>
+
+      <!-- Info Section -->
+      <section class="info-section">
+        <!-- Right Column (RTL: first column is right) -->
+        <div class="right-column">
+          <!-- Rating Card -->
+          <div class="info-card rating-card">
+            <div class="card-header">امتیاز_کاربر</div>
+            <div class="rating-display">
+              <div class="stars">
+                {# Score is on a 0–10 scale mapped to 5 stars: each star = 2 points. #}
+                <span class="star" style="--fill: {% if score >= 2 %}100%{% elif score >= 1 %}50%{% else %}0%{% endif %}">★</span>
+                <span class="star" style="--fill: {% if score >= 4 %}100%{% elif score >= 3 %}50%{% else %}0%{% endif %}">★</span>
+                <span class="star" style="--fill: {% if score >= 6 %}100%{% elif score >= 5 %}50%{% else %}0%{% endif %}">★</span>
+                <span class="star" style="--fill: {% if score >= 8 %}100%{% elif score >= 7 %}50%{% else %}0%{% endif %}">★</span>
+                <span class="star" style="--fill: {% if score >= 10 %}100%{% elif score >= 9 %}50%{% else %}0%{% endif %}">★</span>
+              </div>
+              <div class="rating-control">
+                <button class="rating-value" type="button" onclick="toggle_rating_popover()">{{ score }}</button>
+                <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
+                  <div class="rating-panel" onclick="event.stopPropagation()">
+                    <div class="rating-popover-title">امتیاز شما</div>
+                 <div class="rating-popover-value" id="rating-popover-value">{{ score|default:0 }}</div>
+                 <div class="rating-slider-row">
+                   <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
+                   <input class="rating-slider" id="rating-slider" type="range" min="1" max="10" step="1" value="{{ score|default:0 }}" style="--rating-progress: {{ score|default:0 }}0%;" oninput="set_rating(this.value)" />
+                      <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
+                    </div>
+                    <div class="rating-slider-limits">
+                      <span>0</span>
+                      <span>10</span>
+                    </div>
+                    <button type="submit" class="rating-submit">ثبت</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
+            {% if imdb_rate %}
+              <div class="imdb-rate">
+                <span class="imdb-badge">IMDb</span>
+                <span class="imdb-value">{{ imdb_rate|stringformat:".1f" }}</span>
+                <span class="imdb-max">/ 10</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Status Card -->
+          <div class="info-card status-card">
+            <div class="card-header">وضعیت_گره</div>
+            <div class="status-value">
+              {{ status_label }} <span class="status-dot"></span>
+            </div>
+            <div class="stats-row">
+              <div class="stat-item">
+                <div class="stat-value">00</div>
+                <div class="stat-label">فصل ها</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">01</div>
+                <div class="stat-label">فیلم</div>
+              </div>
+            </div>
+            <div class="year-section">
+              <div class="year-label">سال_انتشار</div>
+              <div class="year-value">{{ year }}</div>
+            </div>
+          </div>
+
+          <!-- Metadata Card -->
+          <div class="info-card metadata-card">
+            <div class="card-header">متادیتای_سیستم</div>
+            <div class="metadata-list">
+              <div class="metadata-item">
+                <span class="meta-value">{{ imdb_id }}</span>
+                <span class="meta-label">:مرجع_IMDB</span>
+              </div>
+              <div class="metadata-item">
+                <span class="meta-value">{{ language }}</span>
+                <span class="meta-label">:زبان_اصلی</span>
+              </div>
+              <div class="metadata-item">
+                <span class="meta-value">{{ country }}</span>
+                <span class="meta-label">:منطقه_اصلی</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Column (RTL: second column is left) -->
+        <div class="left-column">
+          <!-- Overview Card -->
+          <div class="overview-card">
+            <div class="card-header">
+              <span class="info-icon">i</span>
+            خلاصه
+            </div>
+            <p class="overview-text">{{ overview }}</p>
+          </div>
+
+          <!-- Characters Section -->
+          <div class="characters-section">
+            <div class="section-header">بازیگران</div>
+            <div class="characters-grid">
+              {% for character in characters %}
+                <div class="character-card">
+                  <img src="{{ character.image }}" alt="{{ character.name }}" class="character-img" />
+                  <div class="character-info">
+                    <div class="character-name">{{ character.name }}</div>
+                    <div class="actor-name">{{ character.actor }}</div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </section>
+    <!-- Sidebar -->
+    {% include 'sidebar.html' %}    
+  </main>
+
+  {% render_partial 'series:footer' %}
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'javascript/series.js' %}"></script>
+{% endblock %}
