@@ -5,15 +5,9 @@ __pycache__/
 *.sqlite3
 venv/
 l_venv/
-screen.png
-data.json
-data_fa.json
-movies_crawler.py
 .claude/
 AGENTS.md
-tvdb_data.jsonl.gz
-title.ratings(1).tsv.gz
-tvdb_movies.jsonl.gz
+datas/
 .mimocode/
 
 
