@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "series",
     "movies",
+    "users",
     "django_render_partial",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -42,6 +43,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+AUTH_USER_MODEL = "users.User"
+
+# Argon2 is the recommended password hasher (OWASP); PBKDF2 kept as
+# fallback so existing password hashes remain valid and get upgraded
+# transparently on next login.
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
 ]
 
 MIDDLEWARE = [
@@ -98,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 10},
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
