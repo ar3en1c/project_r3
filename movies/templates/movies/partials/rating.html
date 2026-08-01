@@ -1,0 +1,35 @@
+<div class="rating-display" id="rating-display">
+  <div class="stars">
+    {# Score is on a 0–10 scale mapped to 5 stars: each star = 2 points. #}
+    <span class="star" style="--fill: {% if score >= 2 %}100%{% elif score >= 1 %}50%{% else %}0%{% endif %}">★</span>
+    <span class="star" style="--fill: {% if score >= 4 %}100%{% elif score >= 3 %}50%{% else %}0%{% endif %}">★</span>
+    <span class="star" style="--fill: {% if score >= 6 %}100%{% elif score >= 5 %}50%{% else %}0%{% endif %}">★</span>
+    <span class="star" style="--fill: {% if score >= 8 %}100%{% elif score >= 7 %}50%{% else %}0%{% endif %}">★</span>
+    <span class="star" style="--fill: {% if score >= 10 %}100%{% elif score >= 9 %}50%{% else %}0%{% endif %}">★</span>
+  </div>
+  <div class="rating-control" x-data="{ open: false }">
+    <button class="rating-value" type="button" @click="open = !open">{{ score }}</button>
+    <div class="rating-popover" id="rating-popover" style="display: none;" :style="open ? '' : 'display: none;'" @click="open = false" @keydown.escape.window="open = false">
+      <div class="rating-panel" @click.stop>
+        <div class="rating-popover-title">امتیاز شما</div>
+        <div class="rating-popover-value" id="rating-popover-value">{{ score|default:0 }}</div>
+        <div class="rating-slider-row">
+          <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
+          <input class="rating-slider" id="rating-slider" type="range" min="1" max="10" step="1" value="{{ score|default:0 }}" style="--rating-progress: {{ score|default:0 }}0%;" oninput="set_rating(this.value)" />
+          <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
+        </div>
+        <div class="rating-slider-limits">
+          <span>0</span>
+          <span>10</span>
+        </div>
+        <form hx-post="{% url 'tracking:movie_rating' slug %}"
+              hx-target="#rating-display"
+              hx-swap="outerHTML"
+              hx-vals="js:{rate: document.getElementById('rating-slider').value}"
+              @htmx:after-request="if ($event.detail.successful) open = false">
+          <button type="submit" class="rating-submit">ثبت</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

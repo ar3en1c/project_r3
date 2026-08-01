@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from series.models import Series
+from movies.models import Movies
 from .models import Track
 
 # Create your views here.
@@ -37,6 +38,16 @@ def _ctx(obj, track):
         "slug": obj.slug,
         "allEpisodes": obj.episode_count,
         "episodeWatched": track.progress or 0,
+        "score": int(track.user_rate or 0),
+        "track_status": track.status,
+        "status_options": Track.progress_status,
+    }
+
+
+def _movie_ctx(obj, track):
+    """Shared template context for the movie tracking partials."""
+    return {
+        "slug": obj.slug,
         "score": int(track.user_rate or 0),
         "track_status": track.status,
         "status_options": Track.progress_status,
@@ -105,3 +116,45 @@ def set_series_rating(request, slug):
     track.user_rate = rate
     track.save()
     return render(request, "series/partials/rating.html", _ctx(obj, track))
+
+
+def _get_movie_track(user, slug):
+    obj = get_object_or_404(Movies, slug=slug)
+    track, _ = Track.objects.get_or_create(
+        user=user,
+        typeOfWatch="Movie",
+        movies=obj,
+        defaults={"status": "watching"},
+    )
+    return obj, track
+
+
+@htmx_login_required
+@require_POST
+def set_movie_status(request, slug):
+    status = request.POST.get("status", "")
+    valid = {value for value, _ in Track.progress_status}
+    if status not in valid:
+        return HttpResponseBadRequest("invalid status")
+
+    obj, track = _get_movie_track(request.user, slug)
+    track.status = status
+    track.save()
+
+    return render(request, "movies/partials/status_buttons.html", _movie_ctx(obj, track))
+
+
+@htmx_login_required
+@require_POST
+def set_movie_rating(request, slug):
+    obj, track = _get_movie_track(request.user, slug)
+    try:
+        rate = int(request.POST.get("rate", ""))
+    except ValueError:
+        return HttpResponseBadRequest("invalid rate")
+    if not 1 <= rate <= 10:
+        return HttpResponseBadRequest("rate out of range")
+
+    track.user_rate = rate
+    track.save()
+    return render(request, "movies/partials/rating.html", _movie_ctx(obj, track))

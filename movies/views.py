@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 import jdatetime
 
 from .models import Movies
+from tracking.models import Track
 
 
 def _jalali_year():
@@ -42,10 +43,18 @@ def movie(request, slug):
     # Get genres
     genres = [g.genre.name for g in obj.movie_genres.select_related("genre").all()]
 
+    # Current user's tracking record for this movie (if any)
+    track = None
+    if request.user.is_authenticated:
+        track = Track.objects.filter(
+            user=request.user, typeOfWatch="Movie", movies=obj
+        ).first()
+
     context = {
         # Hero
         "name": obj.name_fa or obj.name,
         "year": obj.year,
+        "slug": obj.slug,
         "page_title_suffix": "جزئیات فیلم",
         "genres": genres,
         "poster_url": obj.image,
@@ -53,17 +62,14 @@ def movie(request, slug):
 
         # Status / progress
         "status": obj.status or "",
-        "allEpisodes": 1,  # Movies have only 1 "episode"
-        "episodeWatched": 0,
-        "score": 0,  # User rating (to be implemented)
+        "track_status": track.status if track else "",
+        "score": int(track.user_rate or 0) if track else 0,
 
         # IMDb rating (from TVDB/IMDb import)
         "imdb_rate": obj.rate,
 
         # Status card (right column)
         "status_label": "تمام شده" if obj.status == "Released" else "در حال پخش" if obj.status else "نامشخص",
-        "total_seasons": 0,  # Movies don't have seasons
-        "total_units": 1,  # Movies have 1 unit
 
         # Metadata card
         "imdb_id": imdb_id,
