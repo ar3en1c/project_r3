@@ -763,11 +763,15 @@ body {
   .character-card {
     background: $surface-container-high;
     border: 1px solid $border;
+    border-radius: 8px;
     overflow: hidden;
-    transition: border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, transform 0.2s;
 
     &:hover {
       border-color: $primary;
+      transform: translateY(-2px);
     }
 
     .character-img {
@@ -776,6 +780,11 @@ body {
       object-fit: cover;
       object-position: top;
       filter: grayscale(30%);
+      transition: filter 0.2s;
+    }
+
+    &:hover .character-img {
+      filter: grayscale(0%);
     }
 
     .character-info {

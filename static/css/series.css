@@ -633,11 +633,15 @@ body {
 .characters-section .character-card {
   background: #202D26;
   border: 1px solid #243129;
+  border-radius: 8px;
   overflow: hidden;
-  transition: border-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
 }
 .characters-section .character-card:hover {
   border-color: #3DD68C;
+  transform: translateY(-2px);
 }
 .characters-section .character-card .character-img {
   width: 100%;
@@ -645,6 +649,10 @@ body {
   object-fit: cover;
   object-position: top;
   filter: grayscale(30%);
+  transition: filter 0.2s;
+}
+.characters-section .character-card:hover .character-img {
+  filter: grayscale(0%);
 }
 .characters-section .character-card .character-info {
   padding: 12px;
