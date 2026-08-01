@@ -106,8 +106,12 @@ def person(request, tvdb_id):
         for c in obj.characters.select_related("person").all()
     ]
 
-    series_works = list(obj.characters.select_related("series").all().values_list("series", flat=True))
-    movie_works = list(obj.movie_characters.select_related("movies").all().values_list("movies", flat=True))
+    series_works = list(set(
+        c.series for c in obj.characters.select_related("series").all()
+    ))
+    movie_works = list(set(
+        c.movies for c in obj.movie_characters.select_related("movies").all()
+    ))
 
     works = []
     for s in series_works:
