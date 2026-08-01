@@ -783,4 +783,65 @@ body {
   border: 1px solid #53DBCA;
 }
 
+.works-section {
+  background: #121E18;
+  border: 1px solid #243129;
+  padding: 24px;
+  margin-top: 16px;
+}
+.works-section .section-header {
+  color: #3DD68C;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #243129;
+}
+.works-section .works-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.works-section .work-card {
+  background: #202D26;
+  border: 1px solid #243129;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+  width: 180px;
+}
+.works-section .work-card:hover {
+  border-color: #3DD68C;
+}
+.works-section .work-card .work-img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(30%);
+}
+.works-section .work-card .work-info {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.works-section .work-card .work-info .work-name {
+  color: #D8E6DC;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+.works-section .work-card .work-info .work-type-badge {
+  color: #3DD68C;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #121E18;
+  padding: 2px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
 /*# sourceMappingURL=series.css.map */

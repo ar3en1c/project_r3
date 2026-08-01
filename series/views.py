@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 import jdatetime
 
-from .models import Series
+from .models import Person, Series
 from tracking.models import Track
 
 # Create your views here.
@@ -91,6 +91,36 @@ def series(request, slug):
         "status_options": STATUS_OPTIONS,
     }
     return render(request, "series/index.html", contex)
+
+
+def person(request, tvdb_id):
+    """Person detail view."""
+    obj = get_object_or_404(Person, tvdb_id=tvdb_id)
+
+    characters = [
+        {
+            "name": c.character_name,
+            "actor": c.person.name if c.person_id else "",
+            "image": c.character_image or (c.person.image if c.person_id else ""),
+        }
+        for c in obj.characters.select_related("person").all()
+    ]
+
+    series_works = list(obj.characters.select_related("series").all().values_list("series", flat=True))
+    movie_works = list(obj.movie_characters.select_related("movies").all().values_list("movies", flat=True))
+
+    works = []
+    for s in series_works:
+        works.append({"type": "series", "item": s})
+    for m in movie_works:
+        works.append({"type": "movie", "item": m})
+    works.sort(key=lambda w: w["item"].created_at, reverse=True)
+
+    return render(request, "series/person.html", {
+        "person": obj,
+        "characters": characters,
+        "works": works,
+    })
 
 
 def header(request):

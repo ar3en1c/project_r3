@@ -8,4 +8,5 @@ urlpatterns = [
     path("header/", views.header, name="header"),
     path("footer/", views.footer, name="footer"),
     path("<slug:slug>/", views.series, name="series_detail"),
+    path("person/<int:tvdb_id>/", views.person, name="person_detail"),
 ]

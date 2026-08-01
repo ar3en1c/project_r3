@@ -162,6 +162,15 @@
             <div class="section-header">بازیگران</div>
             <div class="characters-grid">
               {% for character in characters %}
+                {% if character.person_tvdb %}
+                <a href="{% url 'series:person_detail' character.person_tvdb %}" class="character-card">
+                  <img src="{% if character.image %}{{ character.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ character.name }}" class="character-img" />
+                  <div class="character-info">
+                    <div class="character-name">{{ character.name }}</div>
+                    <div class="actor-name">{{ character.actor }}</div>
+                  </div>
+                </a>
+                {% else %}
                 <div class="character-card">
                   <img src="{% if character.image %}{{ character.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ character.name }}" class="character-img" />
                   <div class="character-info">
@@ -169,6 +178,7 @@
                     <div class="actor-name">{{ character.actor }}</div>
                   </div>
                 </div>
+                {% endif %}
               {% endfor %}
             </div>
           </div>

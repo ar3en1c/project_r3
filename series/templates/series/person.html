@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}
+  {{ person.name }} - شخص
+{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <main class="main-container">
+    <section class="top-section">
+{% render_partial 'series:header' %}
+      <div class="content-area">
+        <section class="hero-section">
+          <div class="hero-content">
+            <h1 class="series-title">{{ person.name }}</h1>
+          </div>
+          <div class="hero-media">
+            {% if person.image %}
+              <img src="{{ person.image }}" alt="{{ person.name }}" class="hero-image" />
+            {% else %}
+              <img src="{% static 'images/missing.jpg' %}" alt="{{ person.name }}" class="hero-image" />
+            {% endif %}
+          </div>
+        </section>
+
+        <section class="info-section">
+          <div class="left-column">
+            {% if works %}
+            <div class="works-section">
+              <div class="section-header">آثار</div>
+              <div class="works-grid">
+                {% for work in works %}
+                  <a href="{% if work.type == 'series' %}series/{{ work.item.slug }}{% else %}movies/{{ work.item.slug }}{% endif %}" class="work-card">
+                    <img src="{% if work.item.image %}{{ work.item.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                    <div class="work-info">
+                      <div class="work-name">{{ work.item.name_fa or work.item.name }}</div>
+                      <span class="work-type-badge">{{ work.type }}</span>
+                    </div>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+
+{% render_partial 'series:footer' %}
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'javascript/series.js' %}"></script>
+{% endblock %}
