@@ -17,12 +17,29 @@
   .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    text-decoration: none;
+    direction: ltr;
 
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 4px;
+    .logo-prompt {
+      color: $primary;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .logo-name {
+      color: $text-primary;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-accent {
+      color: $primary;
+    }
+
+    &:hover .logo-name {
+      color: $primary-fixed;
     }
   }
 
@@ -44,6 +61,76 @@
     }
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: $surface-container-high;
+      border: 1px solid $border;
+      border-radius: 4px;
+      padding: 6px 12px;
+      color: $text-primary;
+      font-size: 12px;
+      direction: ltr;
+
+      .chip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: $primary;
+        box-shadow: 0 0 6px $shadow-glow;
+      }
+    }
+
+    .auth-link-btn {
+      background: transparent;
+      border: none;
+      color: $outline;
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    .auth-signup-btn {
+      background: transparent;
+      border: 1px solid $primary;
+      border-radius: 4px;
+      color: $primary;
+      font-size: 12px;
+      padding: 7px 14px;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+      &:hover {
+        background: $primary;
+        color: $background;
+        box-shadow: 0 0 12px $shadow-glow;
+      }
+    }
+
+    .logout-form {
+      margin: 0;
+    }
+  }
+
   .search-bar {
     display: flex;
     align-items: center;
@@ -60,7 +147,7 @@
       font-family: inherit;
       font-size: 12px;
       outline: none;
-      width: 200px;
+      width: 140px;
 
       &::placeholder {
         color: $outline;

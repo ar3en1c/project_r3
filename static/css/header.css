@@ -10,12 +10,26 @@
 .header .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  text-decoration: none;
+  direction: ltr;
 }
-.header .logo img {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
+.header .logo .logo-prompt {
+  color: #3DD68C;
+  font-weight: bold;
+  font-size: 16px;
+}
+.header .logo .logo-name {
+  color: #D8E6DC;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.header .logo .logo-accent {
+  color: #3DD68C;
+}
+.header .logo:hover .logo-name {
+  color: #6BFDaf;
 }
 .header .nav-links {
   display: flex;
@@ -30,6 +44,67 @@
 }
 .header .nav-links a:hover, .header .nav-links a.active {
   color: #3DD68C;
+}
+.header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header .header-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header .header-auth .user-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #202D26;
+  border: 1px solid #243129;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: #D8E6DC;
+  font-size: 12px;
+  direction: ltr;
+}
+.header .header-auth .user-chip .chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3DD68C;
+  box-shadow: 0 0 6px rgba(61, 214, 140, 0.4);
+}
+.header .header-auth .auth-link-btn {
+  background: transparent;
+  border: none;
+  color: #869488;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+}
+.header .header-auth .auth-link-btn:hover {
+  color: #3DD68C;
+}
+.header .header-auth .auth-signup-btn {
+  background: transparent;
+  border: 1px solid #3DD68C;
+  border-radius: 4px;
+  color: #3DD68C;
+  font-size: 12px;
+  padding: 7px 14px;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.header .header-auth .auth-signup-btn:hover {
+  background: #3DD68C;
+  color: #090B0A;
+  box-shadow: 0 0 12px rgba(61, 214, 140, 0.4);
+}
+.header .header-auth .logout-form {
+  margin: 0;
 }
 .header .search-bar {
   display: flex;
@@ -47,7 +122,7 @@
   font-family: inherit;
   font-size: 12px;
   outline: none;
-  width: 200px;
+  width: 140px;
 }
 .header .search-bar input::placeholder {
   color: #869488;

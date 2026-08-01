@@ -34,27 +34,31 @@
           </div>
           <div class="tracking-section" x-data="{ logOpen: false }">
             <div class="tracking-label">کنترل_ردیابی</div>
-            {% include 'series/partials/status_buttons.html' %}
-            {% include 'series/partials/progress.html' %}
-            <button class="log-btn" id="log_btn" type="button" @click="logOpen = true">افزودن_ثبت +</button>
-            <!-- raiting popup -->
-            <div class="bg-log-editor" :style="logOpen ? 'display: flex;' : 'display: none;'" @click="logOpen = false">
-              <div class="progress-panel" @click.stop>
-                <div class="progress-popover-title">وضعیت تماشا</div>
-                <form hx-post="{% url 'tracking:series_progress' slug %}"
-                      hx-target="#progress-section"
-                      hx-swap="outerHTML"
-                      @htmx:after-request="if ($event.detail.successful) logOpen = false">
-                  <div class="progress-popover">
-                    <input class="progress-popover-watched" id="progress-popover-watched" name="progress" onfocus="this.select()" value="{{ episodeWatched }}"></input>
-                    <span> / </span>
-                     <div class="progress-popover-all" id="progress-popover-all"> {{ allEpisodes }}</div>
-                  </div>
-                  <button type="submit" class="progress-submit">ثبت</button>
-                </form>
+            {% if user.is_authenticated %}
+              {% include 'series/partials/status_buttons.html' %}
+              {% include 'series/partials/progress.html' %}
+              <button class="log-btn" id="log_btn" type="button" @click="logOpen = true">افزودن_ثبت +</button>
+              <!-- raiting popup -->
+              <div class="bg-log-editor" :style="logOpen ? 'display: flex;' : 'display: none;'" @click="logOpen = false">
+                <div class="progress-panel" @click.stop>
+                  <div class="progress-popover-title">وضعیت تماشا</div>
+                  <form hx-post="{% url 'tracking:series_progress' slug %}"
+                        hx-target="#progress-section"
+                        hx-swap="outerHTML"
+                        @htmx:after-request="if ($event.detail.successful) logOpen = false">
+                    <div class="progress-popover">
+                      <input class="progress-popover-watched" id="progress-popover-watched" name="progress" onfocus="this.select()" value="{{ episodeWatched }}"></input>
+                      <span> / </span>
+                       <div class="progress-popover-all" id="progress-popover-all"> {{ allEpisodes }}</div>
+                    </div>
+                    <button type="submit" class="progress-submit">ثبت</button>
+                  </form>
+                </div>
               </div>
-            </div>
-            <!-- end of raiting popup -->
+              <!-- end of raiting popup -->
+            {% else %}
+              <a class="log-btn" href="{% url 'users:login' %}?next={{ request.path }}">برای ردیابی ابتدا وارد شوید</a>
+            {% endif %}
           </div>
           {% comment %} <div class="bottom-stats">
             نرخ بیت: 48.2 مگابیت بر ثانیه<br />
@@ -74,8 +78,12 @@
           <!-- Rating Card -->
           <div class="info-card rating-card">
             <div class="card-header">امتیاز_کاربر</div>
-            {% include 'series/partials/rating.html' %}
-            <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
+            {% if user.is_authenticated %}
+              {% include 'series/partials/rating.html' %}
+              <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
+            {% else %}
+              <a class="log-btn" href="{% url 'users:login' %}?next={{ request.path }}">برای امتیاز دادن وارد شوید</a>
+            {% endif %}
             {% if imdb_rate %}
               <div class="imdb-rate">
                 <span class="imdb-badge">IMDb</span>

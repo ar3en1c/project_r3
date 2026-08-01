@@ -1,0 +1,208 @@
+@use 'var' as *;
+
+@font-face {
+  font-family: 'Vazir';
+  src: url('/static/fonts/vazir.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $background;
+  color: $text-primary;
+  font-family: 'Vazir', sans-serif;
+  min-height: 100vh;
+}
+
+// Auth pages have no sidebar, so the header must span the full width.
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    margin-right: 0;
+  }
+}
+
+// Centered terminal window
+.auth-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.terminal-window {
+  width: 100%;
+  max-width: 440px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 8px;
+  box-shadow: 0 0 40px $primary-glow;
+  overflow: hidden;
+}
+
+// macOS-style title bar
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: $surface-container-high;
+  border-bottom: 1px solid $border;
+
+  .tb-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .tb-red { background: #E5534B; }
+  .tb-yellow { background: #D9A039; }
+  .tb-green { background: $primary; }
+
+  .tb-title {
+    margin-right: auto;
+    font-size: 11px;
+    color: $outline;
+    letter-spacing: 0.5px;
+    direction: ltr;
+  }
+}
+
+.terminal-body {
+  padding: 24px;
+}
+
+.terminal-line {
+  font-size: 14px;
+  margin-bottom: 8px;
+  direction: ltr;
+  text-align: left;
+
+  .prompt {
+    color: $primary;
+    font-weight: bold;
+    margin-left: 8px;
+  }
+
+  .command {
+    color: $text-primary;
+  }
+}
+
+.terminal-output {
+  font-size: 12px;
+  color: $outline;
+  margin-bottom: 24px;
+}
+
+.terminal-error {
+  border: 1px solid #E5534B;
+  border-radius: 4px;
+  background: rgba(229, 83, 75, 0.08);
+  color: #E5534B;
+  font-size: 12px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+}
+
+// Form
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .field-label {
+    font-size: 12px;
+    color: $text-primary;
+
+    .prompt {
+      color: $primary;
+      font-weight: bold;
+    }
+  }
+
+  .terminal-input {
+    width: 100%;
+    background: $surface-container-high;
+    border: 1px solid $border;
+    border-radius: 4px;
+    padding: 10px 14px;
+    color: $text-primary;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: $outline;
+    }
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 8px $border-glow;
+    }
+  }
+
+  .field-error {
+    color: #E5534B;
+    font-size: 11px;
+  }
+
+  .field-help {
+    color: $outline;
+    font-size: 11px;
+  }
+}
+
+.auth-submit {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid $primary;
+  border-radius: 4px;
+  color: $primary;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 11px 16px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    background: $primary;
+    color: $background;
+    box-shadow: 0 0 16px $shadow-glow;
+  }
+}
+
+.auth-switch {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed $border;
+  font-size: 12px;
+  color: $outline;
+  text-align: center;
+
+  a {
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

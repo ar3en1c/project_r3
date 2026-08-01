@@ -24,7 +24,6 @@
       <div class="footer-col">
         <h3 class="footer-col-title">ناوبری</h3>
         <ul class="footer-links">
-          <li><a href="#">خانه</a></li>
           <li><a href="{% url 'series:mainSeries' %}">سریال‌ها</a></li>
           <li><a href="#">فیلم‌ها</a></li>
           <li><a href="#">لیست‌های من</a></li>
@@ -46,10 +45,15 @@
       <div class="footer-col">
         <h3 class="footer-col-title">حساب_کاربری</h3>
         <ul class="footer-links">
-          <li><a href="#">داشبورد</a></li>
-          <li><a href="#">کتابخانه</a></li>
-          <li><a href="#">آمار تماشا</a></li>
-          <li><a href="#">تنظیمات</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="#">داشبورد</a></li>
+            <li><a href="#">کتابخانه</a></li>
+            <li><a href="#">آمار تماشا</a></li>
+            <li><a href="#">تنظیمات</a></li>
+          {% else %}
+            <li><a href="{% url 'users:login' %}">ورود</a></li>
+            <li><a href="{% url 'users:signup' %}">ثبت‌نام</a></li>
+          {% endif %}
         </ul>
       </div>
 

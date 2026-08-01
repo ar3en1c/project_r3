@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}
+  ورود - obsidian_track
+{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+{% endblock %}
+
+{% block body %}
+  <main class="auth-container">
+    {% render_partial 'series:header' %}
+
+    <section class="auth-section">
+      <div class="terminal-window">
+        <!-- Window title bar -->
+        <div class="terminal-titlebar">
+          <span class="tb-dot tb-red"></span>
+          <span class="tb-dot tb-yellow"></span>
+          <span class="tb-dot tb-green"></span>
+          <span class="tb-title">user@obsidian_track: ~/login</span>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span class="command">./auth --login</span>
+          </div>
+          <div class="terminal-output">احراز هویت کاربر — وارد حساب خود شوید</div>
+
+          {% if form.non_field_errors %}
+            <div class="terminal-error">
+              {% for error in form.non_field_errors %}
+                <div>[خطا] {{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <form method="post" action="{% url 'users:login' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+            {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+
+            {% for field in form %}
+              <div class="form-field">
+                <label class="field-label" for="{{ field.id_for_label }}">
+                  <span class="prompt">&gt;</span> {{ field.label }}:
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                  <div class="field-error">
+                    {% for error in field.errors %}<div>[خطا] {{ error }}</div>{% endfor %}
+                  </div>
+                {% endif %}
+                {% if field.help_text %}<div class="field-help">{{ field.help_text }}</div>{% endif %}
+              </div>
+            {% endfor %}
+
+            <button type="submit" class="auth-submit">[ ورود_به_سیستم ]</button>
+          </form>
+
+          <div class="auth-switch">
+            حساب ندارید؟ <a href="{% url 'users:signup' %}">ثبت‌نام_+</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% render_partial 'series:footer' %}
+{% endblock %}

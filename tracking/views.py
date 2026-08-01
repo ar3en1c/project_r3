@@ -1,13 +1,34 @@
-from django.contrib.auth.decorators import login_required
+from functools import wraps
+
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from series.models import Series
 from .models import Track
 
 # Create your views here.
+
+
+def htmx_login_required(view):
+    """Like login_required, but answers HTMX requests with HX-Redirect
+    so the browser does a full-page redirect instead of swapping the
+    login page HTML into the target element."""
+
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            login_url = f"{reverse('users:login')}?next={request.path}"
+            if request.headers.get("HX-Request"):
+                response = HttpResponse(status=204)
+                response["HX-Redirect"] = login_url
+                return response
+            return redirect(login_url)
+        return view(request, *args, **kwargs)
+
+    return wrapper
 
 
 def _ctx(obj, track):
@@ -33,7 +54,7 @@ def _get_series_track(user, slug):
     return obj, track
 
 
-@login_required
+@htmx_login_required
 @require_POST
 def set_series_status(request, slug):
     status = request.POST.get("status", "")
@@ -54,7 +75,7 @@ def set_series_status(request, slug):
     return HttpResponse(html)
 
 
-@login_required
+@htmx_login_required
 @require_POST
 def set_series_progress(request, slug):
     obj, track = _get_series_track(request.user, slug)
@@ -70,7 +91,7 @@ def set_series_progress(request, slug):
     return render(request, "series/partials/progress.html", _ctx(obj, track))
 
 
-@login_required
+@htmx_login_required
 @require_POST
 def set_series_rating(request, slug):
     obj, track = _get_series_track(request.user, slug)

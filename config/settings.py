@@ -48,6 +48,10 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = "users.User"
 
+LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "series:mainSeries"
+LOGOUT_REDIRECT_URL = "series:mainSeries"
+
 # Argon2 is the recommended password hasher (OWASP); PBKDF2 kept as
 # fallback so existing password hashes remain valid and get upgraded
 # transparently on next login.
