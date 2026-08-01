@@ -8,12 +8,14 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
 {% endblock %}
 
-{% block body %} 
+{% block body %}
 
   <!-- Main Content -->
-  <main class="main-container">
+  <main class="main-container" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <section class="top-section">
 {% render_partial 'series:header' %}
     <div class="content-area">
@@ -30,28 +32,26 @@
               <span class="genre-tag"><span class="dot"></span>{{ genre }}</span>
             {% endfor %}
           </div>
-          <div class="tracking-section">
+          <div class="tracking-section" x-data="{ logOpen: false }">
             <div class="tracking-label">کنترل_ردیابی</div>
-            <div class="status-buttons">
-              {% for value, label in status_options %}
-                <button class="status-btn {% if status == value %}active{% endif %}" onclick="active_status(this, this.parentElement)">{{ label }}</button>
-              {% endfor %}
-            </div>
-            <div class="progress-section">
-              <span class="episode-count">{{ allEpisodes }} / {{ episodeWatched }}</span>
-              <span class="progress-label">کل قسمت ها / قسمت های تماشا شده</span>
-            </div>
-            <button class="log-btn" id="log_btn" onclick="showLog(true)">افزودن_ثبت +</button>
+            {% include 'series/partials/status_buttons.html' %}
+            {% include 'series/partials/progress.html' %}
+            <button class="log-btn" id="log_btn" type="button" @click="logOpen = true">افزودن_ثبت +</button>
             <!-- raiting popup -->
-            <div class="bg-log-editor" onclick="showLog(false)">
-              <div class="progress-panel" onclick="event.stopPropagation()">
+            <div class="bg-log-editor" :style="logOpen ? 'display: flex;' : 'display: none;'" @click="logOpen = false">
+              <div class="progress-panel" @click.stop>
                 <div class="progress-popover-title">وضعیت تماشا</div>
-                <div class="progress-popover">
-                  <input class="progress-popover-watched" id="progress-popover-watched" onfocus="this.select()" value="{{ episodeWatched }}"></input>
-                  <span> / </span>
-                   <div class="progress-popover-all" id="progress-popover-all"> {{ allEpisodes }}</div>
-                </div>
-                <button type="submit" class="progress-submit">ثبت</button>
+                <form hx-post="{% url 'tracking:series_progress' slug %}"
+                      hx-target="#progress-section"
+                      hx-swap="outerHTML"
+                      @htmx:after-request="if ($event.detail.successful) logOpen = false">
+                  <div class="progress-popover">
+                    <input class="progress-popover-watched" id="progress-popover-watched" name="progress" onfocus="this.select()" value="{{ episodeWatched }}"></input>
+                    <span> / </span>
+                     <div class="progress-popover-all" id="progress-popover-all"> {{ allEpisodes }}</div>
+                  </div>
+                  <button type="submit" class="progress-submit">ثبت</button>
+                </form>
               </div>
             </div>
             <!-- end of raiting popup -->
@@ -74,35 +74,7 @@
           <!-- Rating Card -->
           <div class="info-card rating-card">
             <div class="card-header">امتیاز_کاربر</div>
-            <div class="rating-display">
-              <div class="stars">
-                {# Score is on a 0–10 scale mapped to 5 stars: each star = 2 points. #}
-                <span class="star" style="--fill: {% if score >= 2 %}100%{% elif score >= 1 %}50%{% else %}0%{% endif %}">★</span>
-                <span class="star" style="--fill: {% if score >= 4 %}100%{% elif score >= 3 %}50%{% else %}0%{% endif %}">★</span>
-                <span class="star" style="--fill: {% if score >= 6 %}100%{% elif score >= 5 %}50%{% else %}0%{% endif %}">★</span>
-                <span class="star" style="--fill: {% if score >= 8 %}100%{% elif score >= 7 %}50%{% else %}0%{% endif %}">★</span>
-                <span class="star" style="--fill: {% if score >= 10 %}100%{% elif score >= 9 %}50%{% else %}0%{% endif %}">★</span>
-              </div>
-              <div class="rating-control">
-                <button class="rating-value" type="button" onclick="toggle_rating_popover()">{{ score }}</button>
-                <div class="rating-popover" id="rating-popover" onclick="close_rating_popover()" hidden>
-                  <div class="rating-panel" onclick="event.stopPropagation()">
-                    <div class="rating-popover-title">امتیاز شما</div>
-                 <div class="rating-popover-value" id="rating-popover-value">{{ score|default:0 }}</div>
-                 <div class="rating-slider-row">
-                   <button class="rating-step-btn" type="button" onclick="change_rating(1)">+</button>
-                   <input class="rating-slider" id="rating-slider" type="range" min="1" max="10" step="1" value="{{ score|default:0 }}" style="--rating-progress: {{ score|default:0 }}0%;" oninput="set_rating(this.value)" />
-                      <button class="rating-step-btn" type="button" onclick="change_rating(-1)">-</button>
-                    </div>
-                    <div class="rating-slider-limits">
-                      <span>0</span>
-                      <span>10</span>
-                    </div>
-                    <button type="submit" class="rating-submit">ثبت</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% include 'series/partials/rating.html' %}
             <div class="rating-label">[ ویرایش_امتیاز ] امتیاز_ فعلی</div>
             {% if imdb_rate %}
               <div class="imdb-rate">

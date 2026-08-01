@@ -1,0 +1,10 @@
+<div class="status-buttons" id="status-buttons">
+  {% for value, label in status_options %}
+    <button type="button"
+            class="status-btn {% if track_status == value %}active{% endif %}"
+            hx-post="{% url 'tracking:series_status' slug %}"
+            hx-vals='{"status": "{{ value }}"}'
+            hx-target="#status-buttons"
+            hx-swap="outerHTML">{{ label }}</button>
+  {% endfor %}
+</div>

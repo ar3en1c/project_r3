@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 import jdatetime
 
 from .models import Series
+from tracking.models import Track
 
 # Create your views here.
 
@@ -43,10 +44,18 @@ def series(request, slug):
         "",
     )
 
+    # Current user's tracking record for this series (if any)
+    track = None
+    if request.user.is_authenticated:
+        track = Track.objects.filter(
+            user=request.user, typeOfWatch="Series", serial=obj
+        ).first()
+
     contex = {
         # Hero
         "name": obj.name_fa or obj.name,
         "year": obj.year,
+        "slug": obj.slug,
         "page_title_suffix": "جزئیات سریال",
         "genres": [g.genre.name for g in obj.series_genres.select_related("genre").all()],
         "poster_url": obj.image,
@@ -54,9 +63,10 @@ def series(request, slug):
 
         # Status / progress
         "status": obj.status or "",
+        "track_status": track.status if track else "",
         "allEpisodes": obj.episode_count,
-        "episodeWatched": 0,
-        "score": 0,  # User rating (to be implemented)
+        "episodeWatched": (track.progress or 0) if track else 0,
+        "score": int(track.user_rate or 0) if track else 0,
 
         # IMDb rating (from TVDB/IMDb import)
         "imdb_rate": obj.rate,

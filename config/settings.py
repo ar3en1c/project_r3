@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "series",
     "movies",
     "users",
+    "tracking",
     "django_render_partial",
     "django.contrib.admin",
     "django.contrib.auth",
