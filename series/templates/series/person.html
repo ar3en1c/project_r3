@@ -36,9 +36,15 @@
               <div class="works-grid">
                 {% for work in works %}
                   <a href="{% if work.type == 'series' %}series/{{ work.item.slug }}{% else %}movies/{{ work.item.slug }}{% endif %}" class="work-card">
-                    <img src="{% if work.item.image %}{{ work.item.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                    {% if work.item.image %}
+                      <img src="{{ work.item.image }}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                    {% else %}
+                      <img src="{% static 'images/missing.jpg' %}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                    {% endif %}
                     <div class="work-info">
-                      <div class="work-name">{{ work.item.name_fa or work.item.name }}</div>
+                      <div class="work-name">
+                        {% if work.item.name_fa %}{{ work.item.name_fa }}{% else %}{{ work.item.name }}{% endif %}
+                      </div>
                       <span class="work-type-badge">{{ work.type }}</span>
                     </div>
                   </a>
