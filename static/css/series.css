@@ -243,6 +243,9 @@ body {
   gap: 24px;
   margin-bottom: 24px;
 }
+.info-section:has(.left-column:only-child) {
+  display: block;
+}
 
 .left-column {
   display: flex;
@@ -789,18 +792,47 @@ body {
   padding: 24px;
   margin-top: 16px;
 }
+.works-section .works-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
 .works-section .section-header {
   color: #3DD68C;
   font-size: 11px;
   letter-spacing: 2px;
-  margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid #243129;
 }
-.works-section .works-grid {
+.works-section .filter-buttons {
   display: flex;
+  gap: 8px;
+}
+.works-section .filter-btn {
+  background: transparent;
+  border: 1px solid #243129;
+  color: #869488;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.works-section .filter-btn.active {
+  background: #3DD68C;
+  color: #121E18;
+  border-color: #3DD68C;
+}
+.works-section .filter-btn:hover:not(.active) {
+  border-color: #3DD68C;
+  color: #3DD68C;
+}
+.works-section .works-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
-  flex-wrap: wrap;
 }
 .works-section .work-card {
   background: #202D26;
@@ -809,7 +841,6 @@ body {
   transition: border-color 0.2s;
   text-decoration: none;
   color: inherit;
-  width: 180px;
 }
 .works-section .work-card:hover {
   border-color: #3DD68C;
@@ -843,5 +874,3 @@ body {
   border-radius: 4px;
   align-self: flex-start;
 }
-
-/*# sourceMappingURL=series.css.map */

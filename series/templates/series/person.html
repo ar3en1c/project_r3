@@ -8,6 +8,8 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -31,11 +33,21 @@
         <section class="info-section">
           <div class="left-column">
             {% if works %}
-            <div class="works-section">
-              <div class="section-header">آثار</div>
+            <div class="works-section" x-data="{ filter: 'all' }">
+              <div class="works-header">
+                <div class="section-header">آثار</div>
+                <div class="filter-buttons">
+                  <button class="filter-btn" :class="{ active: filter === 'all' }" @click="filter = 'all'">همه</button>
+                  <button class="filter-btn" :class="{ active: filter === 'series' }" @click="filter = 'series'">سریال</button>
+                  <button class="filter-btn" :class="{ active: filter === 'movie' }" @click="filter = 'movie'">فیلم</button>
+                </div>
+              </div>
               <div class="works-grid">
                 {% for work in works %}
-                  <a href="{% if work.type == 'series' %}series/{{ work.item.slug }}{% else %}movies/{{ work.item.slug }}{% endif %}" class="work-card">
+                  <a href="/{% if work.type == 'series' %}series/{{ work.item.slug }}{% else %}movies/{{ work.item.slug }}{% endif %}"
+                     class="work-card"
+                     data-type="{{ work.type }}"
+                     x-show="filter === 'all' || $el.dataset.type === filter">
                     {% if work.item.image %}
                       <img src="{{ work.item.image }}" alt="{% if work.item.name_fa %}{{ work.item.name_fa }}{% else %}{{ work.item.name }}{% endif %}" class="work-img" />
                     {% else %}

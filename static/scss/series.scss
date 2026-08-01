@@ -285,6 +285,11 @@ body {
   grid-template-columns: 280px 1fr;
   gap: 24px;
   margin-bottom: 24px;
+
+  // person page has no right column — let works take full width
+  &:has(.left-column:only-child) {
+    display: block;
+  }
 }
 
 // Left Column
@@ -940,19 +945,53 @@ body {
   padding: 24px;
   margin-top: 16px;
 
+  .works-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
   .section-header {
     color: $primary;
     font-size: 11px;
     letter-spacing: 2px;
-    margin-bottom: 20px;
     padding-bottom: 12px;
     border-bottom: 1px solid $border;
   }
 
-  .works-grid {
+  .filter-buttons {
     display: flex;
+    gap: 8px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid $border;
+    color: $outline;
+    padding: 4px 12px;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.active {
+      background: $primary;
+      color: $surface;
+      border-color: $primary;
+    }
+
+    &:hover:not(.active) {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
-    flex-wrap: wrap;
   }
 
   .work-card {
@@ -962,7 +1001,6 @@ body {
     transition: border-color 0.2s;
     text-decoration: none;
     color: inherit;
-    width: 180px;
 
     &:hover {
       border-color: $primary;
