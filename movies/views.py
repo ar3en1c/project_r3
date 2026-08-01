@@ -29,6 +29,7 @@ def movie(request, slug):
             "name": c.character_name,
             "actor": c.person.name if c.person_id else "",
             "image": c.character_image or (c.person.image if c.person_id else ""),
+            "person_tvdb": c.person.tvdb_id if c.person_id else "",
         }
         for c in obj.characters.select_related("person").filter(people_type="Actor")
     ]
