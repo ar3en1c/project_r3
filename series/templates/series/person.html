@@ -37,9 +37,9 @@
                 {% for work in works %}
                   <a href="{% if work.type == 'series' %}series/{{ work.item.slug }}{% else %}movies/{{ work.item.slug }}{% endif %}" class="work-card">
                     {% if work.item.image %}
-                      <img src="{{ work.item.image }}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                      <img src="{{ work.item.image }}" alt="{% if work.item.name_fa %}{{ work.item.name_fa }}{% else %}{{ work.item.name }}{% endif %}" class="work-img" />
                     {% else %}
-                      <img src="{% static 'images/missing.jpg' %}" alt="{{ work.item.name_fa or work.item.name }}" class="work-img" />
+                      <img src="{% static 'images/missing.jpg' %}" alt="{% if work.item.name_fa %}{{ work.item.name_fa }}{% else %}{{ work.item.name }}{% endif %}" class="work-img" />
                     {% endif %}
                     <div class="work-info">
                       <div class="work-name">
