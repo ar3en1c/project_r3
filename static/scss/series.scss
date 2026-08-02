@@ -611,6 +611,40 @@ body {
         color: $outline;
       }
     }
+
+    .users-rate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid $border;
+      direction: ltr;
+
+      .users-rate-logo {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        border-radius: 2px;
+      }
+
+      .users-rate-label {
+        font-size: 10px;
+        color: $outline;
+      }
+
+      .users-rate-value {
+        font-size: 16px;
+        font-weight: bold;
+        color: $primary;
+      }
+
+      .users-rate-max {
+        font-size: 11px;
+        color: $outline;
+      }
+    }
   }
 
   &.status-card {

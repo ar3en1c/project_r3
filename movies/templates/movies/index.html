@@ -56,6 +56,14 @@
             {% else %}
               <a class="log-btn" href="{% url 'users:login' %}?next={{ request.path }}">برای امتیاز دادن وارد شوید</a>
             {% endif %}
+            {% if avg_rate %}
+              <div class="users-rate">
+                <img src="{% static 'images/logo.png' %}" alt="ونتا" class="users-rate-logo" />
+                <span class="users-rate-label">امتیاز کاربران</span>
+                <span class="users-rate-value">{{ avg_rate }}</span>
+                <span class="users-rate-max">/ 10</span>
+              </div>
+            {% endif %}
             {% if imdb_rate %}
               <div class="imdb-rate">
                 <span class="imdb-badge">IMDb</span>

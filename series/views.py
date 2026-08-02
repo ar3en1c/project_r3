@@ -52,6 +52,14 @@ def series(request, slug):
             user=request.user, typeOfWatch="Series", serial=obj
         ).first()
 
+    # Users' average rating (only tracks that actually have a rate)
+    rates = list(
+        Track.objects.filter(serial=obj, user_rate__isnull=False).values_list(
+            "user_rate", flat=True
+        )
+    )
+    avg_rate = round(sum(rates) / len(rates), 1) if rates else None
+
     contex = {
         # Hero
         "name": obj.name_fa or obj.name,
@@ -72,6 +80,9 @@ def series(request, slug):
 
         # IMDb rating (from TVDB/IMDb import)
         "imdb_rate": obj.rate,
+
+        # Users' average rating
+        "avg_rate": avg_rate,
 
         # Status card (right column)
         "status_label": "تمام شده" if obj.status == "Ended" else "در حال پخش" if obj.status else "نامشخص",
