@@ -32,6 +32,7 @@ class Track(models.Model):
     status = models.CharField(max_length=20, choices=progress_status, verbose_name="وضعیت تماشا")
     progress = models.IntegerField(verbose_name="چقدر تماشا شده", blank=True, null=True)
     user_rate = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="نمره کاربر", blank=True, null=True)
+    favorite = models.BooleanField(verbose_name="مورد علاقه", default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")

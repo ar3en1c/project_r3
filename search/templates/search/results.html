@@ -1,0 +1,58 @@
+  {% if total == 0 %}
+    <div class="search-empty">نتیجه‌ای یافت نشد</div>
+  {% else %}
+    {% if series %}
+      <div class="search-group">
+        <div class="search-group-title">سریال‌ها</div>
+        {% for s in series %}
+          <a class="search-row" href="{% url 'series:series_detail' s.slug %}">
+            <img class="search-thumb" src="{{ s.image }}" alt="{{ s.name_fa|default:s.name }}" loading="lazy" />
+            <span class="search-name">{{ s.name_fa|default:s.name }}</span>
+            <span class="search-badge">سریال</span>
+            {% if s.year %}<span class="search-year">{{ s.year }}</span>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if movies %}
+      <div class="search-group">
+        <div class="search-group-title">فیلم‌ها</div>
+        {% for m in movies %}
+          <a class="search-row" href="{% url 'movie_detail' m.slug %}">
+            <img class="search-thumb" src="{{ m.image }}" alt="{{ m.name_fa|default:m.name }}" loading="lazy" />
+            <span class="search-name">{{ m.name_fa|default:m.name }}</span>
+            <span class="search-badge">فیلم</span>
+            {% if m.year %}<span class="search-year">{{ m.year }}</span>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if people %}
+      <div class="search-group">
+        <div class="search-group-title">اشخاص</div>
+        {% for p in people %}
+          <a class="search-row" href="{% url 'series:person_detail' p.tvdb_id %}">
+            {% if p.image %}<img class="search-thumb" src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" />{% endif %}
+            <span class="search-name">{{ p.name }}</span>
+            <span class="search-badge">شخص</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if imdb %}
+      <div class="search-group">
+        <div class="search-group-title">آیدی IMDb</div>
+        {% for i in imdb %}
+          <a class="search-row" href="{% url i.url_name i.slug %}">
+            <span class="search-imdb-id">{{ i.remote_id }}</span>
+            <span class="search-name">{{ i.name }}</span>
+            <span class="search-badge">{{ i.type }}</span>
+            {% if i.year %}<span class="search-year">{{ i.year }}</span>{% endif %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}

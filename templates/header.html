@@ -11,10 +11,18 @@
     <a href="#">جستجو</a>
   </nav>
   <div class="header-left">
-    <div class="search-bar">
-      <input type="text" placeholder="جستجو...">
+    <div class="search-bar" x-data="{ open: false }">
+      <input type="text" name="q" placeholder="جستجو..."
+             hx-get="{% url 'search:query' %}"
+             hx-target="#search-results"
+             hx-swap="innerHTML"
+             hx-trigger="keyup changed delay:300ms, search"
+             @focus="open = true"
+             @keydown.escape="open = false"
+             @blur="setTimeout(() => open = false, 150)">
       <span class="search-icon">&#128269;</span>
-    </div>
+      <div id="search-results" class="search-results" x-show="open"></div>
+  </div>
     <div class="header-auth">
       {% if user.is_authenticated %}
         <span class="user-chip" title="{{ user.username }}">
