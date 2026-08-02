@@ -198,6 +198,41 @@ body {
   color: #003732;
   border-color: #3DD68C;
 }
+.hero-section .tracking-section .favorite-toggle {
+  margin-bottom: 12px;
+}
+.hero-section .tracking-section .favorite-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid #243129;
+  background: transparent;
+  color: #D8E6DC;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hero-section .tracking-section .favorite-btn .favorite-heart {
+  color: #869488;
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.hero-section .tracking-section .favorite-btn:hover {
+  border-color: #3DD68C;
+  color: #3DD68C;
+}
+.hero-section .tracking-section .favorite-btn:hover .favorite-heart {
+  color: #3DD68C;
+}
+.hero-section .tracking-section .favorite-btn.is-favorite {
+  border-color: #3DD68C;
+}
+.hero-section .tracking-section .favorite-btn.is-favorite .favorite-heart {
+  color: #ff4d6d;
+}
 .hero-section .tracking-section .progress-section {
   display: flex;
   align-items: center;
@@ -882,3 +917,5 @@ body {
   border-radius: 4px;
   align-self: flex-start;
 }
+
+/*# sourceMappingURL=series.css.map */

@@ -1,0 +1,10 @@
+<div class="favorite-toggle" id="favorite-toggle">
+  <button type="button"
+          class="favorite-btn {% if favorite %}is-favorite{% endif %}"
+          hx-post="{% url 'tracking:movie_favorite' slug %}"
+          hx-target="#favorite-toggle"
+          hx-swap="outerHTML">
+    <span class="favorite-heart">{{ favorite|yesno:"♥,♡" }}</span>
+    <span class="favorite-label">{{ favorite|yesno:"حذف از علاقه‌مندی‌ها,افزودن به علاقه‌مندی‌ها" }}</span>
+  </button>
+</div>

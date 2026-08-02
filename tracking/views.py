@@ -40,6 +40,7 @@ def _ctx(obj, track):
         "episodeWatched": track.progress or 0,
         "score": int(track.user_rate or 0),
         "track_status": track.status,
+        "favorite": track.favorite,
         "status_options": Track.progress_status,
     }
 
@@ -50,6 +51,7 @@ def _movie_ctx(obj, track):
         "slug": obj.slug,
         "score": int(track.user_rate or 0),
         "track_status": track.status,
+        "favorite": track.favorite,
         "status_options": Track.progress_status,
     }
 
@@ -158,3 +160,21 @@ def set_movie_rating(request, slug):
     track.user_rate = rate
     track.save()
     return render(request, "movies/partials/rating.html", _movie_ctx(obj, track))
+
+
+@htmx_login_required
+@require_POST
+def toggle_series_favorite(request, slug):
+    obj, track = _get_series_track(request.user, slug)
+    track.favorite = not track.favorite
+    track.save(update_fields=["favorite", "updated_at"])
+    return render(request, "series/partials/favorite.html", _ctx(obj, track))
+
+
+@htmx_login_required
+@require_POST
+def toggle_movie_favorite(request, slug):
+    obj, track = _get_movie_track(request.user, slug)
+    track.favorite = not track.favorite
+    track.save(update_fields=["favorite", "updated_at"])
+    return render(request, "movies/partials/favorite.html", _movie_ctx(obj, track))

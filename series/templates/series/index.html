@@ -35,6 +35,7 @@
           <div class="tracking-section" x-data="{ logOpen: false }">
             <div class="tracking-label">کنترل_ردیابی</div>
             {% if user.is_authenticated %}
+              {% include 'series/partials/favorite.html' %}
               {% include 'series/partials/status_buttons.html' %}
               {% include 'series/partials/progress.html' %}
               <button class="log-btn" id="log_btn" type="button" @click="logOpen = true">افزودن_ثبت +</button>

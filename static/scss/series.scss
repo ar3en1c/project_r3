@@ -233,6 +233,48 @@ body {
       }
     }
 
+    .favorite-toggle {
+      margin-bottom: 12px;
+
+      .favorite-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 20px;
+        border: 1px solid $border;
+        background: transparent;
+        color: $text-primary;
+        font-family: inherit;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        .favorite-heart {
+          color: $outline;
+          font-size: 16px;
+          line-height: 1;
+          transition: color 0.2s;
+        }
+
+        &:hover {
+          border-color: $primary;
+          color: $primary;
+
+          .favorite-heart {
+            color: $primary;
+          }
+        }
+
+        &.is-favorite {
+          border-color: $primary;
+
+          .favorite-heart {
+            color: #ff4d6d;
+          }
+        }
+      }
+    }
+
     .progress-section {
       display: flex;
       align-items: center;

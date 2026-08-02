@@ -1,8 +1,9 @@
 <!-- Header -->
+{% load static %}
+
 <header class="header">
-  <a href="{% url 'series:mainSeries' %}" class="logo" style="direction: rtl;">
-    <span class="logo-prompt">$</span>
-    <span class="logo-name"><span class="logo-accent">ونتا</span></span>
+  <a href="{% url 'series:mainSeries' %}" class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="ونتا" class="logo-img" />
   </a>
   <nav class="nav-links">
     <a href="{% url 'series:mainSeries' %}">سریال‌ها</a>

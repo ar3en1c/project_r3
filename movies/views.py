@@ -63,6 +63,7 @@ def movie(request, slug):
         # Status / progress
         "status": obj.status or "",
         "track_status": track.status if track else "",
+        "favorite": track.favorite if track else False,
         "score": int(track.user_rate or 0) if track else 0,
 
         # IMDb rating (from TVDB/IMDb import)

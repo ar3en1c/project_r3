@@ -65,6 +65,7 @@ def series(request, slug):
         # Status / progress
         "status": obj.status or "",
         "track_status": track.status if track else "",
+        "favorite": track.favorite if track else False,
         "allEpisodes": obj.episode_count,
         "episodeWatched": (track.progress or 0) if track else 0,
         "score": int(track.user_rate or 0) if track else 0,

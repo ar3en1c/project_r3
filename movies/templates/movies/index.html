@@ -31,6 +31,7 @@
           <div class="tracking-section">
             <div class="tracking-label">کنترل_ردیابی</div>
             {% if user.is_authenticated %}
+              {% include 'movies/partials/favorite.html' %}
               {% include 'movies/partials/status_buttons.html' %}
             {% else %}
               <a class="log-btn" href="{% url 'users:login' %}?next={{ request.path }}">برای ردیابی ابتدا وارد شوید</a>
