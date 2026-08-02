@@ -1,0 +1,9 @@
+{% load static %}
+<a class="movie-card" href="{% url 'movie_detail' m.slug %}">
+  <div class="movie-card-img-wrap">
+    <img src="{% if m.image %}{{ m.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ m.name_fa|default:m.name }}" class="movie-card-img" loading="lazy" />
+    {% if m.rate %}<span class="movie-card-rate">{{ m.rate }}</span>{% endif %}
+  </div>
+  <div class="movie-card-name">{{ m.name_fa|default:m.name }}</div>
+  <div class="movie-card-year">{{ m.year }}</div>
+</a>

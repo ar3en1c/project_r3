@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}فیلم‌ها{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/movies.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+  <main class="main-container">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+      <div class="content-area">
+
+        <!-- 1. Hero carousel: this year, rate > 8 -->
+        <section class="movies-hero" x-data="{ i: 0 }"
+                 x-init="setInterval(() => i = (i + 1) % {{ hero|length|default:1 }}, 4000)">
+          <div class="hero-track">
+            {% for m in hero %}
+              <a href="{% url 'movie_detail' m.slug %}" class="hero-slide"
+                 x-show="i === {{ forloop.counter0 }}" x-transition>
+                <img src="{{ m.image }}" alt="{{ m.name_fa|default:m.name }}" class="hero-slide-img" />
+                <div class="hero-slide-info">
+                  <div class="hero-slide-rate">{{ m.rate }}</div>
+                  <div class="hero-slide-name">{{ m.name_fa|default:m.name }}</div>
+                  <div class="hero-slide-year">{{ m.year }}</div>
+                </div>
+              </a>
+            {% empty %}
+              <div class="hero-empty">فیلمی یافت نشد</div>
+            {% endfor %}
+          </div>
+          {% if hero %}
+            <button class="hero-arrow hero-prev" @click="i = (i - 1 + {{ hero|length }}) % {{ hero|length }}">&lsaquo;</button>
+            <button class="hero-arrow hero-next" @click="i = (i + 1) % {{ hero|length }}">&rsaquo;</button>
+          {% endif %}
+        </section>
+
+        <!-- 2. Genres list -->
+        <section class="movies-section">
+          <div class="section-title">ژانرها</div>
+          <div class="genre-chips">
+            {% for g in genres %}
+              <a class="genre-chip" href="#">{{ g.name }}</a>
+            {% endfor %}
+          </div>
+        </section>
+
+        <!-- 3. Top rated per genre (3 rows) -->
+        {% for g in top_genres %}
+          <section class="movies-section">
+            <div class="section-title">برترین‌های {{ g.name }}</div>
+            <div class="movie-row">
+              {% for m in g.movies %}
+                {% include 'movies/partials/card.html' with m=m %}
+              {% empty %}
+                <div class="row-empty">فیلمی یافت نشد</div>
+              {% endfor %}
+            </div>
+          </section>
+        {% endfor %}
+
+        <!-- 4. Top rated per country (3 rows) -->
+        {% for c in top_countries %}
+          <section class="movies-section">
+            <div class="section-title">برترین‌های {{ c.label }}</div>
+            <div class="movie-row">
+              {% for m in c.movies %}
+                {% include 'movies/partials/card.html' with m=m %}
+              {% empty %}
+                <div class="row-empty">فیلمی یافت نشد</div>
+              {% endfor %}
+            </div>
+          </section>
+        {% endfor %}
+
+        <!-- 5. Famous actors -->
+        <section class="movies-section">
+          <div class="section-title">بازیگران معروف</div>
+          <div class="actor-row">
+            {% for a in actors %}
+              <a class="actor-card" href="{% url 'series:person_detail' a.tvdb_id %}">
+                <img src="{% if a.image %}{{ a.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ a.name }}" class="actor-img" loading="lazy" />
+                <div class="actor-name">{{ a.name }}</div>
+              </a>
+            {% empty %}
+              <div class="row-empty">بازیگری یافت نشد</div>
+            {% endfor %}
+          </div>
+        </section>
+
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+  {% render_partial 'series:footer' %}
+{% endblock %}
