@@ -23,7 +23,7 @@
       position: absolute;
       top: 6px;
       right: 6px;
-      background: rgba(9, 11, 10, 0.85);
+      background: $bg-85;
       color: $primary;
       padding: 2px 6px;
       font-size: 12px;
@@ -34,7 +34,7 @@
       position: absolute;
       bottom: 6px;
       left: 6px;
-      background: rgba(9, 11, 10, 0.85);
+      background: $bg-85;
       color: $text-primary;
       padding: 2px 6px;
       font-size: 10px;
@@ -46,9 +46,7 @@
     margin-top: 8px;
     font-size: 12px;
     line-height: 1.4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @include truncate;
   }
 
   .series-card-year {
@@ -57,25 +55,8 @@
   }
 }
 
-@font-face {
-  font-family: 'Vazir';
-  src: url('/static/fonts/vazir.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: $background;
-  color: $text-primary;
-  font-family: 'Vazir', sans-serif;
-  min-height: 100vh;
-}
+@include font-vazir;
+@include reset;
 
 // Main Layout
 .main-container {
@@ -89,7 +70,7 @@ body {
 // Sidebar
 .sidebar {
   width: $sidebar-width;
-  background: $surface;
+  @include surface-card;
   border-left: 1px solid $border;
   padding: 24px 16px;
   position: fixed;
@@ -118,9 +99,7 @@ body {
   }
 
   .nav-items {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    @include flex-col(16px);
 
     .nav-item {
       display: flex;
@@ -158,7 +137,7 @@ body {
   overflow: hidden;
   border: 1px solid $border;
   margin-bottom: 24px;
-  background: linear-gradient(90deg, rgba(9, 11, 10, 0.95) 0%, rgba(9, 11, 10, 0.75) 40%, rgba(9, 11, 10, 0.2) 100%);
+  background: linear-gradient(90deg, $bg-95 0%, $bg-75 40%, $bg-20 100%);
 
   .hero-content {
     flex: 1;
@@ -197,7 +176,7 @@ body {
     margin-bottom: 16px;
 
     .spec-badge {
-      background: rgba($primary, 0.15);
+      background: $primary-glow;
       border: 1px solid $primary;
       color: $primary;
       padding: 4px 12px;
@@ -275,7 +254,7 @@ body {
         font-size: 12px;
         letter-spacing: 1px;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all $transition-med;
 
         &:hover {
           border-color: $primary;
@@ -304,13 +283,13 @@ body {
         font-family: inherit;
         font-size: 12px;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all $transition-med;
 
         .favorite-heart {
           color: $outline;
           font-size: 16px;
           line-height: 1;
-          transition: color 0.2s;
+          transition: color $transition-med;
         }
 
         &:hover {
@@ -326,7 +305,7 @@ body {
           border-color: $primary;
 
           .favorite-heart {
-            color: #ff4d6d;
+            color: $heart-red;
           }
         }
       }
@@ -361,11 +340,7 @@ body {
       letter-spacing: 1px;
       cursor: pointer;
       width: 100%;
-
-      &:hover {
-        border-color: $primary;
-        color: $primary;
-      }
+      @include hover-primary;
     }
   }
 
@@ -393,20 +368,15 @@ body {
 
 // Left Column
 .left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include flex-col(16px);
 }
 
 .info-card {
-  background: $surface;
-  border: 1px solid $border;
+  @include surface-card;
   padding: 20px;
 
   .card-header {
-    color: $primary;
-    font-size: 11px;
-    letter-spacing: 2px;
+    @include section-header;
     text-align: center;
     margin-bottom: 12px;
     padding-bottom: 8px;
@@ -457,7 +427,7 @@ body {
         font-weight: bold;
         color: $primary;
         cursor: pointer;
-        transition: color 1s ease;
+        transition: color $transition-slow;
 
         &:hover{
           color: $on-tertiary;
@@ -469,13 +439,10 @@ body {
       }
 
       .rating-popover {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
+        @include popover-backdrop;
         display: grid;
         place-items: center;
         padding: 24px;
-        background: rgba(0, 0, 0, 0.62);
         backdrop-filter: blur(8px);
       }
 
@@ -484,16 +451,7 @@ body {
       }
 
       .rating-panel {
-        width: min(420px, 100%);
-        background:
-          linear-gradient(180deg, rgba($surface-container-high, 0.98), rgba($surface, 0.98));
-        border: 1px solid rgba($primary, 0.35);
-        padding: 28px;
-        box-shadow:
-          0 24px 70px rgba(0, 0, 0, 0.55),
-          0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-        display: flex;
-        flex-direction: column;
+        @include modal-panel;
         gap: 0.5rem;
       }
 
@@ -530,22 +488,9 @@ body {
       }
 
       .rating-submit {
-        field-sizing: content;
-        background-color: $on-tertiary;
-        color: $primary;
-        padding: 12px;
-        border-radius: 0.75rem;
-        border: 1px solid $on-tertiary;
-        font-family: inherit;
+        @include submit-pill;
         font-size: 1.25rem;
-        font-weight: 700;
-        transition: all 1s ease;
-        cursor: pointer;
         margin-top: 14px;
-
-        &:hover {
-          border-color: $secondary;
-        }
       }
 
       .rating-step-btn {
@@ -553,16 +498,16 @@ body {
         height: 44px;
         flex: 0 0 44px;
         background: $surface-container-low;
-        border: 1px solid rgba($primary, 0.35);
+        border: 1px solid $primary-35;
         color: $text-primary;
         font: inherit;
         font-size: 24px;
         line-height: 1;
         cursor: pointer;
-        transition: 0.2s ease;
+        transition: $transition-med;
 
         &:hover {
-          background: rgba($primary, 0.12);
+          background: $primary-12;
           border-color: $primary;
           color: $primary;
         }
@@ -584,16 +529,16 @@ body {
             $secondary var(--rating-progress),
             $surface-variant var(--rating-progress),
             $surface-variant 100%);
-        border-radius: 999px;
+        border-radius: $radius-full;
         box-shadow:
-          0 0 18px rgba($primary, 0.16),
+          0 0 18px $primary-16,
           0 0 0 1px rgba($primary, 0.1) inset;
         cursor: pointer;
 
         &::-webkit-slider-runnable-track {
           height: 10px;
           background: transparent;
-          border-radius: 999px;
+          border-radius: $radius-full;
         }
 
         &::-webkit-slider-thumb {
@@ -613,7 +558,7 @@ body {
           height: 10px;
           background: transparent;
           border: 0;
-          border-radius: 999px;
+          border-radius: $radius-full;
         }
 
         &::-moz-range-thumb {
@@ -648,13 +593,7 @@ body {
       direction: ltr;
 
       .imdb-badge {
-        background: #F5C518;
-        color: #000;
-        font-weight: bold;
-        font-size: 10px;
-        letter-spacing: 1px;
-        padding: 2px 5px;
-        border-radius: 2px;
+        @include imdb-badge;
       }
 
       .imdb-value {
@@ -768,9 +707,7 @@ body {
 
   &.metadata-card {
     .metadata-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      @include flex-col(12px);
 
       .metadata-item {
         display: flex;
@@ -793,9 +730,7 @@ body {
 
   &.supporting-card {
     .supporting-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      @include flex-col(16px);
 
       .supporting-item {
         display: flex;
@@ -820,7 +755,7 @@ body {
         .supporting-img {
           width: 48px;
           height: 48px;
-          border-radius: 4px;
+          border-radius: $radius-md;
           object-fit: cover;
           border: 1px solid $border;
         }
@@ -831,23 +766,18 @@ body {
 
 // Right Column
 .right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include flex-col(16px);
 }
 
 .overview-card {
-  background: $surface;
-  border: 1px solid $border;
+  @include surface-card;
   padding: 24px;
 
   .card-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: $primary;
-    font-size: 11px;
-    letter-spacing: 2px;
+    @include section-header;
     margin-bottom: 16px;
     padding-bottom: 12px;
     border-bottom: 1px solid $border;
@@ -873,17 +803,12 @@ body {
 
 // Characters Section
 .characters-section {
-  background: $surface;
-  border: 1px solid $border;
+  @include surface-card;
   padding: 24px;
 
   .section-header {
-    color: $primary;
-    font-size: 11px;
-    letter-spacing: 2px;
+    @include section-header-divider;
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid $border;
   }
 
   .characters-grid {
@@ -894,26 +819,17 @@ body {
   }
 
   .character-card {
-    background: $surface-container-high;
-    border: 1px solid $border;
-    border-radius: 8px;
+    @include surface-card;
+    border-radius: $radius-lg;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s, transform 0.2s;
-
-    &:hover {
-      border-color: $primary;
-      transform: translateY(-2px);
-    }
+    @include card-hover;
 
     .character-img {
       width: 100%;
       height: 280px;
-      object-fit: cover;
-      object-position: top;
-      filter: grayscale(30%);
-      transition: filter 0.2s;
+      @include grayscale-img;
     }
 
     &:hover .character-img {
@@ -991,30 +907,15 @@ body {
 }
 
 .bg-log-editor {
-  width: 100vw;
-  inset: 0;
+  @include popover-backdrop;
   height: 100vh;
-  position: fixed;
   display: none;
   justify-content: center;
   align-items: center;
-  background-color: rgba($color: #000000, $alpha: 0.5);
-  backdrop-filter: blur(8px);
 }
 
 .progress-panel {
-  width: min(420px, 100%);
-  background:
-    linear-gradient(180deg, rgba($surface-container-high, 0.98), rgba($surface, 0.98));
-  border: 1px solid rgba($primary, 0.35);
-  padding: 28px;
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2rem;
+  @include modal-panel;
 }
 
 .progress-popover-title {
@@ -1056,34 +957,19 @@ body {
   padding: 12px;
   outline: none;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: $radius-pill;
   field-sizing: content;
   font-size: 1.5rem;
-  
 }
 
 .progress-submit{
-  field-sizing: content;
-  background-color: $on-tertiary;
-  color: $primary;
-  padding: 12px;
-  border-radius: .75rem;
-  border: none;
+  @include submit-pill;
   font-size: 1.25rem;
-  font-weight: 700;
-  border: 1px solid $on-tertiary;
-  transition: all 1s ease;
-  cursor: pointer;
-
-  &:hover{
-    border: 1px solid $secondary;
-  }
 }
 
 // Person detail page
 .works-section {
-  background: $surface;
-  border: 1px solid $border;
+  @include surface-card;
   padding: 24px;
   margin-top: 16px;
 
@@ -1095,9 +981,7 @@ body {
   }
 
   .section-header {
-    color: $primary;
-    font-size: 11px;
-    letter-spacing: 2px;
+    @include section-header;
     padding-bottom: 12px;
     border-bottom: 1px solid $border;
   }
@@ -1116,7 +1000,7 @@ body {
     font-size: 11px;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all $transition-med;
 
     &.active {
       background: $primary;
@@ -1137,10 +1021,9 @@ body {
   }
 
   .work-card {
-    background: $surface-container-high;
-    border: 1px solid $border;
+    @include surface-card($surface-container-high);
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color $transition-med;
     text-decoration: none;
     color: inherit;
 
@@ -1151,16 +1034,12 @@ body {
     .work-img {
       width: 100%;
       height: 240px;
-      object-fit: cover;
-      object-position: top;
-      filter: grayscale(30%);
+      @include grayscale-img;
     }
 
     .work-info {
       padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      @include flex-col(6px);
 
       .work-name {
         color: $text-primary;
@@ -1176,7 +1055,7 @@ body {
         text-transform: uppercase;
         background: $surface-container-low;
         padding: 2px 8px;
-        border-radius: 4px;
+        border-radius: $radius-md;
         align-self: flex-start;
       }
     }

@@ -1,3 +1,6 @@
+// ============================
+// Colors
+// ============================
 $primary: #3DD68C;
 $primary-fixed: #6BFDaf;
 $primary-glow: rgba(61, 214, 140, 0.15);
@@ -19,8 +22,231 @@ $outline: #869488;
 $border-glow: rgba(61, 214, 140, 0.1);
 $shadow-glow: rgba(61, 214, 140, 0.4);
 
+// Semantic extra colors (not in original _var)
+$danger: #E5534B;
+$danger-bg: rgba(229, 83, 75, 0.08);
+$IMDb-yellow: #F5C518;
+$IMDb-black: #000;
+$heart-red: #ff4d6d;
+
+// Background with opacity (used in badges, hero overlays)
+$bg-85: rgba(9, 11, 10, 0.85);
+$bg-90: rgba(9, 11, 10, 0.9);
+$bg-75: rgba(9, 11, 10, 0.75);
+$bg-20: rgba(9, 11, 10, 0.2);
+$bg-95: rgba(9, 11, 10, 0.95);
+
+$primary-faint: rgba(61, 214, 140, 0.25);
+$primary-35: rgba(61, 214, 140, 0.35);
+$primary-12: rgba(61, 214, 140, 0.12);
+$primary-16: rgba(61, 214, 140, 0.16);
+
+// ============================
 // Layout
+// ============================
 $header-height: 53px;
 $sidebar-width: 200px;
 $sidebar-width-sm: 160px;
 
+// ============================
+// Typography
+// ============================
+$font-family: 'Vazir', sans-serif;
+$font-mono: monospace;
+
+// Card / section header pattern (used across series, movies, footer)
+$card-header-color: $primary;
+$card-header-size: 11px;
+$card-header-spacing: 2px;
+
+// ============================
+// Shadows
+// ============================
+$shadow-panel: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+$shadow-dropdown: 0 12px 24px rgba(0, 0, 0, 0.45);
+$shadow-glow-sm: 0 0 6px $shadow-glow;
+$shadow-glow-md: 0 0 12px $shadow-glow;
+$shadow-glow-lg: 0 0 16px $shadow-glow;
+$shadow-glow-xl: 0 0 40px $primary-glow;
+
+// ============================
+// Radii
+// ============================
+$radius-sm: 3px;
+$radius-md: 4px;
+$radius-lg: 8px;
+$radius-full: 999px;
+$radius-pill: 0.75rem;
+
+// ============================
+// Transitions
+// ============================
+$transition-fast: 0.15s ease;
+$transition-med: 0.2s ease;
+$transition-slow: 1s ease;
+
+// ============================
+// Mixins
+// ============================
+
+// Reset
+@mixin reset {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    background: $background;
+    color: $text-primary;
+    font-family: $font-family;
+    min-height: 100vh;
+  }
+}
+
+// Vazir font-face (duplicate in auth, series)
+@mixin font-vazir {
+  @font-face {
+    font-family: 'Vazir';
+    src: url('/static/fonts/vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+// Bordered surface card (info-card, overview-card, characters-section, works-section, ...)
+@mixin surface-card($bg: $surface) {
+  background: $bg;
+  border: 1px solid $border;
+}
+
+// Section / card header: primary, 11px, letter-spacing 2px, border-bottom
+@mixin section-header {
+  color: $primary;
+  font-size: $card-header-size;
+  letter-spacing: $card-header-spacing;
+}
+
+@mixin section-header-divider {
+  @include section-header;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $border;
+}
+
+// Status dot (used in header, footer)
+@mixin status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $primary;
+  box-shadow: $shadow-glow-sm;
+}
+
+// Pill / submit button (primary outline -> fill on hover)
+@mixin btn-primary-outline {
+  background: transparent;
+  border: 1px solid $primary;
+  border-radius: $radius-md;
+  color: $primary;
+  font-family: inherit;
+  transition: background $transition-fast, color $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    background: $primary;
+    color: $background;
+    box-shadow: $shadow-glow-md;
+  }
+}
+
+// Submit / filled pill (on-tertiary bg, primary text) - used in rating & progress submit
+@mixin submit-pill {
+  field-sizing: content;
+  background-color: $on-tertiary;
+  color: $primary;
+  padding: 12px;
+  border-radius: $radius-pill;
+  border: 1px solid $on-tertiary;
+  font-family: inherit;
+  font-weight: 700;
+  transition: all $transition-slow;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $secondary;
+  }
+}
+
+// Modal panel (rating/progress)
+@mixin modal-panel {
+  width: min(420px, 100%);
+  background: linear-gradient(180deg, rgba($surface-container-high, 0.98), rgba($surface, 0.98));
+  border: 1px solid $primary-35;
+  padding: 28px;
+  box-shadow: $shadow-panel;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Popover backdrop
+@mixin popover-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+// Text truncate (one line)
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Flex column helper
+@mixin flex-col($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+// Grayscale image (character, work)
+@mixin grayscale-img {
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(30%);
+  transition: filter $transition-med;
+}
+
+// Hover with border-primary + color-primary
+@mixin hover-primary {
+  transition: all $transition-med;
+
+  &:hover {
+    border-color: $primary;
+    color: $primary;
+  }
+}
+
+// Card hover (translateY + border primary)
+@mixin card-hover {
+  transition: border-color $transition-med, transform $transition-med;
+
+  &:hover {
+    border-color: $primary;
+    transform: translateY(-2px);
+  }
+}
+
+// IMDb badge
+@mixin imdb-badge {
+  background: $IMDb-yellow;
+  color: $IMDb-black;
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 2px 5px;
+  border-radius: 2px;
+}

@@ -5,7 +5,7 @@
   position: relative;
   margin-right: $sidebar-width;
   margin-top: 48px;
-  background: $surface;
+  @include surface-card;
   border-top: 1px solid $border;
   overflow: hidden;
 
@@ -36,11 +36,9 @@
   }
 
   .footer-brand {
-    display: flex;
-    flex-direction: column;
+    @include flex-col(14px);
     align-items: flex-end;
     text-align: right;
-    gap: 14px;
   }
 
   .footer-brand-mark {
@@ -81,8 +79,8 @@
     gap: 8px;
     padding: 6px 12px;
     background: $primary-glow;
-    border: 1px solid rgba(61, 214, 140, 0.25);
-    border-radius: 4px;
+    border: 1px solid $primary-faint;
+    border-radius: $radius-md;
     font-size: 11px;
     color: $primary;
     letter-spacing: 0.5px;
@@ -91,17 +89,13 @@
       color: $outline;
       margin-right: 4px;
       padding-right: 8px;
-      border-right: 1px solid rgba(61, 214, 140, 0.25);
+      border-right: 1px solid $primary-faint;
     }
   }
 
   .status-dot {
-    width: 7px;
-    height: 7px;
-    background: $primary;
-    border-radius: 50%;
+    @include status-dot;
     flex-shrink: 0;
-    box-shadow: 0 0 6px $shadow-glow;
 
     &.pulse {
       animation: footer-pulse 2s ease-in-out infinite;
@@ -119,7 +113,7 @@
   }
 
   .footer-col-title {
-    color: $primary;
+    @include section-header;
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -131,15 +125,13 @@
 
   .footer-links {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    @include flex-col(10px);
 
     a {
       color: $outline;
       text-decoration: none;
       font-size: 12px;
-      transition: color 0.15s ease, padding-right 0.15s ease;
+      transition: color $transition-fast, padding-right $transition-fast;
       display: inline-block;
 
       &:hover {
@@ -150,7 +142,7 @@
       &::before {
         content: '› ';
         color: $border;
-        transition: color 0.15s ease;
+        transition: color $transition-fast;
       }
 
       &:hover::before {
@@ -205,7 +197,7 @@
   .footer-mini-link {
     color: $outline;
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color $transition-fast;
 
     &:hover {
       color: $primary;
@@ -226,7 +218,7 @@
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 6px $shadow-glow;
+    box-shadow: $shadow-glow-sm;
   }
   50% {
     opacity: 0.45;
