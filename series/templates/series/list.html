@@ -2,13 +2,13 @@
 {% load static %}
 {% load render_partial %}
 
-{% block title %}سریال ها{% endblock %}
+{% block title %}سریال‌ها{% endblock %}
 
 {% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/movies.css' %}" />
   <script src="{% static 'assets/htmx.min.js' %}"></script>
   <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
-
-  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
 {% endblock %}
 
 {% block body %}
@@ -16,17 +16,84 @@
     <section class="top-section">
       {% render_partial 'series:header' %}
       <div class="content-area">
-        <div class="series-list-grid">
-          {% for s in series_list %}
-            <a class="series-card" href="{% url 'series:series_detail' s.slug %}">
-              <img src="{{ s.image }}" alt="{{ s.name_fa|default:s.name }}" class="series-card-img" />
-              <div class="series-card-name">{{ s.name_fa|default:s.name }}</div>
-              <div class="series-card-year">{{ s.year }}</div>
-            </a>
-          {% empty %}
-            <div class="series-empty">هیچ سریالی یافت نشد</div>
-          {% endfor %}
-        </div>
+
+        <!-- 1. Hero carousel: rate > 8 -->
+        <section class="movies-hero" x-data="{ i: 0 }"
+                 x-init="setInterval(() => i = (i + 1) % {{ hero|length|default:1 }}, 4000)">
+          <div class="hero-track">
+            {% for s in hero %}
+              <a href="{% url 'series:series_detail' s.slug %}" class="hero-slide"
+                 x-show="i === {{ forloop.counter0 }}" x-transition>
+                <img src="{{ s.image }}" alt="{{ s.name_fa|default:s.name }}" class="hero-slide-img" />
+                <div class="hero-slide-info">
+                  <div class="hero-slide-rate">{{ s.rate }}</div>
+                  <div class="hero-slide-name">{{ s.name_fa|default:s.name }}</div>
+                  <div class="hero-slide-year">{{ s.year }}</div>
+                </div>
+              </a>
+            {% empty %}
+              <div class="hero-empty">سریالی یافت نشد</div>
+            {% endfor %}
+          </div>
+          {% if hero %}
+            <button class="hero-arrow hero-prev" @click="i = (i - 1 + {{ hero|length }}) % {{ hero|length }}">&lsaquo;</button>
+            <button class="hero-arrow hero-next" @click="i = (i + 1) % {{ hero|length }}">&rsaquo;</button>
+          {% endif %}
+        </section>
+
+        <!-- 2. Genres list -->
+        <section class="movies-section">
+          <div class="section-title">ژانرها</div>
+          <div class="genre-chips">
+            {% for g in genres %}
+              <a class="genre-chip" href="#">{{ g.name }}</a>
+            {% endfor %}
+          </div>
+        </section>
+
+        <!-- 3. Top rated per genre (3 rows) -->
+        {% for g in top_genres %}
+          <section class="movies-section">
+            <div class="section-title">برترین‌های {{ g.name }}</div>
+            <div class="movie-row">
+              {% for s in g.series %}
+                {% include 'series/partials/card.html' with s=s %}
+              {% empty %}
+                <div class="row-empty">سریالی یافت نشد</div>
+              {% endfor %}
+            </div>
+          </section>
+        {% endfor %}
+
+        <!-- 4. Top rated per country (3 rows) -->
+        {% for c in top_countries %}
+          <section class="movies-section">
+            <div class="section-title">برترین‌های {{ c.label }}</div>
+            <div class="movie-row">
+              {% for s in c.series %}
+                {% include 'series/partials/card.html' with s=s %}
+              {% empty %}
+                <div class="row-empty">سریالی یافت نشد</div>
+              {% endfor %}
+            </div>
+          </section>
+        {% endfor %}
+
+        <!-- 5. Famous actors -->
+        <section class="movies-section">
+          <div class="section-title">بازیگران معروف</div>
+          <div class="actor-row">
+            {% for a in actors %}
+              <a class="actor-card" href="{% url 'series:person_detail' a.tvdb_id %}">
+                <img src="{% if a.image %}{{ a.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ a.name }}" class="actor-img" loading="lazy" />
+                <div class="actor-name">{{ a.name }}</div>
+              </a>
+            {% empty %}
+              <div class="row-empty">بازیگری یافت نشد</div>
+            {% endfor %}
+          </div>
+        </section>
+
       </div>
     </section>
     {% include 'sidebar.html' %}

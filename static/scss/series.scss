@@ -1,5 +1,62 @@
 @use 'var' as *;
 
+// ---------- Series card (list page) ----------
+.series-card {
+  text-decoration: none;
+  color: $text-primary;
+
+  .series-card-img-wrap {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: $surface-variant;
+    border: 1px solid $border;
+
+    .series-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .series-card-rate {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(9, 11, 10, 0.85);
+      color: $primary;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .series-card-episodes {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(9, 11, 10, 0.85);
+      color: $text-primary;
+      padding: 2px 6px;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .series-card-name {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .series-card-year {
+    color: $outline;
+    font-size: 11px;
+  }
+}
+
 @font-face {
   font-family: 'Vazir';
   src: url('/static/fonts/vazir.ttf') format('truetype');

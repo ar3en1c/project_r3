@@ -1,3 +1,53 @@
+.series-card {
+  text-decoration: none;
+  color: #D8E6DC;
+}
+.series-card .series-card-img-wrap {
+  position: relative;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: #2B3831;
+  border: 1px solid #243129;
+}
+.series-card .series-card-img-wrap .series-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.series-card .series-card-img-wrap .series-card-rate {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(9, 11, 10, 0.85);
+  color: #3DD68C;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.series-card .series-card-img-wrap .series-card-episodes {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(9, 11, 10, 0.85);
+  color: #D8E6DC;
+  padding: 2px 6px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.series-card .series-card-name {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.series-card .series-card-year {
+  color: #869488;
+  font-size: 11px;
+}
+
 @font-face {
   font-family: "Vazir";
   src: url("/static/fonts/vazir.ttf") format("truetype");
@@ -201,7 +251,7 @@ body {
 .hero-section .tracking-section .favorite-toggle {
   margin-bottom: 12px;
 }
-.hero-section .tracking-section .favorite-btn {
+.hero-section .tracking-section .favorite-toggle .favorite-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -214,23 +264,23 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-.hero-section .tracking-section .favorite-btn .favorite-heart {
+.hero-section .tracking-section .favorite-toggle .favorite-btn .favorite-heart {
   color: #869488;
   font-size: 16px;
   line-height: 1;
   transition: color 0.2s;
 }
-.hero-section .tracking-section .favorite-btn:hover {
+.hero-section .tracking-section .favorite-toggle .favorite-btn:hover {
   border-color: #3DD68C;
   color: #3DD68C;
 }
-.hero-section .tracking-section .favorite-btn:hover .favorite-heart {
+.hero-section .tracking-section .favorite-toggle .favorite-btn:hover .favorite-heart {
   color: #3DD68C;
 }
-.hero-section .tracking-section .favorite-btn.is-favorite {
+.hero-section .tracking-section .favorite-toggle .favorite-btn.is-favorite {
   border-color: #3DD68C;
 }
-.hero-section .tracking-section .favorite-btn.is-favorite .favorite-heart {
+.hero-section .tracking-section .favorite-toggle .favorite-btn.is-favorite .favorite-heart {
   color: #ff4d6d;
 }
 .hero-section .tracking-section .progress-section {
@@ -518,22 +568,22 @@ body {
   border-top: 1px solid #243129;
   direction: ltr;
 }
-.info-card.rating-card .users-rate-logo {
+.info-card.rating-card .users-rate .users-rate-logo {
   width: 16px;
   height: 16px;
   object-fit: contain;
   border-radius: 2px;
 }
-.info-card.rating-card .users-rate-label {
+.info-card.rating-card .users-rate .users-rate-label {
   font-size: 10px;
   color: #869488;
 }
-.info-card.rating-card .users-rate-value {
+.info-card.rating-card .users-rate .users-rate-value {
   font-size: 16px;
   font-weight: bold;
   color: #3DD68C;
 }
-.info-card.rating-card .users-rate-max {
+.info-card.rating-card .users-rate .users-rate-max {
   font-size: 11px;
   color: #869488;
 }
@@ -946,5 +996,3 @@ body {
   border-radius: 4px;
   align-self: flex-start;
 }
-
-/*# sourceMappingURL=series.css.map */

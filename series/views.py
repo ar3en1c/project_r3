@@ -1,10 +1,10 @@
+from datetime import date
+
 from django.shortcuts import render, get_object_or_404
 import jdatetime
 
-from .models import Person, Series
+from .models import Person, Series, Genre
 from tracking.models import Track
-
-# Create your views here.
 
 
 def _jalali_year():
@@ -21,10 +21,74 @@ STATUS_OPTIONS = [
     ("plan to watch", "برنامه_تماشا"),
 ]
 
+# Genres highlighted in the "top rated per genre" section.
+TOP_GENRES = ["drama", "action", "comedy"]
+
+# Countries highlighted in the "top rated per country" section.
+TOP_COUNTRIES = [("usa", "آمریکا"), ("irn", "ایران"), ("kor", "کره جنوبی")]
+
+# Famous actors (DB-safe: only names actually present in the Person table).
+FAMOUS_ACTORS = [
+    "Leonardo DiCaprio",
+    "Brad Pitt",
+    "Tom Hanks",
+    "Robert De Niro",
+    "Scarlett Johansson",
+    "Mehran Modiri",
+    "Behrouz Vossoughi"
+]
+
 
 def series_list(request):
-    series_list = Series.objects.all().order_by("-created_at")
-    return render(request, "series/list.html", {"series_list": series_list})
+    """Series homepage: hero carousel + genre/country top rows + famous actors."""
+    current_year = str(date.today().year)
+
+    # 1) Hero: rated above 8, best first.
+    hero = Series.objects.filter(rate__gt=8).exclude(image="").order_by("-rate")[:8]
+
+    # 2) Genres list.
+    genres = Genre.objects.all().order_by("name")
+
+    # 3) Top rated per selected genre.
+    top_genres = []
+    for name in TOP_GENRES:
+        genre = Genre.objects.filter(name__iexact=name).first()
+        if genre is None:
+            continue
+        series_qs = (
+            Series.objects.filter(series_genres__genre=genre)
+            .exclude(image="")
+            .exclude(rate__isnull=True)
+            .order_by("-rate")[:8]
+        )
+        top_genres.append({"name": genre.name, "slug": genre.slug, "series": series_qs})
+
+    # 4) Top rated per selected country.
+    top_countries = []
+    for code, label in TOP_COUNTRIES:
+        series_qs = (
+            Series.objects.filter(original_country=code)
+            .exclude(image="")
+            .exclude(rate__isnull=True)
+            .order_by("-rate")[:8]
+        )
+        top_countries.append({"code": code, "label": label, "series": series_qs})
+
+    # 5) Famous actors (skip any name not present in the DB).
+    actors = []
+    for name in FAMOUS_ACTORS:
+        person = Person.objects.filter(name__iexact=name).first()
+        if person is not None:
+            actors.append({"tvdb_id": person.tvdb_id, "name": person.name, "image": person.image})
+
+    return render(request, "series/list.html", {
+        "current_year": current_year,
+        "hero": hero,
+        "genres": genres,
+        "top_genres": top_genres,
+        "top_countries": top_countries,
+        "actors": actors,
+    })
 
 
 def series(request, slug):

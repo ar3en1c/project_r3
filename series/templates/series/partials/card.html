@@ -1,0 +1,10 @@
+{% load static %}
+<a class="series-card" href="{% url 'series:series_detail' s.slug %}">
+  <div class="series-card-img-wrap">
+    <img src="{% if s.image %}{{ s.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ s.name_fa|default:s.name }}" class="series-card-img" loading="lazy" />
+    {% if s.rate %}<span class="series-card-rate">{{ s.rate }}</span>{% endif %}
+    {% if s.episode_count %}<span class="series-card-episodes">{{ s.episode_count }} قسمت</span>{% endif %}
+  </div>
+  <div class="series-card-name">{{ s.name_fa|default:s.name }}</div>
+  <div class="series-card-year">{{ s.year }}</div>
+</a>
