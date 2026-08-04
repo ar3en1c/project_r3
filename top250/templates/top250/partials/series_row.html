@@ -1,0 +1,12 @@
+{% load static %}
+<a class="t250-row" href="{% url 'series:series_detail' s.slug %}">
+  <span class="t250-rank">{{ rank }}</span>
+  <span class="t250-img-wrap">
+    <img src="{% if s.image %}{{ s.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ s.name_fa|default:s.name }}" class="t250-img" loading="lazy" />
+  </span>
+  <span class="t250-info">
+    <span class="t250-name">{{ s.name_fa|default:s.name }}</span>
+    <span class="t250-year">{{ s.year }}</span>
+  </span>
+  <span class="t250-rate">{{ s.rate }}</span>
+</a>

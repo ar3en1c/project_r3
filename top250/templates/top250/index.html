@@ -1,8 +1,63 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}۲۵۰ فیلم و سریال برتر{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/movies.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/top250.css' %}" />
+{% endblock %}
 
 {% block body %}
+  <main class="main-container">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+      <div class="content-area">
 
-<h1>Hello from Top250</h1>
+        <div class="top250-header">
+          <div>
+            <div class="top250-title">برترین‌های IMDb</div>
+            <div class="top250-subtitle">۲۵۰ فیلم و ۲۵۰ سریال برتر</div>
+          </div>
+          <div class="filter">
+            <a href="#movies">فیلم</a>
+            <a href="#series">سریال</a>
+          </div>
+        </div>
 
+        <section class="top250-section" id="movies">
+          <h2 class="top250-section-title">۲۵۰ فیلم برتر</h2>
+          <div class="top250-list">
+            {% for row in movies %}
+              {% include 'top250/partials/movie_row.html' with m=row.item rank=row.rank %}
+            {% empty %}
+              <div class="row-empty">فیلمی یافت نشد</div>
+            {% endfor %}
+          </div>
+        </section>
 
-{% endblock body %}
+        <section class="top250-section" id="series">
+          <h2 class="top250-section-title">۲۵۰ سریال برتر</h2>
+          <div class="top250-list">
+            {% for row in series %}
+              {% include 'top250/partials/series_row.html' with s=row.item rank=row.rank %}
+            {% empty %}
+              <div class="row-empty">سریالی یافت نشد</div>
+            {% endfor %}
+          </div>
+        </section>
+
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+  {% render_partial 'series:footer' %}
+
+  <button id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">↑</button>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'javascript/series.js' %}"></script>
+{% endblock %}

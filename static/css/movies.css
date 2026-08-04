@@ -7,6 +7,8 @@
 }
 .movies-section .section-title {
   color: #3DD68C;
+  font-size: 11px;
+  letter-spacing: 2px;
   font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 16px;
@@ -87,7 +89,7 @@
   color: #D8E6DC;
   font-size: 22px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 .movies-hero .hero-arrow:hover {
   border-color: #3DD68C;
@@ -112,7 +114,7 @@
   background: transparent;
   font-size: 12px;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 .genre-chips .genre-chip:hover {
   border-color: #3DD68C;
@@ -188,3 +190,5 @@
   margin-top: 8px;
   font-size: 12px;
 }
+
+/*# sourceMappingURL=movies.css.map */

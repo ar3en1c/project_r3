@@ -98,15 +98,18 @@
   border: 1px solid #3DD68C;
   border-radius: 4px;
   color: #3DD68C;
-  font-size: 12px;
-  padding: 7px 14px;
-  text-decoration: none;
+  font-family: inherit;
   transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 .header .header-auth .auth-signup-btn:hover {
   background: #3DD68C;
   color: #090B0A;
   box-shadow: 0 0 12px rgba(61, 214, 140, 0.4);
+}
+.header .header-auth .auth-signup-btn {
+  font-size: 12px;
+  padding: 7px 14px;
+  text-decoration: none;
 }
 .header .header-auth .logout-form {
   margin: 0;

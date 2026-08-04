@@ -23,3 +23,14 @@ function change_rating(step) {
     const { slider } = get_rating_elements();
     set_rating(Number(slider.value) + step);
 }
+
+// Back to top button
+(function () {
+    const btn = document.getElementById("back-to-top");
+    if (!btn) return;
+
+    const toggle = () => btn.classList.toggle("visible", window.scrollY > 400);
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener("scroll", toggle, { passive: true });
+    toggle();
+})();

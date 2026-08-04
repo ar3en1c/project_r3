@@ -74,6 +74,7 @@ body {
 .sidebar {
   width: 200px;
   background: #121E18;
+  border: 1px solid #243129;
   border-left: 1px solid #243129;
   padding: 24px 16px;
   position: fixed;
@@ -237,7 +238,7 @@ body {
   font-size: 12px;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 .hero-section .tracking-section .status-buttons .status-btn:hover {
   border-color: #3DD68C;
@@ -262,13 +263,13 @@ body {
   font-family: inherit;
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 .hero-section .tracking-section .favorite-toggle .favorite-btn .favorite-heart {
   color: #869488;
   font-size: 16px;
   line-height: 1;
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 .hero-section .tracking-section .favorite-toggle .favorite-btn:hover {
   border-color: #3DD68C;
@@ -309,6 +310,7 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
   width: 100%;
+  transition: all 0.2s ease;
 }
 .hero-section .tracking-section .log-btn:hover {
   border-color: #3DD68C;
@@ -398,10 +400,11 @@ body {
   position: fixed;
   inset: 0;
   z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(8px);
 }
 .info-card.rating-card .rating-display .rating-popover[hidden] {
@@ -415,6 +418,7 @@ body {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   gap: 0.5rem;
 }
 .info-card.rating-card .rating-display .rating-popover-title {
@@ -453,14 +457,16 @@ body {
   border-radius: 0.75rem;
   border: 1px solid #003732;
   font-family: inherit;
-  font-size: 1.25rem;
   font-weight: 700;
   transition: all 1s ease;
   cursor: pointer;
-  margin-top: 14px;
 }
 .info-card.rating-card .rating-display .rating-submit:hover {
   border-color: #53DBCA;
+}
+.info-card.rating-card .rating-display .rating-submit {
+  font-size: 1.25rem;
+  margin-top: 14px;
 }
 .info-card.rating-card .rating-display .rating-step-btn {
   width: 44px;
@@ -734,9 +740,10 @@ body {
   color: #3DD68C;
   font-size: 11px;
   letter-spacing: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid #243129;
+  margin-bottom: 20px;
 }
 .characters-section .characters-grid {
   display: flex;
@@ -745,13 +752,13 @@ body {
   justify-content: center;
 }
 .characters-section .character-card {
-  background: #202D26;
+  background: #121E18;
   border: 1px solid #243129;
   border-radius: 8px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .characters-section .character-card:hover {
   border-color: #3DD68C;
@@ -763,7 +770,7 @@ body {
   object-fit: cover;
   object-position: top;
   filter: grayscale(30%);
-  transition: filter 0.2s;
+  transition: filter 0.2s ease;
 }
 .characters-section .character-card:hover .character-img {
   filter: grayscale(0%);
@@ -824,15 +831,15 @@ body {
   }
 }
 .bg-log-editor {
-  width: 100vw;
-  inset: 0;
-  height: 100vh;
   position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  height: 100vh;
   display: none;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
 }
 
 .progress-panel {
@@ -842,7 +849,6 @@ body {
   padding: 28px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   gap: 2rem;
 }
@@ -897,15 +903,17 @@ body {
   color: #3DD68C;
   padding: 12px;
   border-radius: 0.75rem;
-  border: none;
-  font-size: 1.25rem;
-  font-weight: 700;
   border: 1px solid #003732;
+  font-family: inherit;
+  font-weight: 700;
   transition: all 1s ease;
   cursor: pointer;
 }
 .progress-submit:hover {
-  border: 1px solid #53DBCA;
+  border-color: #53DBCA;
+}
+.progress-submit {
+  font-size: 1.25rem;
 }
 
 .works-section {
@@ -940,7 +948,7 @@ body {
   font-size: 11px;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 .works-section .filter-btn.active {
   background: #3DD68C;
@@ -960,7 +968,7 @@ body {
   background: #202D26;
   border: 1px solid #243129;
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s ease;
   text-decoration: none;
   color: inherit;
 }
@@ -973,6 +981,7 @@ body {
   object-fit: cover;
   object-position: top;
   filter: grayscale(30%);
+  transition: filter 0.2s ease;
 }
 .works-section .work-card .work-info {
   padding: 10px 12px;
@@ -996,3 +1005,5 @@ body {
   border-radius: 4px;
   align-self: flex-start;
 }
+
+/*# sourceMappingURL=series.css.map */

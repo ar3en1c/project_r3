@@ -1,0 +1,176 @@
+@use 'var' as *;
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+.top250-section {
+  scroll-margin-top: 80px;
+}
+
+.top250-header {
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter {
+  display: flex;
+  cursor: pointer;
+  color: $outline;
+  padding-left: 1rem;
+
+  & a {
+    border: 1px solid $border;
+    text-decoration: none;
+    color: $text-primary;
+    padding: 0.5rem;
+
+    &:hover {
+      border-color: $primary;
+      background: $surface-container-high;
+    }
+
+    &:visited {
+      color: $outline;
+    }
+  }
+
+}
+
+.top250-title {
+  color: $text-primary;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.top250-subtitle {
+  color: $outline;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.top250-section {
+  margin-bottom: 40px;
+  padding: 1rem;
+
+  .top250-section-title {
+    @include section-header;
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $border;
+  }
+}
+
+.top250-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// Full-width row card
+.t250-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid $border;
+  background: $surface;
+  text-decoration: none;
+  color: $text-primary;
+  transition: border-color $transition-med, background $transition-med;
+
+  &:hover {
+    border-color: $primary;
+    background: $surface-container-high;
+  }
+
+  .t250-rank {
+    width: 44px;
+    flex: 0 0 44px;
+    text-align: center;
+    color: $primary;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .t250-img-wrap {
+    flex: 0 0 56px;
+    height: 80px;
+    overflow: hidden;
+    border: 1px solid $border;
+
+    .t250-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .t250-info {
+    flex: 1;
+    min-width: 0;
+
+    .t250-name {
+      display: block;
+      font-size: 14px;
+      @include truncate;
+    }
+
+    .t250-year {
+      display: block;
+      color: $outline;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  }
+
+  .t250-rate {
+    color: $IMDb-yellow;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+// Number the rank with a leading #
+.t250-rank::before {
+  content: '#';
+  font-weight: normal;
+}
+
+// Back to top button
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid $primary;
+  border-radius: $radius-full;
+  background: $surface-container-high;
+  color: $primary;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity $transition-med, transform $transition-med, visibility $transition-med;
+
+  &:hover {
+    background: $primary;
+    color: $background;
+    box-shadow: $shadow-glow-md;
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
