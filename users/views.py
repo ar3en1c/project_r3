@@ -44,3 +44,7 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect("series:mainSeries")
+
+
+def profile_view(request):
+    return render(request, "users/index.html", {"a": "hello"})

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load render_partial %}
+
+{% block body %}
+  <main class="main-container">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+
+      <h1>{{ a }}</h1>
+    </section>
+    {% render_partial 'series:footer' %}
+  </main>
+{% endblock %}
