@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}مورد علاقه‌های {{ user.username }}{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/top250.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/favorites.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+  <main class="main-container" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' x-data="{ tab: 'movies' }">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+      <div class="content-area">
+
+        <div class="top250-header">
+          <div>
+            <div class="top250-title">مورد علاقه‌ها</div>
+            <div class="top250-subtitle">فیلم‌ها و سریال‌هایی که نشان کردی</div>
+          </div>
+        </div>
+
+        <div class="fav-tabs" role="tablist">
+          <button class="fav-tab" :class="tab === 'movies' && 'active'" @click="tab = 'movies'" role="tab">
+            فیلم‌ها <span class="fav-count">{{ movies|length }}</span>
+          </button>
+          <button class="fav-tab" :class="tab === 'series' && 'active'" @click="tab = 'series'" role="tab">
+            سریال‌ها <span class="fav-count">{{ series|length }}</span>
+          </button>
+        </div>
+
+        <div class="fav-list">
+          {% include 'tracking/partials/fav_list.html' %}
+        </div>
+
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+  {% render_partial 'series:footer' %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% comment %}
+Favorites lists (both tabs). Swapped by HTMX (innerHTML on #fav-lists) after a
+remove so the item drops out without reloading the page.
+{% endcomment %}
+<div id="fav-lists">
+  <div x-show="tab === 'movies'" class="fav-tab-body">
+    {% include 'tracking/partials/fav_rows.html' with rows=movies kind="movie" %}
+  </div>
+  <div x-show="tab === 'series'" class="fav-tab-body">
+    {% include 'tracking/partials/fav_rows.html' with rows=series kind="series" %}
+  </div>
+</div>

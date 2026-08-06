@@ -1,0 +1,24 @@
+{% load static %}
+{% for row in rows %}
+  <div class="fav-row">
+    <a class="fav-row-main" href="{% if kind == 'movie' %}{% url 'movie_detail' row.slug %}{% else %}{% url 'series:series_detail' row.slug %}{% endif %}">
+      <span class="fav-img-wrap">
+        <img src="{% if row.image %}{{ row.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ row.name }}" class="fav-img" loading="lazy" />
+      </span>
+      <span class="fav-info">
+        <span class="fav-name">{{ row.name }}</span>
+        <span class="fav-year">{{ row.year }}</span>
+      </span>
+    </a>
+    {% if row.rate %}<span class="fav-rate">{{ row.rate }}</span>{% endif %}
+    <button type="button" class="fav-remove"
+            hx-post="{% url 'tracking:remove_favorite' %}"
+            hx-vals='{"type": "{{ kind }}", "slug": "{{ row.slug }}"}'
+            hx-target="#fav-lists"
+            hx-swap="outerHTML">✕</button>
+  </div>
+{% empty %}
+  <div class="row-empty">
+    {% if kind == 'movie' %}هیچ فیلمی در علاقه‌مندی‌ها نیست{% else %}هیچ سریالی در علاقه‌مندی‌ها نیست{% endif %}
+  </div>
+{% endfor %}

@@ -1,0 +1,148 @@
+@font-face {
+  font-family: "Vazir";
+  src: url("/static/fonts/vazir.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #090B0A;
+  color: #D8E6DC;
+  font-family: "Vazir", sans-serif;
+  min-height: 100vh;
+}
+
+.fav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.fav-tabs .fav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #243129;
+  color: #869488;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.fav-tabs .fav-tab .fav-count {
+  font-size: 10px;
+  background: #121E18;
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: #869488;
+}
+.fav-tabs .fav-tab:hover {
+  border-color: #3DD68C;
+  color: #3DD68C;
+}
+.fav-tabs .fav-tab.active {
+  background: #3DD68C;
+  color: #003732;
+  border-color: #3DD68C;
+}
+.fav-tabs .fav-tab.active .fav-count {
+  background: rgba(0, 0, 0, 0.2);
+  color: #003732;
+}
+
+.fav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fav-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border: 1px solid #243129;
+  background: #121E18;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.fav-row:hover {
+  border-color: #3DD68C;
+  background: #202D26;
+}
+.fav-row .fav-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #D8E6DC;
+}
+.fav-row .fav-row-main .fav-img-wrap {
+  flex: 0 0 56px;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid #243129;
+}
+.fav-row .fav-row-main .fav-img-wrap .fav-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fav-row .fav-row-main .fav-info {
+  min-width: 0;
+}
+.fav-row .fav-row-main .fav-info .fav-name {
+  display: block;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fav-row .fav-row-main .fav-info .fav-year {
+  display: block;
+  color: #869488;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.fav-row .fav-rate {
+  color: #F5C518;
+  font-size: 16px;
+  font-weight: bold;
+}
+.fav-row .fav-remove {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  background: transparent;
+  border: 1px solid #243129;
+  color: #869488;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.fav-row .fav-remove:hover {
+  border-color: #E5534B;
+  color: #E5534B;
+  background: rgba(229, 83, 75, 0.08);
+}
+
+.row-empty {
+  color: #869488;
+  font-size: 12px;
+  padding: 12px;
+  border: 1px dashed #243129;
+  text-align: center;
+}
+
+/*# sourceMappingURL=favorites.css.map */

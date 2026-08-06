@@ -1,13 +1,122 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load render_partial %}
 
+{% block title %}پروفایل {{ user.username }}{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
+{% endblock %}
+
 {% block body %}
-  <main class="main-container">
+  <main class="main-container" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
     <section class="top-section">
       {% render_partial 'series:header' %}
+      <div class="content-area">
+        <div class="profile-page" x-data="profile()">
 
-      <h1>{{ a }}</h1>
+      <div class="profile-head">
+        <img class="profile-avatar"
+             src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'images/default_profile.png' %}{% endif %}"
+             alt="{{ user.username }}" />
+        <div class="profile-meta">
+          <div class="profile-name">{{ user.username }}</div>
+          <div class="profile-sub">{{ user.email|default:'کاربر ونتا' }}</div>
+        </div>
+        <div class="profile-stats">
+          {% for s in stats %}
+            <div class="p-stat">
+              <span class="p-stat-value">{{ s.value }}</span>
+              <span class="p-stat-label">{{ s.label }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="profile-tabs" role="tablist">
+        <button class="p-tab" :class="tab === 'series' && 'active'" @click="tab = 'series'" role="tab">سریال‌ها</button>
+        <button class="p-tab" :class="tab === 'movies' && 'active'" @click="tab = 'movies'" role="tab">فیلم‌ها</button>
+      </div>
+
+      <div class="p-panels">
+        <div class="p-panel-wrap" x-show="tab === 'series'">
+          {% include 'users/partials/panel.html' with panel_id="series-panel" groups=series_groups status_options=series_status_options stage_url=series_stage_url kind="series" %}
+        </div>
+        <div class="p-panel-wrap" x-show="tab === 'movies'">
+          {% include 'users/partials/panel.html' with panel_id="movie-panel" groups=movie_groups status_options=movie_status_options stage_url=movie_stage_url kind="movie" %}
+        </div>
+      </div>
+
+      {# Shared rating modal (0–10 slider, matches the site's existing rating UX) #}
+      <div class="p-rate-backdrop" x-show="rateOpen" x-cloak
+           x-transition.opacity @click.self="rateOpen = false"
+           @keydown.escape.window="rateOpen = false">
+        <div class="p-rate-panel" @click.stop>
+          <div class="p-rate-title">امتیاز شما</div>
+          <div class="p-rate-stars" @mouseleave="rate = rateSaved">
+            {% for n in "12345" %}
+              <span class="p-rate-star"
+                    :class="(rate / 2) >= {{ forloop.counter }} ? 'full' : (rate / 2) > ({{ forloop.counter }} - 1) ? 'half' : ''"
+                    @click="rate = {{ forloop.counter }} * 2; rateSaved = rate"
+                    @mousemove="rate = {{ forloop.counter }} * 2">★</span>
+            {% endfor %}
+          </div>
+          <div class="p-rate-num">
+            <span class="p-rate-value" x-text="rate"></span>
+            <span class="p-rate-max">/ 10</span>
+          </div>
+          <button type="button" class="p-rate-submit" @click="saveRate()">ثبت</button>
+        </div>
+      </div>
+
+        </div>
+      </div>
     </section>
-    {% render_partial 'series:footer' %}
+    {% include 'sidebar.html' %}
   </main>
+
+  {% render_partial 'series:footer' %}
+
+  <script>
+    function profile() {
+      return {
+        tab: 'series',
+        rateOpen: false,
+        rate: 0,
+        rateSaved: 0,
+        rateKind: '',
+        rateSlug: '',
+        openRate(kind, slug, current) {
+          this.rateKind = kind;
+          this.rateSlug = slug;
+          this.rate = Number(current) || 0;
+          this.rateSaved = this.rate;
+          this.rateOpen = true;
+        },
+        saveRate() {
+          const tid = this.rateKind === 'series' ? 'series-panel' : 'movie-panel';
+          const body = new FormData();
+          body.append('type', this.rateKind);
+          body.append('slug', this.rateSlug);
+          body.append('rate', this.rate);
+          fetch('{% url "users:rate" %}', {
+            method: 'POST',
+            body,
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+          })
+            .then(r => r.ok ? r.text() : Promise.reject())
+            .then(html => {
+              document.getElementById(tid).innerHTML = html;
+              this.rateSaved = this.rate;
+              this.rateOpen = false;
+            })
+            .catch(() => {});
+        },
+      };
+    }
+  </script>
 {% endblock %}

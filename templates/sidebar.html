@@ -6,22 +6,22 @@
       <span>داشبورد</span>
       <span class="nav-icon">&#8962;</span>
     </div>
-    <div class="nav-item">
+    <a href="{% url 'movie_list' %}" class="nav-item">
       <span>فیلم ها</span>
       <span class="nav-icon">&#9654;</span>
-    </div>
-    <div class="nav-item">
+    </a>
+    <a href="{% url 'series:mainSeries' %}" class="nav-item">
       <span>سریال ها</span>
       <span class="nav-icon">&#9635;</span>
-    </div>
-    <div class="nav-item">
+    </a>
+    <a href="{% url 'users:profile' %}" class="nav-item">
       <span>لیست پخش</span>
       <span class="nav-icon">&#8801;</span>
     </div>
-    <div class="nav-item">
+    <a href="{% url 'tracking:favorites' %}" class="nav-item">
       <span>مورد علاقه ها</span>
       <span class="nav-icon">&#9829;</span>
-    </div>
+    </a>
     <div class="nav-item">
       <span>تنظیمات</span>
       <span class="nav-icon">&#9881;</span>

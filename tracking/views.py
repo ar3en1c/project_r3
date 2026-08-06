@@ -1,5 +1,6 @@
 from functools import wraps
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -178,3 +179,54 @@ def toggle_movie_favorite(request, slug):
     track.favorite = not track.favorite
     track.save(update_fields=["favorite", "updated_at"])
     return render(request, "movies/partials/favorite.html", _movie_ctx(obj, track))
+
+
+# ---------------------------------------------------------------- favorites page
+
+def _fav_row(obj, track, kind):
+    return {
+        "kind": kind,
+        "slug": obj.slug,
+        "name": obj.name_fa or obj.name,
+        "image": obj.image,
+        "year": obj.year,
+        "rate": obj.rate,
+    }
+
+
+@login_required
+def favorites_view(request):
+    favs = Track.objects.filter(user=request.user, favorite=True).select_related("serial", "movies").order_by("-updated_at")
+    movies = [_fav_row(t.movies, t, "movie") for t in favs if t.typeOfWatch == "Movie" and t.movies]
+    series = [_fav_row(t.serial, t, "series") for t in favs if t.typeOfWatch == "Series" and t.serial]
+    return render(request, "tracking/favorites.html", {"movies": movies, "series": series})
+
+
+@htmx_login_required
+@require_POST
+def remove_favorite(request):
+    """Remove a favorite by type+slug. Returns the refreshed whole panel (both tabs)
+    so the removed item disappears without a full page reload."""
+    kind = request.POST.get("type", "")
+    slug = request.POST.get("slug", "")
+    if kind == "series":
+        track = Track.objects.filter(
+            user=request.user, typeOfWatch="Series", serial__slug=slug).first()
+    elif kind == "movie":
+        track = Track.objects.filter(
+            user=request.user, typeOfWatch="Movie", movies__slug=slug).first()
+    else:
+        return HttpResponseBadRequest("invalid type")
+
+    if track:
+        track.favorite = False
+        track.save(update_fields=["favorite", "updated_at"])
+
+    # rebuild both panels for the response
+    movies = [_fav_row(t.movies, t, "movie")
+              for t in Track.objects.filter(user=request.user, favorite=True, typeOfWatch="Movie").select_related("movies")
+              if t.movies]
+    series = [_fav_row(t.serial, t, "series")
+              for t in Track.objects.filter(user=request.user, favorite=True, typeOfWatch="Series").select_related("serial")
+              if t.serial]
+    return render(request, "tracking/partials/fav_list.html", {"movies": movies, "series": series})

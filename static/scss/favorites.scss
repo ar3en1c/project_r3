@@ -1,0 +1,147 @@
+@use 'var' as *;
+
+@include font-vazir;
+@include reset;
+
+// ---------------- Tabs ----------------
+.fav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  .fav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid $border;
+    color: $outline;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: all $transition-med;
+
+    .fav-count {
+      font-size: 10px;
+      background: $surface-container-low;
+      border-radius: $radius-full;
+      padding: 2px 8px;
+      color: $outline;
+    }
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &.active {
+      background: $primary;
+      color: $on-tertiary;
+      border-color: $primary;
+
+      .fav-count {
+        background: rgba(0, 0, 0, 0.2);
+        color: $on-tertiary;
+      }
+    }
+  }
+}
+
+// ---------------- List ----------------
+.fav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fav-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border: 1px solid $border;
+  background: $surface;
+  transition: border-color $transition-med, background $transition-med;
+
+  &:hover {
+    border-color: $primary;
+    background: $surface-container-high;
+  }
+
+  .fav-row-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: $text-primary;
+
+    .fav-img-wrap {
+      flex: 0 0 56px;
+      height: 80px;
+      overflow: hidden;
+      border: 1px solid $border;
+
+      .fav-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    .fav-info {
+      min-width: 0;
+
+      .fav-name {
+        display: block;
+        font-size: 14px;
+        @include truncate;
+      }
+
+      .fav-year {
+        display: block;
+        color: $outline;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .fav-rate {
+    color: $IMDb-yellow;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .fav-remove {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    background: transparent;
+    border: 1px solid $border;
+    color: $outline;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: $radius-md;
+    transition: all $transition-med;
+
+    &:hover {
+      border-color: $danger;
+      color: $danger;
+      background: $danger-bg;
+    }
+  }
+}
+
+.row-empty {
+  color: $outline;
+  font-size: 12px;
+  padding: 12px;
+  border: 1px dashed $border;
+  text-align: center;
+}

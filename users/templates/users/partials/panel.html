@@ -1,0 +1,23 @@
+{% comment %}
+Profile list panel. Rendered on page load and swapped by HTMX (outerHTML on
+this node) after any series/movie action. `panel_id` is also the HTMX target.
+{% endcomment %}
+<div class="p-panel" id="{{ panel_id }}">
+  {% for g in groups %}
+    {% if g.items %}
+    <section class="p-group">
+      <div class="p-group-head" x-data="{ open: true }" @click="open = !open">
+        <span class="p-group-title">
+          <span class="p-group-caret" :class="open ? 'is-open' : ''">▾</span>{{ g.label }}
+        </span>
+        <span class="p-group-count">{{ g.items|length }}</span>
+      </div>
+      <div class="p-group-body" x-show="open">
+        {% for row in g.items %}
+          {% include 'users/partials/row.html' %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  {% endfor %}
+</div>

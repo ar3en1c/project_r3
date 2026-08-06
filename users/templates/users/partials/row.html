@@ -1,0 +1,49 @@
+{% load static %}
+<div class="p-row">
+  <a class="p-row-img" href="{% if kind == 'movie' %}{% url 'movie_detail' row.slug %}{% else %}{% url 'series:series_detail' row.slug %}{% endif %}">
+    <img src="{% if row.image %}{{ row.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ row.name }}" loading="lazy" />
+  </a>
+
+  <div class="p-row-main">
+    <a class="p-row-name" href="{% if kind == 'movie' %}{% url 'movie_detail' row.slug %}{% else %}{% url 'series:series_detail' row.slug %}{% endif %}">{{ row.name }}</a>
+
+    {% if kind == 'series' and row.total %}
+      <div class="p-row-progress">
+        <div class="p-row-progress-bar"><span style="width: {% widthratio row.ep row.total 100 %}%"></span></div>
+        <span class="p-row-progress-num">{{ row.ep }} / {{ row.total }}</span>
+      </div>
+    {% endif %}
+
+    {% if kind == 'movie' %}
+      <a class="p-row-status" href="{% if row.status == 'completed' %}completed{% else %}progress{% endif %}">
+        {{ row.status_display }}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="p-row-actions">
+    <form class="p-status-form" hx-post="{% url stage_url row.slug %}"
+          hx-target="#{{ panel_id }}" hx-swap="outerHTML">
+      <select name="status" class="p-status-select" onchange="this.closest('form').requestSubmit()">
+        {% for value, label in status_options %}
+          <option value="{{ value }}" {% if row.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% if kind == 'series' %}
+      <button type="button" class="p-step"
+              hx-post="{% url 'users:series_step' row.slug %}"
+              hx-vals='{"delta": -1}'
+              hx-target="#{{ panel_id }}" hx-swap="outerHTML">−</button>
+      <button type="button" class="p-step"
+              hx-post="{% url 'users:series_step' row.slug %}"
+              hx-vals='{"delta": 1}'
+              hx-target="#{{ panel_id }}" hx-swap="outerHTML">+</button>
+    {% endif %}
+
+    <button type="button" class="p-rate {% if row.rated %}is-rated{% endif %}"
+            @click="openRate('{{ kind }}', '{{ row.slug }}', {{ row.rate|default:'0' }})">★
+      {% if row.rated %}{{ row.rate }}{% endif %}</button>
+  </div>
+</div>

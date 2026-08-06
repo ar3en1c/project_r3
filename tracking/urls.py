@@ -11,4 +11,6 @@ urlpatterns = [
     path("movies/<slug:slug>/status/", views.set_movie_status, name="movie_status"),
     path("movies/<slug:slug>/rating/", views.set_movie_rating, name="movie_rating"),
     path("movies/<slug:slug>/favorite/", views.toggle_movie_favorite, name="movie_favorite"),
+    path("favorites/", views.favorites_view, name="favorites"),
+    path("favorite/remove/", views.remove_favorite, name="remove_favorite"),
 ]
