@@ -1,0 +1,54 @@
+// ============================
+// Theme definitions (dark / light)
+// ============================
+// These CSS custom properties are consumed by _var.scss via var() so the
+// theme can be switched at runtime with <html data-theme="light">.
+// Loaded first in base.html as css/theme.css.
+
+// Dark (default) — terminal theme
+:root {
+  --primary: #3DD68C;
+  --primary-rgb: 61, 214, 140;
+  --primary-fixed: #6BFDaf;
+  --secondary: #53DBCA;
+
+  --background: #090B0A;
+  --background-rgb: 9, 11, 10;
+  --surface: #121E18;
+  --surface-rgb: 18, 30, 24;
+  --surface-container-high: #202D26;
+  --surface-container-high-rgb: 32, 45, 38;
+  --surface-variant: #2B3831;
+
+  --text-primary: #D8E6DC;
+  --on-tertiary: #003732;
+
+  --border: #243129;
+  --outline: #869488;
+
+  color-scheme: dark;
+}
+
+// Light theme — same terminal feel, inverted
+html[data-theme="light"] {
+  --primary: #0E9F5B;
+  --primary-rgb: 14, 159, 91;
+  --primary-fixed: #0B7A47;
+  --secondary: #0E9488;
+
+  --background: #F2F6F3;
+  --background-rgb: 242, 246, 243;
+  --surface: #FFFFFF;
+  --surface-rgb: 255, 255, 255;
+  --surface-container-high: #E4EDE7;
+  --surface-container-high-rgb: 228, 237, 231;
+  --surface-variant: #D3E0D7;
+
+  --text-primary: #14211A;
+  --on-tertiary: #DDF3E8;
+
+  --border: #C6D4CB;
+  --outline: #5B6F62;
+
+  color-scheme: light;
+}

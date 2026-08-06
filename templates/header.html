@@ -13,6 +13,9 @@
     <a href="{% url 'users:profile' %}">لیست‌های من</a>
   </nav>
   <div class="header-left">
+    <button id="theme-toggle" class="theme-toggle" type="button" title="تغییر تم" aria-label="تغییر تم">
+      <span class="theme-icon"></span>
+    </button>
     <div class="search-bar" x-data="{ open: false }">
       <input type="text" name="q" placeholder="جستجو..."
              hx-get="{% url 'search:query' %}"
@@ -41,3 +44,12 @@
     </div>
   </div>
 </header>
+
+<script>
+  // Dark / light theme toggle (theme itself is applied pre-paint in base.html)
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+</script>

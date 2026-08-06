@@ -17,31 +17,31 @@ html {
 .filter {
   display: flex;
   cursor: pointer;
-  color: #869488;
+  color: var(--outline);
   padding-left: 1rem;
 }
 .filter a {
-  border: 1px solid #243129;
+  border: 1px solid var(--border);
   text-decoration: none;
-  color: #D8E6DC;
+  color: var(--text-primary);
   padding: 0.5rem;
 }
 .filter a:hover {
-  border-color: #3DD68C;
-  background: #202D26;
+  border-color: var(--primary);
+  background: var(--surface-container-high);
 }
 .filter a:visited {
-  color: #869488;
+  color: var(--outline);
 }
 
 .top250-title {
-  color: #D8E6DC;
+  color: var(--text-primary);
   font-size: 22px;
   font-weight: bold;
 }
 
 .top250-subtitle {
-  color: #869488;
+  color: var(--outline);
   font-size: 12px;
   margin-top: 6px;
 }
@@ -51,14 +51,14 @@ html {
   padding: 1rem;
 }
 .top250-section .top250-section-title {
-  color: #3DD68C;
+  color: var(--primary);
   font-size: 11px;
   letter-spacing: 2px;
   font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #243129;
+  border-bottom: 1px solid var(--border);
 }
 
 .top250-list {
@@ -73,21 +73,21 @@ html {
   gap: 16px;
   width: 100%;
   padding: 10px 16px;
-  border: 1px solid #243129;
-  background: #121E18;
+  border: 1px solid var(--border);
+  background: var(--surface);
   text-decoration: none;
-  color: #D8E6DC;
+  color: var(--text-primary);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .t250-row:hover {
-  border-color: #3DD68C;
-  background: #202D26;
+  border-color: var(--primary);
+  background: var(--surface-container-high);
 }
 .t250-row .t250-rank {
   width: 44px;
   flex: 0 0 44px;
   text-align: center;
-  color: #3DD68C;
+  color: var(--primary);
   font-size: 20px;
   font-weight: bold;
 }
@@ -95,7 +95,7 @@ html {
   flex: 0 0 56px;
   height: 80px;
   overflow: hidden;
-  border: 1px solid #243129;
+  border: 1px solid var(--border);
 }
 .t250-row .t250-img-wrap .t250-img {
   width: 100%;
@@ -116,7 +116,7 @@ html {
 }
 .t250-row .t250-info .t250-year {
   display: block;
-  color: #869488;
+  color: var(--outline);
   font-size: 12px;
   margin-top: 4px;
 }
@@ -137,10 +137,10 @@ html {
   left: 24px;
   width: 44px;
   height: 44px;
-  border: 1px solid #3DD68C;
+  border: 1px solid var(--primary);
   border-radius: 999px;
-  background: #202D26;
-  color: #3DD68C;
+  background: var(--surface-container-high);
+  color: var(--primary);
   font-size: 20px;
   cursor: pointer;
   opacity: 0;
@@ -149,9 +149,9 @@ html {
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
 }
 .back-to-top:hover {
-  background: #3DD68C;
-  color: #090B0A;
-  box-shadow: 0 0 12px rgba(61, 214, 140, 0.4);
+  background: var(--primary);
+  color: var(--background);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.4);
 }
 .back-to-top.visible {
   opacity: 1;

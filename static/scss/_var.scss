@@ -1,28 +1,37 @@
 // ============================
 // Colors
 // ============================
-$primary: #3DD68C;
-$primary-fixed: #6BFDaf;
-$primary-glow: rgba(61, 214, 140, 0.15);
+// All theme colors resolve at RUNTIME from CSS custom properties so the
+// dark/light toggle works without recompiling. The actual values live in
+// theme.scss (:root = dark terminal theme, [data-theme="light"] = light).
+// Every color has a matching *-rgb triplet for use inside rgba().
 
-$secondary: #53DBCA;
-$tertiary-fixed-dim: #53DBCA;
+$primary: var(--primary);
+$primary-rgb: var(--primary-rgb);
+$primary-fixed: var(--primary-fixed);
+$primary-glow: rgba($primary-rgb, 0.15);
 
-$background: #090B0A;
-$surface: #121E18;
-$surface-container-high: #202D26;
-$surface-container-low: #121E18;
-$surface-variant: #2B3831;
+$secondary: var(--secondary);
+$tertiary-fixed-dim: var(--secondary);
 
-$text-primary: #D8E6DC;
-$on-tertiary: #003732;
+$background: var(--background);
+$background-rgb: var(--background-rgb);
+$surface: var(--surface);
+$surface-rgb: var(--surface-rgb);
+$surface-container-high: var(--surface-container-high);
+$surface-container-high-rgb: var(--surface-container-high-rgb);
+$surface-container-low: var(--surface);
+$surface-variant: var(--surface-variant);
 
-$border: #243129;
-$outline: #869488;
-$border-glow: rgba(61, 214, 140, 0.1);
-$shadow-glow: rgba(61, 214, 140, 0.4);
+$text-primary: var(--text-primary);
+$on-tertiary: var(--on-tertiary);
 
-// Semantic extra colors (not in original _var)
+$border: var(--border);
+$outline: var(--outline);
+$border-glow: rgba($primary-rgb, 0.1);
+$shadow-glow: rgba($primary-rgb, 0.4);
+
+// Semantic extra colors (fixed across themes)
 $danger: #E5534B;
 $danger-bg: rgba(229, 83, 75, 0.08);
 $IMDb-yellow: #F5C518;
@@ -30,16 +39,16 @@ $IMDb-black: #000;
 $heart-red: #ff4d6d;
 
 // Background with opacity (used in badges, hero overlays)
-$bg-85: rgba(9, 11, 10, 0.85);
-$bg-90: rgba(9, 11, 10, 0.9);
-$bg-75: rgba(9, 11, 10, 0.75);
-$bg-20: rgba(9, 11, 10, 0.2);
-$bg-95: rgba(9, 11, 10, 0.95);
+$bg-85: rgba($background-rgb, 0.85);
+$bg-90: rgba($background-rgb, 0.9);
+$bg-75: rgba($background-rgb, 0.75);
+$bg-20: rgba($background-rgb, 0.2);
+$bg-95: rgba($background-rgb, 0.95);
 
-$primary-faint: rgba(61, 214, 140, 0.25);
-$primary-35: rgba(61, 214, 140, 0.35);
-$primary-12: rgba(61, 214, 140, 0.12);
-$primary-16: rgba(61, 214, 140, 0.16);
+$primary-faint: rgba($primary-rgb, 0.25);
+$primary-35: rgba($primary-rgb, 0.35);
+$primary-12: rgba($primary-rgb, 0.12);
+$primary-16: rgba($primary-rgb, 0.16);
 
 // ============================
 // Layout
@@ -101,6 +110,7 @@ $transition-slow: 1s ease;
     color: $text-primary;
     font-family: $font-family;
     min-height: 100vh;
+    transition: background $transition-med, color $transition-med;
   }
 }
 
@@ -180,7 +190,7 @@ $transition-slow: 1s ease;
 // Modal panel (rating/progress)
 @mixin modal-panel {
   width: min(420px, 100%);
-  background: linear-gradient(180deg, rgba($surface-container-high, 0.98), rgba($surface, 0.98));
+  background: linear-gradient(180deg, rgba($surface-container-high-rgb, 0.98), rgba($surface-rgb, 0.98));
   border: 1px solid $primary-35;
   padding: 28px;
   box-shadow: $shadow-panel;

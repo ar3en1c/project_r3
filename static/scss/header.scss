@@ -73,6 +73,39 @@
     gap: 16px;
   }
 
+  // Dark / light theme toggle
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $surface-container-high;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    padding: 8px 10px;
+    color: $outline;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
+
+    // Dark mode active -> show sun (click to go light)
+    .theme-icon::before {
+      content: "\2600";
+    }
+
+    &:hover {
+      color: $primary;
+      border-color: $primary;
+      box-shadow: $shadow-glow-sm;
+    }
+  }
+
+  // Light mode active -> show moon (click to go dark)
+  html[data-theme="light"] & .theme-toggle .theme-icon::before {
+    content: "\263E";
+  }
+
   .header-auth {
     display: flex;
     align-items: center;

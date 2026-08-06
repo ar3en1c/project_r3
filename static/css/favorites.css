@@ -11,10 +11,11 @@
 }
 
 body {
-  background: #090B0A;
-  color: #D8E6DC;
+  background: var(--background);
+  color: var(--text-primary);
   font-family: "Vazir", sans-serif;
   min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .fav-tabs {
@@ -27,8 +28,8 @@ body {
   align-items: center;
   gap: 8px;
   background: transparent;
-  border: 1px solid #243129;
-  color: #869488;
+  border: 1px solid var(--border);
+  color: var(--outline);
   font-family: inherit;
   font-size: 13px;
   letter-spacing: 1px;
@@ -38,23 +39,23 @@ body {
 }
 .fav-tabs .fav-tab .fav-count {
   font-size: 10px;
-  background: #121E18;
+  background: var(--surface);
   border-radius: 999px;
   padding: 2px 8px;
-  color: #869488;
+  color: var(--outline);
 }
 .fav-tabs .fav-tab:hover {
-  border-color: #3DD68C;
-  color: #3DD68C;
+  border-color: var(--primary);
+  color: var(--primary);
 }
 .fav-tabs .fav-tab.active {
-  background: #3DD68C;
-  color: #003732;
-  border-color: #3DD68C;
+  background: var(--primary);
+  color: var(--on-tertiary);
+  border-color: var(--primary);
 }
 .fav-tabs .fav-tab.active .fav-count {
   background: rgba(0, 0, 0, 0.2);
-  color: #003732;
+  color: var(--on-tertiary);
 }
 
 .fav-list {
@@ -68,13 +69,13 @@ body {
   align-items: center;
   gap: 16px;
   padding: 10px 16px;
-  border: 1px solid #243129;
-  background: #121E18;
+  border: 1px solid var(--border);
+  background: var(--surface);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .fav-row:hover {
-  border-color: #3DD68C;
-  background: #202D26;
+  border-color: var(--primary);
+  background: var(--surface-container-high);
 }
 .fav-row .fav-row-main {
   flex: 1;
@@ -83,13 +84,13 @@ body {
   align-items: center;
   gap: 16px;
   text-decoration: none;
-  color: #D8E6DC;
+  color: var(--text-primary);
 }
 .fav-row .fav-row-main .fav-img-wrap {
   flex: 0 0 56px;
   height: 80px;
   overflow: hidden;
-  border: 1px solid #243129;
+  border: 1px solid var(--border);
 }
 .fav-row .fav-row-main .fav-img-wrap .fav-img {
   width: 100%;
@@ -109,7 +110,7 @@ body {
 }
 .fav-row .fav-row-main .fav-info .fav-year {
   display: block;
-  color: #869488;
+  color: var(--outline);
   font-size: 12px;
   margin-top: 4px;
 }
@@ -123,8 +124,8 @@ body {
   height: 34px;
   flex: 0 0 34px;
   background: transparent;
-  border: 1px solid #243129;
-  color: #869488;
+  border: 1px solid var(--border);
+  color: var(--outline);
   font-family: inherit;
   font-size: 16px;
   cursor: pointer;
@@ -138,10 +139,10 @@ body {
 }
 
 .row-empty {
-  color: #869488;
+  color: var(--outline);
   font-size: 12px;
   padding: 12px;
-  border: 1px dashed #243129;
+  border: 1px dashed var(--border);
   text-align: center;
 }
 
