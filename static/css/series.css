@@ -193,6 +193,21 @@ body {
   margin-bottom: 16px;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
+.hero-section .series-title .t250-badge {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-inline-start: 14px;
+  background: #F5C518;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: none;
+  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
 .hero-section .genre-tags {
   display: flex;
   justify-content: flex-end;

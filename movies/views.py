@@ -7,6 +7,7 @@ import jdatetime
 from .models import Movies
 from series.models import Genre, Person
 from tracking.models import Track
+from top250.rank import MOVIES_RANKS
 
 
 def _jalali_year():
@@ -88,6 +89,7 @@ def movie(request, slug):
 
         # Metadata card
         "imdb_id": imdb_id,
+        "top250_rank": MOVIES_RANKS.get(imdb_id),
         "language": obj.original_language,
         "country": obj.original_country,
 

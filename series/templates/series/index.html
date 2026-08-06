@@ -26,7 +26,9 @@
             <span class="spec-badge">[ 4K // UHD // 23.98 FPS ]</span>
             <span class="live-signal">سیگنال_زنده</span>
           </div> {% endcomment %}
-          <h1 class="series-title">{{ name }}{% if year %} ({{ year }}){% endif %}</h1>
+          <h1 class="series-title">{{ name }}{% if year %} ({{ year }}){% endif %}
+            {% if top250_rank %}<a class="t250-badge" href="{% url 'top250:top250' %}#series">برترین‌ها {{ top250_rank }}#</a>{% endif %}
+          </h1>
           <div class="genre-tags">
             {% for genre in genres %}
               <span class="genre-tag"><span class="dot"></span>{{ genre }}</span>

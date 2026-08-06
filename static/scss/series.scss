@@ -202,6 +202,22 @@
     color: $text-primary;
     margin-bottom: 16px;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+
+    .t250-badge {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      margin-inline-start: 14px;
+      background: $IMDb-yellow;
+      color: $IMDb-black;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: none;
+      text-decoration: none;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
   }
 
   .genre-tags {
