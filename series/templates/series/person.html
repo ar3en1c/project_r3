@@ -58,6 +58,9 @@
                         {% if work.item.name_fa %}{{ work.item.name_fa }}{% else %}{{ work.item.name }}{% endif %}
                       </div>
                       <span class="work-type-badge">{{ work.type }}</span>
+                      {% if work.status %}
+                        <span class="work-status work-status-{{ work.status }}">{% if work.status == 'watching' %}در حال تماشا{% elif work.status == 'completed' %}تماشا شده{% elif work.status == 'plan to watch' %}برنامه ریزی شده{% elif work.status == 'dropped' %}رها شده{% endif %}</span>
+                      {% endif %}
                     </div>
                   </a>
                 {% endfor %}

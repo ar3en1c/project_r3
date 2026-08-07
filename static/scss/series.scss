@@ -1075,6 +1075,17 @@
         border-radius: $radius-md;
         align-self: flex-start;
       }
+
+      .work-status {
+        font-size: 10px;
+        font-weight: bold;
+        align-self: flex-start;
+
+        &-watching { color: $green; }
+        &-completed { color: $cyan; }
+        &-plan { color: $orange; }
+        &-dropped { color: $dark-red; }
+      }
     }
   }
 }

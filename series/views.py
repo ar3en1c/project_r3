@@ -199,6 +199,29 @@ def person(request, tvdb_id):
         works.append({"type": "movie", "item": m})
     works.sort(key=lambda w: w["item"].created_at, reverse=True)
 
+    # Per-work tracking status for the current user
+    for w in works:
+        w["status"] = None
+    if request.user.is_authenticated and works:
+        series_ids = [w["item"].id for w in works if w["type"] == "series"]
+        movie_ids = [w["item"].id for w in works if w["type"] == "movie"]
+        series_status = dict(
+            Track.objects.filter(
+                user=request.user, typeOfWatch="Series", serial_id__in=series_ids
+            ).values_list("serial_id", "status")
+        )
+        movie_status = dict(
+            Track.objects.filter(
+                user=request.user, typeOfWatch="Movie", movies_id__in=movie_ids
+            ).values_list("movies_id", "status")
+        )
+        for w in works:
+            w["status"] = (
+                series_status.get(w["item"].id)
+                if w["type"] == "series"
+                else movie_status.get(w["item"].id)
+            )
+
     return render(request, "series/person.html", {
         "person": obj,
         "characters": characters,

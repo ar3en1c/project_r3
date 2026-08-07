@@ -1022,5 +1022,22 @@ body {
   border-radius: 4px;
   align-self: flex-start;
 }
+.works-section .work-card .work-info .work-status {
+  font-size: 10px;
+  font-weight: bold;
+  align-self: flex-start;
+}
+.works-section .work-card .work-info .work-status-watching {
+  color: #3fb950;
+}
+.works-section .work-card .work-info .work-status-completed {
+  color: #39c5cf;
+}
+.works-section .work-card .work-info .work-status-plan {
+  color: #f0883e;
+}
+.works-section .work-card .work-info .work-status-dropped {
+  color: #a83232;
+}
 
 /*# sourceMappingURL=series.css.map */
