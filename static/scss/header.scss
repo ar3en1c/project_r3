@@ -198,6 +198,29 @@
   }
 }
 
+// On phones the header can't fit in one row: let it wrap so nothing
+// overflows off-screen. Row 1 = logo + search, row 2 = nav + auth.
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 10px 16px;
+
+    .nav-links {
+      order: 3;
+      flex-basis: 100%;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}
+
 // Search dropdown
 .search-bar { position: relative; }
 [x-cloak] { display: none !important; }

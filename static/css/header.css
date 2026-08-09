@@ -176,6 +176,24 @@ html[data-theme=light] .header .theme-toggle .theme-icon::before {
     margin-right: 0;
   }
 }
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 10px 16px;
+  }
+  .header .nav-links {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .header .search-bar {
+    flex: 1;
+    min-width: 0;
+  }
+}
 .search-bar {
   position: relative;
 }
@@ -270,5 +288,3 @@ html[data-theme=light] .header .theme-toggle .theme-icon::before {
   color: var(--outline);
   font-size: 12px;
 }
-
-/*# sourceMappingURL=header.css.map */

@@ -33,7 +33,7 @@
           <h2 class="top250-section-title">۲۵۰ فیلم برتر</h2>
           <div class="top250-list">
             {% for row in movies %}
-              {% include 'top250/partials/movie_row.html' with m=row.item rank=row.rank %}
+              {% include 'top250/partials/movie_row.html' with m=row.item rank=row.rank name=row.name %}
             {% empty %}
               <div class="row-empty">فیلمی یافت نشد</div>
             {% endfor %}
@@ -44,7 +44,7 @@
           <h2 class="top250-section-title">۲۵۰ سریال برتر</h2>
           <div class="top250-list">
             {% for row in series %}
-              {% include 'top250/partials/series_row.html' with s=row.item rank=row.rank %}
+              {% include 'top250/partials/series_row.html' with s=row.item rank=row.rank name=row.name %}
             {% empty %}
               <div class="row-empty">سریالی یافت نشد</div>
             {% endfor %}
