@@ -37,10 +37,7 @@ class TagOptionInline(admin.TabularInline):
 
 @admin.register(Movies)
 class MoviesAdmin(admin.ModelAdmin):
-    list_display = (
-        'poster', 'name', 'name_fa', 'year', 'rate', 'status',
-        'original_language', 'original_country', 'updated_at',
-    )
+    list_display = ('poster', 'name', 'name_fa', 'year', 'rate', 'status', 'updated_at',)
     list_display_links = ('poster', 'name')
     list_filter = ('status', 'original_language', 'original_country', 'year')
     search_fields = ('name', 'name_en', 'name_fa', 'slug', 'tvdb_id')
@@ -69,6 +66,9 @@ class MoviesAdmin(admin.ModelAdmin):
                 ('original_country', 'original_language'),
                 ('tvdb_id', 'schema_version'),
             ),
+        }),
+        ('پخش آنلاین', {
+            'fields': (('filimo', 'namava'),),
         }),
         ('زمان‌بندی', {
             'fields': (('created_at', 'updated_at'),),

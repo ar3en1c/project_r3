@@ -168,6 +168,10 @@ def series(request, slug):
 
         # Status buttons
         "status_options": STATUS_OPTIONS,
+
+        # Watch on Filimo / Namava
+        "filimo": obj.filimo or "",
+        "namava": obj.namava or "",
     }
     return render(request, "series/index.html", contex)
 

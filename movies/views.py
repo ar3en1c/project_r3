@@ -101,6 +101,10 @@ def movie(request, slug):
 
         # Status buttons
         "status_options": STATUS_OPTIONS,
+
+        # Watch on Filimo / Namava
+        "filimo": obj.filimo or "",
+        "namava": obj.namava or "",
     }
     return render(request, "movies/index.html", context)
 

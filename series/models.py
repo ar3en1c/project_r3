@@ -22,6 +22,9 @@ class Series(models.Model):
     episode_count = models.IntegerField(default=0, verbose_name="تعداد قسمت‌ها")
     season_count = models.IntegerField(default=0, verbose_name="تعداد فصل‌ها")
     rate = models.FloatField(blank=True, null=True, verbose_name="امتیاز")
+    filimo = models.CharField(max_length=128, verbose_name="آدرس فیلیمو" , blank=True, null=True)
+    namava = models.CharField(max_length=128, verbose_name="آدرس نماوا" , blank=True, null=True)
+ 
     
     # English translations
     name_en = models.CharField(max_length=500, blank=True, verbose_name="نام انگلیسی")

@@ -17,6 +17,9 @@ class Movies(models.Model):
     original_language = models.CharField(max_length=50, blank=True, verbose_name="زبان اصلی")
     status = models.CharField(max_length=50, blank=True, verbose_name="وضعیت")
     rate = models.FloatField(blank=True, null=True, verbose_name="امتیاز")
+    filimo = models.CharField(max_length=128, verbose_name="آدرس فیلیمو" , blank=True, null=True)
+    namava = models.CharField(max_length=128, verbose_name="آدرس نماوا" , blank=True, null=True)
+
     
     # English translations
     name_en = models.CharField(max_length=500, blank=True, verbose_name="نام انگلیسی")
@@ -25,6 +28,7 @@ class Movies(models.Model):
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاریخ به‌روزرسانی")
+    
 
     # Persian Names
     

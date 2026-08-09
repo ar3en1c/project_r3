@@ -18,6 +18,9 @@ class SeriesAdmin(admin.ModelAdmin):
         ('Metadata', {
             'fields': ('original_country', 'original_language', 'status', 'episode_count', 'season_count', 'rate')
         }),
+        ('پخش آنلاین', {
+            'fields': (('filimo', 'namava'),),
+        }),
         ('Translations', {
             'fields': ('name_en', 'overview_en', 'name_fa')
         }),

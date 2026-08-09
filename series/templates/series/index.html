@@ -68,6 +68,10 @@
             تاخیر: 14 میلی ثانیه<br />
             منطقه: US-WEST-2
           </div> {% endcomment %}
+          <div class="watch-row">
+            {% if filimo %}<a class="watch-link" href="{{ filimo }}" target="_blank" rel="noopener"><img src="{% static 'images/Filimo-Fa-Primary-Yellow-Black.svg' %}" alt="تماشا در فیلیمو" width="100"/></a>{% endif %}
+            {% if namava %}<a class="watch-link" href="{{ namava }}" target="_blank" rel="noopener"><img src="{% static 'images/Namava_logo.svg' %}" alt="تماشا در نماوا" width="100"/></a>{% endif %}
+          </div>
         </div>
         <div class="hero-media">
           <img src="{{ poster_url }}" alt="{{ poster_alt }}" class="hero-image" />

@@ -368,6 +368,36 @@
     letter-spacing: 1px;
     line-height: 1.8;
   }
+
+  // Watch on Filimo / Namava (rendered only when a URL exists)
+  .watch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+
+    .watch-link {
+      display: inline-flex;
+      align-items: center;
+      height: 30px;
+      padding: 0 12px;
+      border: 1px solid $border;
+      border-radius: $radius-sm;
+      background: #ffffff;
+      transition: border-color $transition-fast, box-shadow $transition-fast;
+
+      img {
+        height: 16px;
+        width: auto;
+        display: block;
+      }
+
+      &:hover {
+        border-color: $primary;
+        box-shadow: $shadow-glow-sm;
+      }
+    }
+  }
 }
 
 // Info Section

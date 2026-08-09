@@ -39,6 +39,10 @@
               <a class="log-btn" href="{% url 'users:login' %}?next={{ request.path }}">برای ردیابی ابتدا وارد شوید</a>
             {% endif %}
           </div>
+          <div class="watch-row">
+            {% if filimo %}<a class="watch-link" href="{{ filimo }}" target="_blank" rel="noopener"><img src="{% static 'images/Filimo-Fa-Primary-Yellow-Black.svg' %}" alt="تماشا در فیلیمو" width="100" /></a>{% endif %}
+            {% if namava %}<a class="watch-link" href="{{ namava }}" target="_blank" rel="noopener"><img src="{% static 'images/Namava_logo.svg' %}" alt="تماشا در نماوا" width="100"/></a>{% endif %}
+          </div>
         </div>
         <div class="hero-media">
           <img src="{% if poster_url %}{{ poster_url }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ poster_alt }}" class="hero-image" />
