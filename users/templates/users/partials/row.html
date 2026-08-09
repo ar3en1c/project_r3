@@ -21,6 +21,7 @@
     {% endif %}
   </div>
 
+  {% if not read_only %}
   <div class="p-row-actions">
     <form class="p-status-form" hx-post="{% url stage_url row.slug %}"
           hx-target="#{{ panel_id }}" hx-swap="outerHTML">
@@ -46,4 +47,5 @@
             @click="openRate('{{ kind }}', '{{ row.slug }}', {{ row.rate|default:'0' }})">★
       {% if row.rated %}{{ row.rate }}{% endif %}</button>
   </div>
+  {% endif %}
 </div>

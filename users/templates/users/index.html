@@ -25,7 +25,7 @@
              alt="{{ user.username }}" />
         <div class="profile-meta">
           <div class="profile-name">{{ user.username }}</div>
-          <div class="profile-sub">{{ user.email|default:'کاربر ونتا' }}</div>
+          <div class="profile-sub">#{{ user.id }} · {{ user.email|default:'کاربر ونتا' }}</div>
         </div>
         <div class="profile-stats">
           {% for s in stats %}
@@ -44,13 +44,14 @@
 
       <div class="p-panels">
         <div class="p-panel-wrap" x-show="tab === 'series'">
-          {% include 'users/partials/panel.html' with panel_id="series-panel" groups=series_groups status_options=series_status_options stage_url=series_stage_url kind="series" %}
+          {% include 'users/partials/panel.html' with panel_id="series-panel" groups=series_groups status_options=series_status_options stage_url=series_stage_url kind="series" read_only=read_only %}
         </div>
         <div class="p-panel-wrap" x-show="tab === 'movies'">
-          {% include 'users/partials/panel.html' with panel_id="movie-panel" groups=movie_groups status_options=movie_status_options stage_url=movie_stage_url kind="movie" %}
+          {% include 'users/partials/panel.html' with panel_id="movie-panel" groups=movie_groups status_options=movie_status_options stage_url=movie_stage_url kind="movie" read_only=read_only %}
         </div>
       </div>
 
+      {% if not read_only %}
       {# Shared rating modal (0–10 slider, matches the site's existing rating UX) #}
       <div class="p-rate-backdrop" x-show="rateOpen" x-cloak
            x-transition.opacity @click.self="rateOpen = false"
@@ -72,6 +73,7 @@
           <button type="button" class="p-rate-submit" @click="saveRate()">ثبت</button>
         </div>
       </div>
+      {% endif %}
 
         </div>
       </div>

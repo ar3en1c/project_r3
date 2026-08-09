@@ -10,6 +10,7 @@ from tracking.models import Track
 from tracking.views import htmx_login_required
 
 from .forms import LoginForm, SignupForm
+from .models import User
 
 # Create your views here.
 
@@ -95,7 +96,7 @@ def _row(obj, t, total=None):
     }
 
 
-def _series_panel_ctx(user):
+def _series_panel_ctx(user, read_only=False):
     items = _series_items(user)
     groups = []
     for value, label in SERIES_STATUSES:
@@ -108,10 +109,11 @@ def _series_panel_ctx(user):
         "stage_url": "users:series_stage",
         "panel_id": "series-panel",
         "kind": "series",
+        "read_only": read_only,
     }
 
 
-def _movie_panel_ctx(user):
+def _movie_panel_ctx(user, read_only=False):
     items = _movie_items(user)
     groups = []
     for value, label in MOVIE_STATUSES:
@@ -123,12 +125,11 @@ def _movie_panel_ctx(user):
         "stage_url": "users:movie_stage",
         "panel_id": "movie-panel",
         "kind": "movie",
+        "read_only": read_only,
     }
 
 
-@login_required
-def profile_view(request):
-    user = request.user
+def _profile_ctx(user, read_only=False):
     tracks = Track.objects.filter(user=user)
     rated = [t.user_rate for t in tracks.filter(user_rate__isnull=False)]
     avg = sum(rated) / len(rated) if rated else None
@@ -140,9 +141,9 @@ def profile_view(request):
         {"value": tracks.filter(status="completed").count(), "label": "تکمیل شده"},
         {"value": avg and f"{avg:.1f}" or "—", "label": "میانگین امتیاز"},
     ]
-    sctx = _series_panel_ctx(user)
-    mctx = _movie_panel_ctx(user)
-    ctx = {
+    sctx = _series_panel_ctx(user, read_only=read_only)
+    mctx = _movie_panel_ctx(user, read_only=read_only)
+    return {
         "user": user,
         "stats": stats,
         "series_groups": sctx["groups"],
@@ -151,8 +152,20 @@ def profile_view(request):
         "movie_groups": mctx["groups"],
         "movie_status_options": mctx["status_options"],
         "movie_stage_url": mctx["stage_url"],
+        "read_only": read_only,
     }
-    return render(request, "users/index.html", ctx)
+
+
+@login_required
+def profile_view(request):
+    return redirect("users:public_profile", user_id=request.user.id)
+
+
+def public_profile_view(request, user_id):
+    """Anyone (logged in or not) can view a user's watch lists via a shareable link."""
+    user = get_object_or_404(User, id=user_id)
+    read_only = not request.user.is_authenticated or request.user.id != user.id
+    return render(request, "users/index.html", _profile_ctx(user, read_only=read_only))
 
 
 def _track_for(request, typeOfWatch, obj, **fk):
