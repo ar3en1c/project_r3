@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-
+from users.models import User
 
 class Series(models.Model):
     # Core fields
@@ -135,3 +135,11 @@ class TagOption(models.Model):
         verbose_name = 'تگ اپشن'
         verbose_name_plural = 'تگ آپشن ها'
         unique_together = ('series', 'tvdb_id')
+
+
+class Comment(models.Model):
+    person = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='کاربر نظر دهنده', null=True, related_name='series_comments')
+    series = models.ForeignKey(Series, on_delete=models.SET_NULL, verbose_name='سریال', null=True)
+    comment = models.TextField(verbose_name='کامنت')
+    is_active = models.BooleanField(verbose_name='وضعیت فعال / غیر فعال')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")

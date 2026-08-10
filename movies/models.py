@@ -1,5 +1,6 @@
 from django.db import models
 from series.models import Genre, Person
+from users.models import User
 
 
 class Movies(models.Model):
@@ -104,3 +105,13 @@ class TagOption(models.Model):
         verbose_name = 'تگ اپشن'
         verbose_name_plural = 'تگ آپشن ها'
         unique_together = ('movies', 'tvdb_id')
+
+
+
+
+class Comment(models.Model):
+    person = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='کاربر نظر دهنده', null=True, related_name='movie_comments')
+    movies = models.ForeignKey(Movies, on_delete=models.SET_NULL, verbose_name='فیلم', null=True)
+    comment = models.TextField(verbose_name='کامنت')
+    is_active = models.BooleanField(verbose_name='وضعیت فعال / غیر فعال')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
