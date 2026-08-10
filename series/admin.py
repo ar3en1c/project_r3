@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Series, Genre, SeriesGenre, RemoteId, Person, Character, TagOption
+from .models import Comment, Series, Genre, SeriesGenre, RemoteId, Person, Character, TagOption
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('series', 'person', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('comment', 'series__name', 'person__username')
+    autocomplete_fields = ('series', 'person')
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Series)

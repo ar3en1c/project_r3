@@ -1,11 +1,47 @@
 from datetime import date
 
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
 import jdatetime
 
-from .models import Person, Series, Genre
+from .models import Comment, Person, Series, Genre
 from tracking.models import Track
+from tracking.views import htmx_login_required
 from top250.rank import SERIES_RANKS
+
+
+_COMMENT_TEMPLATE = "series/partials/comments.html"
+
+
+def _series_comments_context(request, obj, comment_text="", comment_error=""):
+    return {
+        "slug": obj.slug,
+        "comments": Comment.objects.filter(
+            series=obj, is_active=True
+        ).select_related("person").order_by("-created_at"),
+        "comment_text": comment_text,
+        "comment_error": comment_error,
+    }
+
+
+@htmx_login_required
+@require_POST
+def add_comment(request, slug):
+    obj = get_object_or_404(Series, slug=slug)
+    comment_text = request.POST.get("comment", "").strip()
+    if not comment_text:
+        return render(
+            request,
+            _COMMENT_TEMPLATE,
+            _series_comments_context(request, obj, comment_error="نظر نمی‌تواند خالی باشد."),
+            status=400,
+        )
+    Comment.objects.create(person=request.user, series=obj, comment=comment_text, is_active=True)
+    return render(request, _COMMENT_TEMPLATE, _series_comments_context(request, obj))
+
+
+# ponytail: keep comments scoped to the existing detail view; split into a
+# shared comments app only when movie/series moderation rules diverge.
 
 
 def _jalali_year():
@@ -172,6 +208,7 @@ def series(request, slug):
         # Watch on Filimo / Namava
         "filimo": obj.filimo or "",
         "namava": obj.namava or "",
+        **_series_comments_context(request, obj),
     }
     return render(request, "series/index.html", contex)
 

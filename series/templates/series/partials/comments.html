@@ -1,0 +1,35 @@
+<section class="comments-panel" id="series-comments-panel">
+  <div class="comments-header">
+    <span class="info-icon">#</span>
+    <span>نظرات کاربران</span>
+    <span class="comments-count">{{ comments|length }}</span>
+  </div>
+
+  {% if user.is_authenticated %}
+    <form class="comment-form"
+          hx-post="{% url 'series:series_comment' slug %}"
+          hx-target="#series-comments-panel"
+          hx-swap="outerHTML">
+      <label for="series-comment">نظر شما</label>
+      <textarea id="series-comment" name="comment" rows="4" maxlength="5000" placeholder="نظر خود را درباره این سریال بنویسید..." required>{{ comment_text }}</textarea>
+      {% if comment_error %}<p class="comment-error" role="alert">{{ comment_error }}</p>{% endif %}
+      <button class="comment-submit" type="submit">ثبت نظر</button>
+    </form>
+  {% else %}
+    <p class="comment-login">برای ثبت نظر <a href="{% url 'users:login' %}?next={{ request.path|urlencode }}">وارد شوید</a>.</p>
+  {% endif %}
+
+  <div class="comments-list">
+    {% for item in comments %}
+      <article class="comment-item">
+        <div class="comment-meta">
+          <strong>{{ item.person.username|default:"کاربر حذف‌شده" }}</strong>
+          <time datetime="{{ item.created_at|date:'c' }}">{{ item.created_at|date:'Y/m/d H:i' }}</time>
+        </div>
+        <p>{{ item.comment }}</p>
+      </article>
+    {% empty %}
+      <p class="comments-empty">هنوز نظری ثبت نشده است.</p>
+    {% endfor %}
+  </div>
+</section>

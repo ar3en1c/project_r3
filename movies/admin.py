@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Movies, MovieGenre, RemoteId, Character, TagOption
+from .models import Comment, Movies, MovieGenre, RemoteId, Character, TagOption
 
 
 class MovieGenreInline(admin.TabularInline):
@@ -33,6 +33,15 @@ class TagOptionInline(admin.TabularInline):
     extra = 0
     verbose_name = 'تگ آپشن'
     verbose_name_plural = 'تگ آپشن‌ها'
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('movies', 'person', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('comment', 'movies__name', 'person__username')
+    autocomplete_fields = ('movies', 'person')
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Movies)

@@ -151,7 +151,13 @@
         </div>
 
         <!-- Left Column (RTL: second column is left) -->
-        <div class="left-column">
+        <div class="left-column" x-data="{ tab: 'details' }">
+          <nav class="detail-tabs" role="tablist" aria-label="بخش‌های صفحه">
+            <button class="detail-tab" :class="tab === 'details' && 'active'" @click="tab = 'details'" role="tab" :aria-selected="tab === 'details'">جزئیات</button>
+            <button class="detail-tab" :class="tab === 'comments' && 'active'" @click="tab = 'comments'" role="tab" :aria-selected="tab === 'comments'">نظرات <span>{{ comments|length }}</span></button>
+          </nav>
+
+          <div x-show="tab === 'details'" x-cloak>
           <!-- Overview Card -->
           <div class="overview-card">
             <div class="card-header">
@@ -185,6 +191,11 @@
                 {% endif %}
               {% endfor %}
             </div>
+          </div>
+          </div>
+
+          <div x-show="tab === 'comments'" x-cloak>
+            {% include 'series/partials/comments.html' %}
           </div>
         </div>
       </section>

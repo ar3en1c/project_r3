@@ -902,6 +902,150 @@
   }
 }
 
+// Detail tabs and comments
+[x-cloak] { display: none !important; }
+
+.detail-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid $border;
+}
+
+.detail-tab {
+  background: transparent;
+  border: 1px solid $border;
+  border-bottom: 0;
+  color: $outline;
+  padding: 10px 22px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all $transition-med;
+
+  span {
+    color: $primary;
+    margin-inline-start: 6px;
+  }
+
+  &:hover,
+  &.active {
+    border-color: $primary;
+    color: $primary;
+  }
+
+  &.active {
+    background: $surface;
+  }
+}
+
+.comments-panel {
+  @include surface-card;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.comments-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  @include section-header;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $border;
+
+  .info-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid $primary;
+    border-radius: 50%;
+  }
+
+  .comments-count {
+    color: $outline;
+    font-size: 11px;
+  }
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+
+  label {
+    color: $outline;
+    font-size: 11px;
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 96px;
+    background: $surface-container-low;
+    border: 1px solid $border;
+    color: $text-primary;
+    padding: 12px;
+    font: inherit;
+    line-height: 1.8;
+
+    &:focus {
+      outline: 1px solid $primary;
+      border-color: $primary;
+    }
+  }
+}
+
+.comment-submit {
+  @include btn-primary-outline;
+  align-self: flex-start;
+  padding: 8px 24px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-item {
+  @include surface-card($surface-container-low);
+  padding: 16px;
+
+  p {
+    color: $text-primary;
+    font-size: 13px;
+    line-height: 1.9;
+    white-space: pre-wrap;
+  }
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 11px;
+
+  strong { color: $primary; }
+  time { color: $outline; }
+}
+
+.comment-login,
+.comments-empty,
+.comment-error {
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.comment-login,
+.comments-empty { color: $outline; }
+.comment-login a { color: $primary; }
+.comment-error { color: $danger; }
+
 // Responsive
 @media (max-width: 1200px) {
   .sidebar {
