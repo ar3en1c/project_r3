@@ -107,6 +107,20 @@ def set_series_progress(request, slug):
 
 @htmx_login_required
 @require_POST
+def increment_series_progress(request, slug):
+    """+1 episode from the home continue-watching row. Caps at episode_count.
+    Returns the new watched count as plain text so the row swaps one span."""
+    obj, track = _get_series_track(request.user, slug)
+    next_ep = (track.progress or 0) + 1
+    if obj.episode_count and next_ep > obj.episode_count:
+        next_ep = obj.episode_count
+    track.progress = next_ep
+    track.save(update_fields=["progress", "updated_at"])
+    return HttpResponse(f"{next_ep} / {obj.episode_count} قسمت")
+
+
+@htmx_login_required
+@require_POST
 def set_series_rating(request, slug):
     obj, track = _get_series_track(request.user, slug)
     try:

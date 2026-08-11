@@ -6,6 +6,7 @@ app_name = "tracking"
 urlpatterns = [
     path("series/<slug:slug>/status/", views.set_series_status, name="series_status"),
     path("series/<slug:slug>/progress/", views.set_series_progress, name="series_progress"),
+    path("series/<slug:slug>/progress/increment/", views.increment_series_progress, name="series_progress_increment"),
     path("series/<slug:slug>/rating/", views.set_series_rating, name="series_rating"),
     path("series/<slug:slug>/favorite/", views.toggle_series_favorite, name="series_favorite"),
     path("movies/<slug:slug>/status/", views.set_movie_status, name="movie_status"),

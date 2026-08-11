@@ -6,15 +6,54 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   <script src="{% static 'assets/htmx.min.js' %}"></script>
   <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-  <main class="main-container">
+  <main class="main-container" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <section class="top-section">
       {% render_partial 'series:header' %}
       <div class="content-area">
+
+        <!-- 1. Continue watching -->
+        <section class="home-section">
+          <div class="home-section-title">ادامه_تماشا</div>
+          {% if continued %}
+            <div class="continue-list">
+              {% for t in continued %}
+                {% with s=t.serial %}
+                  <div class="continue-card">
+                    <a class="continue-poster" href="{% url 'series:series_detail' s.slug %}">
+                      <img src="{% if s.image %}{{ s.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ s.name_fa|default:s.name }}" loading="lazy" />
+                    </a>
+                    <div class="continue-body">
+                      <a class="continue-name" href="{% url 'series:series_detail' s.slug %}">{{ s.name_fa|default:s.name }}</a>
+                      <div class="continue-meta">{{ s.year }}{% if s.rate %} · {{ s.rate }}{% endif %}</div>
+                      <div class="continue-progress">
+                        <span class="continue-eps" id="eps-{{ s.slug }}">{{ t.progress|default:0 }} / {{ s.episode_count }} قسمت</span>
+                        <div class="continue-bar">
+                          <div class="continue-bar-fill" style="width: {% widthratio t.progress|default:0 s.episode_count 100 %}%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="continue-inc-btn"
+                            hx-post="{% url 'tracking:series_progress_increment' s.slug %}"
+                            hx-target="#eps-{{ s.slug }}"
+                            hx-swap="innerHTML"
+                            {% if s.episode_count and t.progress|default:0 >= s.episode_count %}disabled{% endif %}>
+                      +۱ قسمت
+                    </button>
+                  </div>
+                {% endwith %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="home-empty">هنوز سریالی در حال تماشا ندارید.</div>
+          {% endif %}
+        </section>
+
         <!-- Home content -->
       </div>
     </section>
