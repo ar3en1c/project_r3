@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "tracking",
     "search",
     "top250",
+    "home",
     "django_render_partial",
     "django.contrib.admin",
     "django.contrib.auth",

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}خانه{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <script src="{% static 'assets/htmx.min.js' %}"></script>
+  <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+  <main class="main-container">
+    <section class="top-section">
+      {% render_partial 'series:header' %}
+      <div class="content-area">
+        <!-- Home content -->
+      </div>
+    </section>
+    {% include 'sidebar.html' %}
+  </main>
+  {% render_partial 'series:footer' %}
+{% endblock %}
