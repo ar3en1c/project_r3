@@ -1,0 +1,125 @@
+.filter-section {
+  margin-bottom: 40px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.filter-section .filter-title {
+  color: var(--primary);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.filter-section .filter-title .filter-count {
+  color: var(--outline);
+  font-size: 11px;
+  margin-inline-start: 8px;
+}
+.filter-section .filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.filter-section .filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.filter-section .filter-select {
+  background: var(--surface-container-high);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.filter-section .filter-select:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.filter-section .filter-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filter-section .filter-more {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  color: var(--primary);
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.filter-section .filter-more:hover {
+  background: var(--primary);
+  color: var(--background);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.4);
+}
+.filter-section .filter-more {
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.filter-row:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+.filter-row .filter-img-wrap {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 66px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-variant);
+}
+.filter-row .filter-img-wrap .filter-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.filter-row .filter-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.filter-row .filter-name {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.filter-row .filter-meta {
+  color: var(--outline);
+  font-size: 12px;
+  font-family: monospace;
+}
+.filter-row .filter-rate {
+  flex: 0 0 auto;
+  color: var(--primary);
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: bold;
+}

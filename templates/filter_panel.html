@@ -1,0 +1,71 @@
+{% comment %}
+Filter panel + results for series/movies list pages.
+Rendered initially by the list view (render_partial) with a full context,
+then refreshed by HTMX GETs to the same URL from the filter controls.
+{% endcomment %}
+<section class="filter-section" id="filter-panel"
+         hx-get="{{ filter_url }}"
+         hx-trigger="filter" hx-target="this" hx-swap="outerHTML">
+
+  <div class="filter-title">
+    فیلتر_{{ qs_name }} <span class="filter-count">{{ results|length }} مورد</span>
+  </div>
+
+  <!-- genre chips -->
+  <div class="filter-group">
+    {% for g in genres %}
+      <button class="genre-chip {% if g.slug == genre %}active{% endif %}"
+              name="genre" value="{{ g.slug }}"
+              hx-get="{{ filter_url }}" hx-include="this"
+              hx-trigger="click" hx-target="#filter-panel" hx-swap="outerHTML">
+        {{ g.name }}
+      </button>
+    {% endfor %}
+  </div>
+
+  <!-- country chips + year / rate / sort selects -->
+  <div class="filter-controls">
+    <select class="filter-select" name="country" hx-get="{{ filter_url }}" hx-include="this" hx-target="#filter-panel" hx-swap="outerHTML">
+      <option value="">همه کشورها</option>
+      {% for c in countries %}
+        <option value="{{ c.0 }}" {% if c.0 == country %}selected{% endif %}>{{ c.1 }}</option>
+      {% endfor %}
+    </select>
+    <select class="filter-select" name="year" hx-get="{{ filter_url }}" hx-include="this" hx-target="#filter-panel" hx-swap="outerHTML">
+      <option value="">همه سال‌ها</option>
+      {% for y in years %}
+        <option value="{{ y }}" {% if y|stringformat:"s" == year %}selected{% endif %}>{{ y }}</option>
+      {% endfor %}
+    </select>
+    <select class="filter-select" name="rate" hx-get="{{ filter_url }}" hx-include="this" hx-target="#filter-panel" hx-swap="outerHTML">
+      <option value="">هر امتیازی</option>
+      {% for r in rate_opts %}
+        <option value="{{ r }}" {% if r|stringformat:"s" == rate %}selected{% endif %}>بالای {{ r }} ★</option>
+      {% endfor %}
+    </select>
+    <select class="filter-select" name="sort" hx-get="{{ filter_url }}" hx-include="this" hx-target="#filter-panel" hx-swap="outerHTML">
+      {% for k, label in sort_opts %}
+        <option value="{{ k }}" {% if k == sort %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- results -->
+  <div class="filter-results">
+    {% for r in results %}
+      {% include result_partial with row=r %}
+    {% empty %}
+      <div class="row-empty">چیزی یافت نشد.</div>
+    {% endfor %}
+  </div>
+
+  <!-- load more (offset pagination) -->
+  {% if has_more %}
+    <button class="filter-more"
+            hx-get="{{ filter_url }}"
+            hx-vals='{"offset": "{{ offset_next }}"}'
+            hx-target="#filter-panel" hx-swap="outerHTML">
+      بیشتر +
+    </button>
+  {% endif %}
+</section>

@@ -7,6 +7,7 @@
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/series.css' %}" />
   <link rel="stylesheet" href="{% static 'css/movies.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/filter.css' %}" />
   <script src="{% static 'assets/htmx.min.js' %}"></script>
   <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
 {% endblock %}
@@ -50,6 +51,9 @@
             {% endfor %}
           </div>
         </section>
+
+        <!-- 2.5 Filter panel -->
+        {{ filter_panel|safe }}
 
         <!-- 3. Top rated per genre (3 rows) -->
         {% for g in top_genres %}

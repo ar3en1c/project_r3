@@ -1,0 +1,115 @@
+@use 'var' as *;
+
+// ---------- Filter panel (series/movies list pages) ----------
+.filter-section {
+  margin-bottom: 40px;
+  padding: 16px;
+  border: 1px solid $border;
+  background: $surface;
+
+  .filter-title {
+    @include section-header-divider;
+
+    .filter-count {
+      color: $outline;
+      font-size: 11px;
+      margin-inline-start: 8px;
+    }
+  }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .filter-select {
+    background: $surface-container-high;
+    color: $text-primary;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    @include hover-primary;
+  }
+
+  .filter-results {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filter-more {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+    @include btn-primary-outline;
+    font-family: $font-mono;
+    font-size: 13px;
+  }
+}
+
+// ---------- Filter result row ----------
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid $border;
+  background: $surface;
+  text-decoration: none;
+  color: $text-primary;
+  @include card-hover;
+
+  .filter-img-wrap {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 66px;
+    overflow: hidden;
+    border: 1px solid $border;
+    background: $surface-variant;
+
+    .filter-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .filter-info {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-name {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    @include truncate;
+  }
+
+  .filter-meta {
+    color: $outline;
+    font-size: 12px;
+    font-family: $font-mono;
+  }
+
+  .filter-rate {
+    flex: 0 0 auto;
+    color: $primary;
+    font-family: $font-mono;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}

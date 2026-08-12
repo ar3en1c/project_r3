@@ -2,10 +2,12 @@
 from datetime import date
 
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 import jdatetime
 
 from .models import Comment, Movies
+from tracking.filtering import filter_qs
 from tracking.views import htmx_login_required
 from series.models import Genre, Person
 from tracking.models import Track
@@ -52,13 +54,9 @@ def _jalali_year():
     return str(year).translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))
 
 
-# Map TVDB status strings to the tracking buttons' (value, label) tuples
-STATUS_OPTIONS = [
-    ("completed", "تکمیل شده"),
-    ("watching", "در حال تماشا"),
-    ("dropped", "رها شده"),
-    ("plan to watch", "برنامه_تماشا"),
-]
+# Map TVDB status strings to the tracking buttons' (value, label) tuples.
+# Movies have no "watching" state — see Track.movie_status.
+STATUS_OPTIONS = Track.movie_status
 
 
 def movie(request, slug):
@@ -164,6 +162,50 @@ FAMOUS_ACTORS = [
 ]
 
 
+MOVIE_COUNTRIES = [
+    ("usa", "آمریکا"), ("irn", "ایران"), ("kor", "کره جنوبی"),
+    ("gbr", "انگلستان"), ("fra", "فرانسه"), ("deu", "آلمان"),
+    ("ind", "هند"), ("jpn", "ژاپن"), ("can", "کانادا"),
+]
+MOVIE_SORTS = [
+    ("-rate", "امتیاز"),
+    ("-year", "سال"),
+    ("-created_at", "جدیدترین"),
+    ("name", "نام"),
+]
+
+
+def _movie_filter_ctx(request):
+    """Shared context for the filter panel (initial render + HTMX refreshes)."""
+    base = f"{request.path}?{request.GET.urlencode()}"
+    if base.endswith("?"):
+        base = base[:-1]
+    years = (
+        Movies.objects.exclude(year="").exclude(year__isnull=True)
+        .values_list("year", flat=True).distinct().order_by("-year")
+    )
+    page, fctx = filter_qs(
+        Movies.objects.all(), request, MOVIE_COUNTRIES, MOVIE_SORTS
+    )
+    return {
+        "filter_url": base,
+        "results": page,
+        "genres": Genre.objects.all().order_by("name"),
+        "countries": MOVIE_COUNTRIES,
+        "years": list(years[:30]),
+        "rate_opts": ["9", "8", "7", "6"],
+        "sort_opts": MOVIE_SORTS,
+        "result_partial": "movies/partials/filter_row.html",
+        "qs_name": "فیلم‌ها",
+        **fctx,
+    }
+
+
+def movies_filter(request):
+    """HTMX endpoint — returns the refreshed filter panel."""
+    return render(request, "filter_panel.html", _movie_filter_ctx(request))
+
+
 def movie_list(request):
     """Movies homepage: hero carousel + genre/country top rows + famous actors."""
     current_year = str(date.today().year)
@@ -206,6 +248,9 @@ def movie_list(request):
         if person is not None:
             actors.append({"tvdb_id": person.tvdb_id, "name": person.name, "image": person.image})
 
+    filter_html = render_to_string(
+        "filter_panel.html", _movie_filter_ctx(request), request
+    )
     return render(request, "movies/list.html", {
         "current_year": current_year,
         "hero": hero,
@@ -213,6 +258,7 @@ def movie_list(request):
         "top_genres": top_genres,
         "top_countries": top_countries,
         "actors": actors,
+        "filter_panel": filter_html,
     })
 
 

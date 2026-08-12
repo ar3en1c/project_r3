@@ -6,6 +6,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/series.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/movies.css' %}" />
   <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   <script src="{% static 'assets/htmx.min.js' %}"></script>
   <script defer src="{% static 'assets/alpinejs.min.js' %}"></script>
@@ -51,6 +52,62 @@
             </div>
           {% else %}
             <div class="home-empty">هنوز سریالی در حال تماشا ندارید.</div>
+          {% endif %}
+        </section>
+
+        <!-- 2. Plan to watch movie banner -->
+        <section class="home-section">
+          <div class="home-section-title">برنامه_تماشا</div>
+          {% if planned %}
+            <div class="movie-row-scroll">
+              {% for t in planned %}
+                {% include 'movies/partials/card.html' with m=t.movies %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="home-empty">فیلمی در برنامه تماشا نیست.</div>
+          {% endif %}
+        </section>
+
+        <!-- 3. Plan to watch series -->
+        <section class="home-section">
+          <div class="home-section-title">برنامه_تماشا_سریال‌ها</div>
+          {% if planned_series %}
+            <div class="movie-row-scroll">
+              {% for t in planned_series %}
+                {% include 'series/partials/card.html' with s=t.serial %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="home-empty">سریالی در برنامه تماشا نیست.</div>
+          {% endif %}
+        </section>
+
+        <!-- 4. Suggested by favorite genre -->
+        <section class="home-section">
+          <div class="home-section-title">پیشنهاد_{{ suggested_genre|default:"بر اساس ژانر" }}</div>
+          {% if suggested %}
+            <div class="movie-row-scroll">
+              {% for m in suggested %}
+                {% include 'movies/partials/card.html' with m=m %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="home-empty">هنوز ژانری برای پیشنهاد نداریم.</div>
+          {% endif %}
+        </section>
+
+        <!-- 5. Series suggested by favorite genre -->
+        <section class="home-section">
+          <div class="home-section-title">پیشنهاد_سریال_{{ suggested_sgenre|default:"بر اساس ژانر" }}</div>
+          {% if suggested_series %}
+            <div class="movie-row-scroll">
+              {% for s in suggested_series %}
+                {% include 'series/partials/card.html' with s=s %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="home-empty">هنوز ژانری برای پیشنهاد نداریم.</div>
           {% endif %}
         </section>
 

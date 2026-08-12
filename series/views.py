@@ -1,10 +1,12 @@
 from datetime import date
 
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 import jdatetime
 
 from .models import Comment, Person, Series, Genre
+from tracking.filtering import filter_qs
 from tracking.models import Track
 from tracking.views import htmx_login_required
 from top250.rank import SERIES_RANKS
@@ -76,6 +78,50 @@ FAMOUS_ACTORS = [
 ]
 
 
+SERIES_COUNTRIES = MOVIE_COUNTRIES = [
+    ("usa", "آمریکا"), ("irn", "ایران"), ("kor", "کره جنوبی"),
+    ("gbr", "انگلستان"), ("fra", "فرانسه"), ("deu", "آلمان"),
+    ("ind", "هند"), ("jpn", "ژاپن"), ("can", "کانادا"),
+]
+SERIES_SORTS = [
+    ("-rate", "امتیاز"),
+    ("-year", "سال"),
+    ("-created_at", "جدیدترین"),
+    ("name", "نام"),
+]
+
+
+def _series_filter_ctx(request):
+    """Shared context for the filter panel (initial render + HTMX refreshes)."""
+    base = f"{request.path}?{request.GET.urlencode()}"
+    if base.endswith("?"):
+        base = base[:-1]
+    years = (
+        Series.objects.exclude(year="").exclude(year__isnull=True)
+        .values_list("year", flat=True).distinct().order_by("-year")
+    )
+    page, fctx = filter_qs(
+        Series.objects.all(), request, SERIES_COUNTRIES, SERIES_SORTS
+    )
+    return {
+        "filter_url": base,
+        "results": page,
+        "genres": Genre.objects.all().order_by("name"),
+        "countries": SERIES_COUNTRIES,
+        "years": list(years[:30]),
+        "rate_opts": ["9", "8", "7", "6"],
+        "sort_opts": SERIES_SORTS,
+        "result_partial": "series/partials/filter_row.html",
+        "qs_name": "سریال‌ها",
+        **fctx,
+    }
+
+
+def series_filter(request):
+    """HTMX endpoint — returns the refreshed filter panel."""
+    return render(request, "filter_panel.html", _series_filter_ctx(request))
+
+
 def series_list(request):
     """Series homepage: hero carousel + genre/country top rows + famous actors."""
     current_year = str(date.today().year)
@@ -118,6 +164,9 @@ def series_list(request):
         if person is not None:
             actors.append({"tvdb_id": person.tvdb_id, "name": person.name, "image": person.image})
 
+    filter_html = render_to_string(
+        "filter_panel.html", _series_filter_ctx(request), request
+    )
     return render(request, "series/list.html", {
         "current_year": current_year,
         "hero": hero,
@@ -125,6 +174,7 @@ def series_list(request):
         "top_genres": top_genres,
         "top_countries": top_countries,
         "actors": actors,
+        "filter_panel": filter_html,
     })
 
 

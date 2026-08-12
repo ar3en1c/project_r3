@@ -53,7 +53,7 @@ def _movie_ctx(obj, track):
         "score": int(track.user_rate or 0),
         "track_status": track.status,
         "favorite": track.favorite,
-        "status_options": Track.progress_status,
+        "status_options": Track.movie_status,
     }
 
 

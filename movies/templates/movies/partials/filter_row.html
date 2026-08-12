@@ -1,0 +1,11 @@
+{% load static %}
+<a class="filter-row" href="{% url 'movie_detail' row.slug %}">
+  <span class="filter-img-wrap">
+    <img src="{% if row.image %}{{ row.image }}{% else %}{% static 'images/missing.jpg' %}{% endif %}" alt="{{ row.name_fa|default:row.name }}" class="filter-img" loading="lazy" />
+  </span>
+  <span class="filter-info">
+    <span class="filter-name">{{ row.name_fa|default:row.name }}</span>
+    <span class="filter-meta">{{ row.year }}{% if row.original_country %} · {{ row.get_original_country_display|default:row.original_country }}{% endif %}</span>
+  </span>
+  {% if row.rate %}<span class="filter-rate">{{ row.rate }}</span>{% endif %}
+</a>

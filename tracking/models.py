@@ -20,6 +20,8 @@ class Track(models.Model):
         ("plan to watch", "برنامه_تماشا"),
 
     ]
+    # Movies are atomic — no in-between "watching" state (see Track.clean)
+    movie_status = [s for s in progress_status if s[0] != "watching"]
 
     typeOfWatch = models.CharField(
         max_length=10, choices=types, verbose_name="نوع محتوا")
